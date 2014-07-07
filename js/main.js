@@ -3,7 +3,7 @@ var editor = ace.edit("editor");
 ace.require("ace/ext/language_tools")
 
 editor.setFontSize(14);
-editor.setTheme("ace/theme/ambiance");
+editor.setTheme("ace/theme/monokai");
 editor.getBehavioursEnabled(true); // Quote and bracket pairing
 editor.setHighlightActiveLine(true); 
 editor.setHighlightSelectedWord(true);

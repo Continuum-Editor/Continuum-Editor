@@ -1,0 +1,36 @@
+body
+{
+	margin: 0px;
+	color: #E6E1DC;
+	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+	font-size: 14px;
+	line-height: normal;
+	direction: ltr;
+}
+
+a
+{
+	color: #E6E1DC;
+	font-weight: bold;
+	text-decoration: none;
+}
+
+#left
+{
+	top: 0px;
+	left: 00px;
+	right: 0px;
+	bottom: 0px;
+	position: absolute;
+	width: 200px;
+	background-color: #262626;
+}
+
+#editor
+{
+	top: 0px;
+	left: 200px;
+	right: 0px;
+	bottom: 0px;
+	position: absolute;
+}

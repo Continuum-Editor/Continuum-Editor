@@ -78,7 +78,8 @@ function ui_updateTabs()
 	for (var i = 0; i < activeTabs.length; i++) 
 	{
 		output += '<div class="tab" id="'+i+'">';
-		output += path.basename(activeTabs[i].path);
+		output += '<span class="tabContent">'+path.basename(activeTabs[i].path)+'</span>';
+		output += '<span class="tabCloseButton" id="'+i+'">&#10006;</span>';
 		output += '</div>'
 	}
 	
@@ -88,14 +89,37 @@ function ui_updateTabs()
 // Switch to tab (passing tab index)
 function ui_switchTab(index)
 {
-	editor.setSession(activeTabs[index].editSession);
+	if (typeof activeTabs[0] !== 'undefined')
+	{
+		editor.setSession(activeTabs[index].editSession);
+	}
+	else
+	{
+		editor.setValue('');
+	}
 }
 
 // Handle tab being clicked
-$(document).on('click', ".tab", function()
+$(document).on('click', ".tabContent", function()
 {
 	ui_switchTab($(this).attr('id'));
 });
+
+// Handle tab close button being clicked
+$(document).on('click', ".tabCloseButton", function()
+{
+	closeTab($(this).attr('id'));
+});
+
+function closeTab(index)
+{
+	activeTabs.splice(index, 1);
+	
+	if (index-1>0) ui_switchTab(index-1);
+	else ui_switchTab(0);
+	
+	ui_updateTabs();
+}
 
 // Handle open directory link being clicked
 $('#openDirectory').click(function() 

@@ -39,6 +39,7 @@ a
 	position: absolute;
 	background-color: #262626;
 	overflow-x: auto;
+	cursor: default;
 }
 
 #tabs .tab
@@ -48,10 +49,20 @@ a
 	margin-right: 2px;
 	border: solid 1px #ccc;
 	border-radius: 5px;
-	width: 100px;
-	height: 18px;
-	overflow-x: hidden;
 	float: left;
+	width: auto;
+	height: 18px;
+}
+
+#tabs .tab .tabContent
+{
+	overflow-x: hidden;
+	overflow-y: hidden;
+}
+
+#tabs .tab .tabCloseButton
+{
+	float: right;
 }
 
 #editor

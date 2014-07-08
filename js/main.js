@@ -4,6 +4,7 @@ fs = require('fs')
 
 // Define variables
 var activeTabs = new Array(); // Array of tab objects
+var activeDirectoryTree = new Array();
 
 // Setup editor with initial configuration
 var editor = ace.edit("editor");
@@ -31,32 +32,15 @@ $('#openFile').click(function()
 });
 
 // Open a file (passing the id of the relevant hidden file input box)
-function openFile(name) 
+function openFile(id) 
 {
-	var chooser = $(name);
+	var chooser = $(id);
 	
 	chooser.change(function() 
 	{
-		fileToOpen = $(this).val();
+		var path = $(this).val();
 		
-		fs.readFile(fileToOpen, 'utf8', function (err, fileContent) 
-		{
-			if (err) 
-			{
-				alert("Whoops! Error opening file. "+err);
-				return;
-			}
-			
-			// TODO: Change the editor's mode to reflect the type of file opened
-			
-			var editSession = new ace.EditSession(fileContent, "ace/mode/php");
-			
-			var newTab = { name: fileToOpen, editSession: editSession };
-			activeTabs.push(newTab);
-			
-			ui_updateTabs();
-			editor.setSession(newTab.editSession);
-		});
+		openFileByName(path);
 		
 		chooser.off('change');
 	});
@@ -64,6 +48,27 @@ function openFile(name)
 	chooser.trigger('click');  
 }
 
+function openFileByName(path)
+{
+	fs.readFile(path, 'utf8', function (err, fileContent) 
+	{
+		if (err) 
+		{
+			alert("Whoops! Error opening file. "+err);
+			return;
+		}
+		
+		// TODO: Change the editor's mode to reflect the type of file opened
+		
+		var editSession = new ace.EditSession(fileContent, "ace/mode/php");
+		
+		var newTab = { path: path, editSession: editSession };
+		activeTabs.push(newTab);
+		
+		ui_updateTabs();
+		editor.setSession(newTab.editSession);
+	});
+}
 
 // Update display of tabs
 function ui_updateTabs()
@@ -73,7 +78,7 @@ function ui_updateTabs()
 	for (var i = 0; i < activeTabs.length; i++) 
 	{
 		output += '<div class="tab" id="'+i+'">';
-		output += path.basename(activeTabs[i].name);
+		output += path.basename(activeTabs[i].path);
 		output += '</div>'
 	}
 	
@@ -99,19 +104,123 @@ $('#openDirectory').click(function()
 });
 
 // Open a directory (passing the id of the relevant hidden file input box)
-function openDirectory(name) 
+function openDirectory(id) 
 {
-	var chooser = $(name);
-	chooser.change(function(evt) 
+	var chooser = $(id);
+	chooser.change(function() 
 	{
-		directoryToOpen = $(this).val();
+		var directoryToOpen = $(this).val();
 		
-		alert('Got directory: '+directoryToOpen);
+		activeDirectoryTree = new Array();
+		generateDirectoryTree(directoryToOpen, 0, directoryToOpen);
 		
-		// TODO: Open specified directory in left sidebar
+		ui_updateDirectoryTree();
 		
 		chooser.off('change');
 	});
 
 	chooser.trigger('click');  
 }
+
+function generateDirectoryTree(currentDirectory, level, previousDirectory)
+{
+	try
+	{
+		var files = fs.readdirSync(currentDirectory);
+			
+		for (var i = 0; i < files.length; i++) 
+		{
+			var path = currentDirectory+'\\'+files[i]
+			
+			try
+			{
+				if (fs.lstatSync(path).isDirectory())
+				{
+					var newDirectoryTreeEntry = { path: path, type: 'directory', level: level, previousDirectory: previousDirectory, visible: false };
+					activeDirectoryTree.push(newDirectoryTreeEntry);
+					
+					generateDirectoryTree(path, level + 1, currentDirectory);
+				}
+				else if (fs.lstatSync(path).isFile())
+				{
+					var newDirectoryTreeEntry = { path: path, type: 'file', level: level, previousDirectory: currentDirectory, visible: false };
+					activeDirectoryTree.push(newDirectoryTreeEntry);
+				}
+			}
+			catch (err)
+			{
+				console.log(err);
+			}
+		}
+	}
+	catch (err)
+	{
+		console.log(err);
+	}
+}
+
+// Update display of directory tree
+function ui_updateDirectoryTree()
+{
+	var output = '';
+	
+	for (var i = 0; i < activeDirectoryTree.length; i++) 
+	{
+		if (activeDirectoryTree[i].level==0)
+		{
+			output += '<div class="directoryTreeEntry" id="'+i+'">';
+			output += path.basename(activeDirectoryTree[i].path);
+			output += '</div>'
+		}
+	}
+	
+	$('#directoryTree').html(output);
+}
+
+// Handle directory tree entry being clicked
+$(document).on('click', ".directoryTreeEntry", function()
+{
+	var id = $(this).attr('id');
+	var directoryTreeEntry = activeDirectoryTree[id];
+	
+	if (directoryTreeEntry.type=='file')
+	{
+		openFileByName(directoryTreeEntry.path);
+	}
+	else if (directoryTreeEntry.type=='directory')
+	{
+		for (var i = id; i < activeDirectoryTree.length; i++) 
+		{
+			if (activeDirectoryTree[i].level==directoryTreeEntry.level+1)
+			{
+				if (activeDirectoryTree[i].path.indexOf(directoryTreeEntry.path)>-1)
+				{
+					if (activeDirectoryTree[i].visible==false)
+					{
+						var output = '';
+						
+						var padding = activeDirectoryTree[i].level * 10;
+						
+						output += '<div class="directoryTreeEntry" style="padding-left: '+padding+'px;"; id="'+i+'">';
+						output += path.basename(activeDirectoryTree[i].path);
+						output += '</div>'
+						
+						$(this).after(output);
+						
+						activeDirectoryTree[i].visible = true;
+					}
+					else
+					{
+						$('#'+i+'.directoryTreeEntry').remove();
+						
+						activeDirectoryTree[i].visible = false;
+					}
+				}
+				else
+				{
+					return;
+				}
+			}
+		}
+	}
+});

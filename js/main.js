@@ -1,3 +1,10 @@
+// Node js includes
+path = require('path');
+fs = require('fs')
+
+// Define variables
+var activeTabs = new Array(); // Array of tab objects
+
 // Setup editor with initial configuration
 var editor = ace.edit("editor");
 ace.require("ace/ext/language_tools")
@@ -27,11 +34,11 @@ $('#openFile').click(function()
 function openFile(name) 
 {
 	var chooser = $(name);
-	chooser.change(function(evt) 
+	
+	chooser.change(function() 
 	{
 		fileToOpen = $(this).val();
 		
-		fs = require('fs')
 		fs.readFile(fileToOpen, 'utf8', function (err, fileContent) 
 		{
 			if (err) 
@@ -42,21 +49,57 @@ function openFile(name)
 			
 			// TODO: Change the editor's mode to reflect the type of file opened
 			
-			editor.setValue(fileContent, -1); // -1 positions cursor at start
+			var editSession = new ace.EditSession(fileContent, "ace/mode/php");
+			
+			var newTab = { name: fileToOpen, editSession: editSession };
+			activeTabs.push(newTab);
+			
+			ui_updateTabs();
+			editor.setSession(newTab.editSession);
 		});
+		
+		chooser.off('change');
 	});
 
 	chooser.trigger('click');  
 }
 
+
+// Update display of tabs
+function ui_updateTabs()
+{
+	var output = '';
+	
+	for (var i = 0; i < activeTabs.length; i++) 
+	{
+		output += '<span class="tab" id="'+i+'">';
+		output += path.basename(activeTabs[i].name);
+		output += '</span>'
+	}
+	
+	$('#tabs').html(output);
+}
+
+// Switch to tab (passing tab index)
+function ui_switchTab(index)
+{
+	editor.setSession(activeTabs[index].editSession);
+}
+
+// Handle tab being clicked
+$(document).on('click', ".tab", function()
+{
+	ui_switchTab($(this).attr('id'));
+});
+
 // Handle open directory link being clicked
 $('#openDirectory').click(function() 
 {
-	openFile('#openDirectoryDialog');
+	openDirectory('#openDirectoryDialog');
 });
 
 // Open a directory (passing the id of the relevant hidden file input box)
-function openFile(name) 
+function openDirectory(name) 
 {
 	var chooser = $(name);
 	chooser.change(function(evt) 
@@ -66,6 +109,8 @@ function openFile(name)
 		alert('Got directory: '+directoryToOpen);
 		
 		// TODO: Open specified directory in left sidebar
+		
+		chooser.off('change');
 	});
 
 	chooser.trigger('click');  

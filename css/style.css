@@ -18,7 +18,7 @@ a
 #left
 {
 	top: 0px;
-	left: 00px;
+	left: 0px;
 	right: 0px;
 	bottom: 0px;
 	position: absolute;
@@ -26,9 +26,27 @@ a
 	background-color: #262626;
 }
 
-#editor
+#tabs
 {
 	top: 0px;
+	left: 200px;
+	right: 0px;
+	bottom: 0px;
+	height: 20px;
+	position: absolute;
+	background-color: #262626;
+}
+
+#tabs .tab
+{
+	padding: 2px;
+	margin-left: 5px;
+	border: solid 1px #ccc;
+}
+
+#editor
+{
+	top: 20px;
 	left: 200px;
 	right: 0px;
 	bottom: 0px;

@@ -72,9 +72,9 @@ function ui_updateTabs()
 	
 	for (var i = 0; i < activeTabs.length; i++) 
 	{
-		output += '<span class="tab" id="'+i+'">';
+		output += '<div class="tab" id="'+i+'">';
 		output += path.basename(activeTabs[i].name);
-		output += '</span>'
+		output += '</div>'
 	}
 	
 	$('#tabs').html(output);

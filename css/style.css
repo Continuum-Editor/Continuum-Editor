@@ -32,7 +32,7 @@ a
 	left: 200px;
 	right: 0px;
 	bottom: 0px;
-	height: 20px;
+	height: 25px;
 	position: absolute;
 	background-color: #262626;
 }
@@ -40,13 +40,18 @@ a
 #tabs .tab
 {
 	padding: 2px;
-	margin-left: 5px;
+	margin-top: 1px;
+	margin-right: 2px;
 	border: solid 1px #ccc;
+	border-radius: 5px;
+	width: 100px;
+	overflow-x: hidden;
+	float: left;
 }
 
 #editor
 {
-	top: 20px;
+	top: 25px;
 	left: 200px;
 	right: 0px;
 	bottom: 0px;

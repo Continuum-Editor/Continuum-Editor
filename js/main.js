@@ -11,10 +11,10 @@ editor.getSession().setMode("ace/mode/php");
 // Handle open file link being clicked
 $('#openFile').click(function() 
 {
-	openFile('#fileDialog');
+	openFile('#openFileDialog');
 });
 
-// Open a file (passing the id of the hidden file input box)
+// Open a file (passing the id of the relevant hidden file input box)
 function openFile(name) 
 {
 	var chooser = $(name);
@@ -35,6 +35,28 @@ function openFile(name)
 			
 			editor.setValue(fileContent, -1); // -1 positions cursor at start
 		});
+	});
+
+	chooser.trigger('click');  
+}
+
+// Handle open directory link being clicked
+$('#openDirectory').click(function() 
+{
+	openFile('#openDirectoryDialog');
+});
+
+// Open a directory (passing the id of the relevant hidden file input box)
+function openFile(name) 
+{
+	var chooser = $(name);
+	chooser.change(function(evt) 
+	{
+		directoryToOpen = $(this).val();
+		
+		alert('Got directory: '+directoryToOpen);
+		
+		// TODO: Open specified directory in left sidebar
 	});
 
 	chooser.trigger('click');  

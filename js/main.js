@@ -3,6 +3,7 @@ path = require('path');
 fs = require('fs')
 
 // Define variables
+var selectedTabIndex = 0;
 var activeTabs = new Array(); // Array of tab objects
 var activeDirectoryTree = new Array();
 
@@ -42,6 +43,8 @@ function openFile(id)
 		
 		openFileByName(path);
 		
+		$(this).val('');
+		
 		chooser.off('change');
 	});
 
@@ -66,7 +69,7 @@ function openFileByName(path)
 		activeTabs.push(newTab);
 		
 		ui_updateTabs();
-		editor.setSession(newTab.editSession);
+		ui_switchTab(activeTabs.length-1);
 	});
 }
 
@@ -77,8 +80,8 @@ function ui_updateTabs()
 	
 	for (var i = 0; i < activeTabs.length; i++) 
 	{
-		output += '<div class="tab" id="'+i+'">';
-		output += '<span class="tabContent">'+path.basename(activeTabs[i].path)+'</span>';
+		output += '<div class="tab">';
+		output += '<span class="tabContent" id="'+i+'">'+path.basename(activeTabs[i].path)+'</span>';
 		output += '<span class="tabCloseButton" id="'+i+'">&#10006;</span>';
 		output += '</div>'
 	}
@@ -89,13 +92,15 @@ function ui_updateTabs()
 // Switch to tab (passing tab index)
 function ui_switchTab(index)
 {
-	if (typeof activeTabs[0] !== 'undefined')
+	if (typeof activeTabs[index] !== 'undefined')
 	{
 		editor.setSession(activeTabs[index].editSession);
+		selectedTabIndex = index;
 	}
 	else
 	{
 		editor.setValue('');
+		selectedTabIndex = 0;
 	}
 }
 
@@ -248,3 +253,26 @@ $(document).on('click', ".directoryTreeEntry", function()
 		}
 	}
 });
+
+// Handle save selected tab link being clicked
+$('#saveSelectedTab').click(function() 
+{
+	saveSelectedTab();
+});
+
+function saveSelectedTab()
+{
+	var activeTab = activeTabs[selectedTabIndex];
+	
+	var dataToSave = activeTab.editSession.getValue();
+		
+	try
+	{
+		fs.writeFileSync(activeTab.path, dataToSave);
+		alert('Saved to '+activeTab.path);
+	}
+	catch (err)
+	{
+		alert('Bogus, save error: '+err);
+	}
+}

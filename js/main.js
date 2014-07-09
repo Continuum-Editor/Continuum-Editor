@@ -154,25 +154,25 @@ function openDirectory(id)
 function generateDirectoryTree(currentDirectory, level, previousDirectory)
 {
 	try
-	{
+	{		
 		var files = fs.readdirSync(currentDirectory);
 			
 		for (var i = 0; i < files.length; i++) 
 		{
-			var path = currentDirectory+'\\'+files[i]
+			var currentPath = currentDirectory + path.sep + files[i]
 			
 			try
 			{
-				if (fs.lstatSync(path).isDirectory())
+				if (fs.lstatSync(currentPath).isDirectory())
 				{
-					var newDirectoryTreeEntry = { path: path, type: 'directory', level: level, previousDirectory: previousDirectory, visible: false };
+					var newDirectoryTreeEntry = { path: currentPath, type: 'directory', level: level, previousDirectory: previousDirectory, visible: false };
 					activeDirectoryTree.push(newDirectoryTreeEntry);
 					
-					generateDirectoryTree(path, level + 1, currentDirectory);
+					generateDirectoryTree(currentPath, level + 1, currentDirectory);
 				}
-				else if (fs.lstatSync(path).isFile())
+				else if (fs.lstatSync(currentPath).isFile())
 				{
-					var newDirectoryTreeEntry = { path: path, type: 'file', level: level, previousDirectory: currentDirectory, visible: false };
+					var newDirectoryTreeEntry = { path: currentPath, type: 'file', level: level, previousDirectory: currentDirectory, visible: false };
 					activeDirectoryTree.push(newDirectoryTreeEntry);
 				}
 			}

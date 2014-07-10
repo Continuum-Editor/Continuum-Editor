@@ -165,14 +165,14 @@ function generateDirectoryTree(currentDirectory, level, previousDirectory)
 			{
 				if (fs.lstatSync(currentPath).isDirectory())
 				{
-					var newDirectoryTreeEntry = { path: currentPath, type: 'directory', level: level, previousDirectory: previousDirectory, visible: false };
+					var newDirectoryTreeEntry = { path: currentPath, type: 'directory', level: level, previousDirectory: previousDirectory, isOpen: false };
 					activeDirectoryTree.push(newDirectoryTreeEntry);
 					
 					generateDirectoryTree(currentPath, level + 1, currentDirectory);
 				}
 				else if (fs.lstatSync(currentPath).isFile())
 				{
-					var newDirectoryTreeEntry = { path: currentPath, type: 'file', level: level, previousDirectory: currentDirectory, visible: false };
+					var newDirectoryTreeEntry = { path: currentPath, type: 'file', level: level, previousDirectory: currentDirectory, isOpen: false };
 					activeDirectoryTree.push(newDirectoryTreeEntry);
 				}
 			}
@@ -220,11 +220,13 @@ $(document).on('click', ".directoryTreeEntry", function()
 	{
 		for (var i = id; i < activeDirectoryTree.length; i++) 
 		{
-			if (activeDirectoryTree[i].level==directoryTreeEntry.level+1)
+			if (i == id) continue;
+			
+			if (activeDirectoryTree[i].path.indexOf(directoryTreeEntry.path)>-1)
 			{
-				if (activeDirectoryTree[i].path.indexOf(directoryTreeEntry.path)>-1)
+				if (directoryTreeEntry.isOpen==false)
 				{
-					if (activeDirectoryTree[i].visible==false)
+					if (activeDirectoryTree[i].level==directoryTreeEntry.level+1)
 					{
 						var output = '';
 						
@@ -235,23 +237,23 @@ $(document).on('click', ".directoryTreeEntry", function()
 						output += '</div>'
 						
 						$(this).after(output);
-						
-						activeDirectoryTree[i].visible = true;
-					}
-					else
-					{
-						$('#'+i+'.directoryTreeEntry').remove();
-						
-						activeDirectoryTree[i].visible = false;
 					}
 				}
 				else
 				{
-					return;
+					$('#'+i+'.directoryTreeEntry').remove();
+					
+					activeDirectoryTree[i].isOpen = false;
 				}
+			}
+			else
+			{
+				break;
 			}
 		}
 	}
+	
+	directoryTreeEntry.isOpen = !directoryTreeEntry.isOpen;
 });
 
 // Handle save selected tab link being clicked

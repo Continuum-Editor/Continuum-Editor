@@ -260,3 +260,19 @@ function saveSelectedTab()
 		alert('Bogus, save error: '+err);
 	}
 }
+
+function setTheme(themeName, isLight)
+{
+	editor.setTheme('ace/theme/'+themeName);
+	
+	if (isLight)
+	{
+		$('body').css('background-color', '#D9D9D9');
+		$('body').css('color', '#191E23');
+	}
+	else
+	{
+		$('body').css('background-color', '#262626');
+		$('body').css('color', '#E6E1DC');
+	}
+}

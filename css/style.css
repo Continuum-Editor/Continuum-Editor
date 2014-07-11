@@ -2,6 +2,7 @@ body
 {
 	margin: 0px;
 	color: #E6E1DC;
+	background-color: #262626;
 	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
 	font-size: 14px;
 	line-height: normal;
@@ -23,7 +24,6 @@ a
 	bottom: 0px;
 	position: absolute;
 	width: 190px;
-	background-color: #262626;
 	overflow-x: auto;
 	overflow-y: auto;
 	cursor: default;
@@ -38,7 +38,6 @@ a
 	bottom: 0px;
 	height: 25px;
 	position: absolute;
-	background-color: #262626;
 	overflow-x: auto;
 	cursor: default;
 }

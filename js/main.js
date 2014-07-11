@@ -26,12 +26,6 @@ editor.setOptions(
 	enableLiveAutocompletion: true
 });
 
-// Handle open file link being clicked
-$('#openFile').click(function() 
-{
-	openFile('#openFileDialog');
-});
-
 // Open a file (passing the id of the relevant hidden file input box)
 function openFile(id) 
 {
@@ -125,12 +119,6 @@ function closeTab(index)
 	
 	ui_updateTabs();
 }
-
-// Handle open directory link being clicked
-$('#openDirectory').click(function() 
-{
-	openDirectory('#openDirectoryDialog');
-});
 
 // Open a directory (passing the id of the relevant hidden file input box)
 function openDirectory(id) 
@@ -254,12 +242,6 @@ $(document).on('click', ".directoryTreeEntry", function()
 	}
 	
 	directoryTreeEntry.isOpen = !directoryTreeEntry.isOpen;
-});
-
-// Handle save selected tab link being clicked
-$('#saveSelectedTab').click(function() 
-{
-	saveSelectedTab();
 });
 
 function saveSelectedTab()

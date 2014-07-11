@@ -12,7 +12,6 @@ var editor = ace.edit("editor");
 ace.require("ace/ext/language_tools")
 
 editor.setFontSize(16);
-editor.setTheme("ace/theme/monokai");
 editor.getBehavioursEnabled(true); // Quote and bracket pairing
 editor.setHighlightActiveLine(true); 
 editor.setHighlightSelectedWord(true);
@@ -25,6 +24,11 @@ editor.setOptions(
 	enableBasicAutocompletion: true,
 	enableLiveAutocompletion: true
 });
+
+// Set theme
+if (localStorage.themeName==null) localStorage.themeName = 'monokai';
+if (localStorage.themeStyle==null) localStorage.themeStyle = 'dark';
+setTheme(localStorage.themeName, localStorage.themeStyle);
 
 // Open a file (passing the id of the relevant hidden file input box)
 function openFile(id) 
@@ -300,18 +304,21 @@ function saveFileAs(id)
 	chooser.trigger('click');  
 }
 
-function setTheme(themeName, isLight)
+function setTheme(themeName, themeStyle)
 {
 	editor.setTheme('ace/theme/'+themeName);
 	
-	if (isLight)
+	if (themeStyle=='light')
 	{
 		$('body').css('background-color', '#D9D9D9');
 		$('body').css('color', '#191E23');
 	}
-	else
+	else if (themeStyle=='dark')
 	{
 		$('body').css('background-color', '#262626');
 		$('body').css('color', '#E6E1DC');
 	}
+	
+	localStorage.themeName = themeName;
+	localStorage.themeStyle = themeStyle;
 }

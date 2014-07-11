@@ -17,12 +17,12 @@ mainMenu.append(new gui.MenuItem({ label: 'File', submenu: fileMenu }));
 
 var darkThemeMenu = new gui.Menu();
 
-darkThemeMenu.append(new gui.MenuItem({ label: 'Monokai', click: function(){ setTheme('monokai', false); } }));
+darkThemeMenu.append(new gui.MenuItem({ label: 'Monokai', click: function(){ setTheme('monokai', 'dark'); } }));
 
 var lightThemeMenu = new gui.Menu();
 
-lightThemeMenu.append(new gui.MenuItem({ label: 'Eclipse', click: function(){ setTheme('eclipse', true); } }));
-lightThemeMenu.append(new gui.MenuItem({ label: 'Dreamweaver', click: function(){ setTheme('dreamweaver', true); } }));
+lightThemeMenu.append(new gui.MenuItem({ label: 'Eclipse', click: function(){ setTheme('eclipse', 'light'); } }));
+lightThemeMenu.append(new gui.MenuItem({ label: 'Dreamweaver', click: function(){ setTheme('dreamweaver', 'light'); } }));
 
 var themeMenu = new gui.Menu();
 themeMenu.append(new gui.MenuItem({ label: 'Dark', submenu: darkThemeMenu }));

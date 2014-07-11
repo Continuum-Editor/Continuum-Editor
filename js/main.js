@@ -11,7 +11,7 @@ var activeDirectoryTree = new Array();
 var editor = ace.edit("editor");
 ace.require("ace/ext/language_tools")
 
-editor.setFontSize(14);
+editor.setFontSize(16);
 editor.setTheme("ace/theme/monokai");
 editor.getBehavioursEnabled(true); // Quote and bracket pairing
 editor.setHighlightActiveLine(true); 
@@ -206,6 +206,8 @@ $(document).on('click', ".directoryTreeEntry", function()
 	}
 	else if (directoryTreeEntry.type=='directory')
 	{
+		var output = '';
+		
 		for (var i = id; i < activeDirectoryTree.length; i++) 
 		{
 			if (i == id) continue;
@@ -215,16 +217,12 @@ $(document).on('click', ".directoryTreeEntry", function()
 				if (directoryTreeEntry.isOpen==false)
 				{
 					if (activeDirectoryTree[i].level==directoryTreeEntry.level+1)
-					{
-						var output = '';
-						
+					{						
 						var padding = activeDirectoryTree[i].level * 10;
 						
 						output += '<div class="directoryTreeEntry" style="padding-left: '+padding+'px;"; id="'+i+'">';
 						output += path.basename(activeDirectoryTree[i].path);
 						output += '</div>'
-						
-						$(this).after(output);
 					}
 				}
 				else
@@ -239,6 +237,8 @@ $(document).on('click', ".directoryTreeEntry", function()
 				break;
 			}
 		}
+		
+		$(this).after(output);
 	}
 	
 	directoryTreeEntry.isOpen = !directoryTreeEntry.isOpen;

@@ -261,6 +261,45 @@ function saveSelectedTab()
 	}
 }
 
+function saveSelectedTabAs(newPath)
+{
+	var activeTab = activeTabs[selectedTabIndex];
+	
+	var dataToSave = activeTab.editSession.getValue();
+		
+	try
+	{
+		fs.writeFileSync(newPath, dataToSave);
+		activeTab.path = newPath;
+		alert('Saved to '+activeTab.path);
+	}
+	catch (err)
+	{
+		alert('Bogus, save error: '+err);
+	}
+	
+	ui_updateTabs();
+}
+
+// Save file as (with different name) (passing the id of the relevant hidden file input box)
+function saveFileAs(id) 
+{
+	var chooser = $(id);
+	
+	chooser.change(function() 
+	{
+		var path = $(this).val();
+		
+		saveSelectedTabAs(path);
+		
+		$(this).val('');
+		
+		chooser.off('change');
+	});
+
+	chooser.trigger('click');  
+}
+
 function setTheme(themeName, isLight)
 {
 	editor.setTheme('ace/theme/'+themeName);

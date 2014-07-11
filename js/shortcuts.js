@@ -7,3 +7,6 @@ $("body, textarea").bind('keydown', 'ctrl+shift+o', function(){ openDirectory('#
 
 // Save
 $("body, textarea").bind('keydown', 'ctrl+s', function(){ saveSelectedTab(); });
+
+// Save As
+$("body, textarea").bind('keydown', 'ctrl+shift+s', function(){ saveFileAs('#saveFileAsDialog'); });

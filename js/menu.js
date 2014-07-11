@@ -9,6 +9,7 @@ fileMenu.append(new gui.MenuItem({ label: 'Open File...', click: function(){ ope
 fileMenu.append(new gui.MenuItem({ label: 'Open Directory...', click: function(){ openDirectory('#openDirectoryDialog'); } }));
 fileMenu.append(new gui.MenuItem({ type: 'separator' }));
 fileMenu.append(new gui.MenuItem({ label: 'Save', click: function(){ saveSelectedTab(); } }));
+fileMenu.append(new gui.MenuItem({ label: 'Save As...', click: function(){ saveFileAs('#saveFileAsDialog'); } }));
 
 mainMenu.append(new gui.MenuItem({ label: 'File', submenu: fileMenu }));
 

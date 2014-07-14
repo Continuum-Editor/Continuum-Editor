@@ -259,7 +259,6 @@ function saveSelectedTab()
 	try
 	{
 		fs.writeFileSync(activeTab.path, dataToSave);
-		alert('Saved to '+activeTab.path);
 	}
 	catch (err)
 	{
@@ -277,7 +276,6 @@ function saveSelectedTabAs(newPath)
 	{
 		fs.writeFileSync(newPath, dataToSave);
 		activeTab.path = newPath;
-		alert('Saved to '+activeTab.path);
 	}
 	catch (err)
 	{

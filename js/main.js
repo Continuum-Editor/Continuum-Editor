@@ -10,6 +10,7 @@ var activeDirectoryTree = new Array();
 // Setup editor with initial configuration
 var editor = ace.edit("editor");
 ace.require("ace/ext/language_tools")
+var UndoManager = ace.require("ace/undomanager").UndoManager;
 
 editor.setFontSize(16);
 editor.getBehavioursEnabled(true); // Quote and bracket pairing
@@ -62,6 +63,7 @@ function openFileByName(path)
 		// TODO: Change the editor's mode to reflect the type of file opened
 		
 		var editSession = new ace.EditSession(fileContent, "ace/mode/php");
+		editSession.setUndoManager(new UndoManager());
 		
 		var newTab = { path: path, editSession: editSession };
 		activeTabs.push(newTab);

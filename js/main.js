@@ -159,7 +159,7 @@ function generateDirectoryTree(currentDirectory, level, previousDirectory)
 			{
 				if (fs.lstatSync(currentPath).isDirectory())
 				{
-					var newDirectoryTreeEntry = { path: currentPath, type: 'directory', level: level, previousDirectory: previousDirectory, isOpen: false };
+					var newDirectoryTreeEntry = { path: currentPath + path.sep, type: 'directory', level: level, previousDirectory: previousDirectory, isOpen: false };
 					activeDirectoryTree.push(newDirectoryTreeEntry);
 					
 					generateDirectoryTree(currentPath, level + 1, currentDirectory);

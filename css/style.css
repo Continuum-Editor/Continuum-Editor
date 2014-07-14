@@ -74,4 +74,11 @@ body
 #directoryTree
 {
 	font-size: 12px;
+	overflow-x: auto;
+}
+
+#directoryTree .directoryTreeEntry:hover
+{
+	font-weight: bold;
+	font-size: 16px;
 }

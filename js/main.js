@@ -28,9 +28,15 @@ editor.setOptions(
 });
 
 // Set theme
-if (localStorage.themeName==null) localStorage.themeName = 'monokai';
-if (localStorage.themeStyle==null) localStorage.themeStyle = 'dark';
+if (localStorage.themeName==null) localStorage.themeName = 'eclipse';
+if (localStorage.themeStyle==null) localStorage.themeStyle = 'light';
 setTheme(localStorage.themeName, localStorage.themeStyle);
+
+// Refresh theme
+function refreshTheme()
+{
+	setTheme(localStorage.themeName, localStorage.themeStyle);
+}
 
 // Open a file (passing the id of the relevant hidden file input box)
 function openFile(id) 
@@ -90,6 +96,8 @@ function ui_updateTabs()
 	}
 	
 	$('#tabs').html(output);
+	
+	refreshTheme();
 }
 
 // Switch to tab (passing tab index)
@@ -105,6 +113,7 @@ function ui_switchTab(index)
 		editor.setValue('');
 		selectedTabIndex = 0;
 	}
+	
 }
 
 // Handle tab being clicked
@@ -148,43 +157,6 @@ function openDirectory(id)
 	chooser.trigger('click');  
 }
 
-function generateDirectoryTree(currentDirectory, level, previousDirectory)
-{
-	try
-	{		
-		var files = fs.readdirSync(currentDirectory);
-			
-		for (var i = 0; i < files.length; i++) 
-		{
-			var currentPath = currentDirectory + path.sep + files[i]
-			
-			try
-			{
-				if (fs.lstatSync(currentPath).isDirectory())
-				{
-					var newDirectoryTreeEntry = { path: currentPath + path.sep, type: 'directory', level: level, previousDirectory: previousDirectory, isOpen: false };
-					activeDirectoryTree.push(newDirectoryTreeEntry);
-					
-					generateDirectoryTree(currentPath, level + 1, currentDirectory);
-				}
-				else if (fs.lstatSync(currentPath).isFile())
-				{
-					var newDirectoryTreeEntry = { path: currentPath, type: 'file', level: level, previousDirectory: currentDirectory, isOpen: false };
-					activeDirectoryTree.push(newDirectoryTreeEntry);
-				}
-			}
-			catch (err)
-			{
-				console.log(err);
-			}
-		}
-	}
-	catch (err)
-	{
-		console.log(err);
-	}
-}
-
 // Update display of directory tree
 function ui_updateDirectoryTree()
 {
@@ -194,13 +166,13 @@ function ui_updateDirectoryTree()
 	{
 		if (activeDirectoryTree[i].level==0)
 		{
-			output += '<div class="directoryTreeEntry" id="'+i+'">';
-			output += path.basename(activeDirectoryTree[i].path);
-			output += '</div>'
+			output += ui_generateDirectoryTreeEntryHTML(i);
 		}
 	}
 	
 	$('#directoryTree').html(output);
+	
+	refreshTheme();
 }
 
 // Handle directory tree entry being clicked
@@ -227,11 +199,7 @@ $(document).on('click', ".directoryTreeEntry", function()
 				{
 					if (activeDirectoryTree[i].level==directoryTreeEntry.level+1)
 					{						
-						var padding = activeDirectoryTree[i].level * 10;
-						
-						output += '<div class="directoryTreeEntry" style="padding-left: '+padding+'px;"; id="'+i+'">';
-						output += path.basename(activeDirectoryTree[i].path);
-						output += '</div>'
+						output += ui_generateDirectoryTreeEntryHTML(i);
 					}
 				}
 				else
@@ -248,10 +216,29 @@ $(document).on('click', ".directoryTreeEntry", function()
 		}
 		
 		$(this).after(output);
+		
+		refreshTheme();
 	}
 	
 	directoryTreeEntry.isOpen = !directoryTreeEntry.isOpen;
 });
+
+function ui_generateDirectoryTreeEntryHTML(i)
+{
+	var margin = activeDirectoryTree[i].level * 10;
+	
+	var fileTypeImage = 'text70.svg';
+	if (activeDirectoryTree[i].type=='directory') fileTypeImage = 'folder215.svg';
+	
+	var output = '';
+	
+	output += '<div class="directoryTreeEntry" id="'+i+'" style="margin-left: '+margin+'px;">';
+	output += '<img src="images/'+fileTypeImage+'" /> ';
+	output += path.basename(activeDirectoryTree[i].path);
+	output += '</div>'
+	
+	return output;
+}
 
 function saveSelectedTab()
 {
@@ -315,13 +302,54 @@ function setTheme(themeName, themeStyle)
 	{
 		$('body').css('background-color', '#D9D9D9');
 		$('body').css('color', '#191E23');
+		$('img').css('-webkit-filter', 'invert(0%)'); 
+		$('#directoryTree .directoryTreeEntry').css('border-left-color', '#000000');
 	}
 	else if (themeStyle=='dark')
 	{
 		$('body').css('background-color', '#262626');
 		$('body').css('color', '#E6E1DC');
+		$('img').css('-webkit-filter', 'invert(100%)'); 
+		$('#directoryTree .directoryTreeEntry').css('border-left-color', '#FFFFFF');
 	}
 	
 	localStorage.themeName = themeName;
 	localStorage.themeStyle = themeStyle;
+}
+
+function generateDirectoryTree(currentDirectory, level, previousDirectory)
+{
+	try
+	{		
+		var files = fs.readdirSync(currentDirectory);
+			
+		for (var i = 0; i < files.length; i++) 
+		{
+			var currentPath = currentDirectory + path.sep + files[i]
+			
+			try
+			{
+				if (fs.lstatSync(currentPath).isDirectory())
+				{
+					var newDirectoryTreeEntry = { path: currentPath + path.sep, type: 'directory', level: level, previousDirectory: previousDirectory, isOpen: false };
+					activeDirectoryTree.push(newDirectoryTreeEntry);
+					
+					generateDirectoryTree(currentPath, level + 1, currentDirectory);
+				}
+				else if (fs.lstatSync(currentPath).isFile())
+				{
+					var newDirectoryTreeEntry = { path: currentPath, type: 'file', level: level, previousDirectory: currentDirectory, isOpen: false };
+					activeDirectoryTree.push(newDirectoryTreeEntry);
+				}
+			}
+			catch (err)
+			{
+				console.log(err);
+			}
+		}
+	}
+	catch (err)
+	{
+		console.log(err);
+	}
 }

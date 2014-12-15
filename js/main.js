@@ -147,8 +147,8 @@ function ui_switchTab(index)
 	
 	for (var i = 0; i < activeTabs.length; i++) 
 	{
-		if (i==index) $('#'+i+'.tab').css('opacity', 1);
-		else $('#'+i+'.tab').css('opacity', 0.25);
+		if (i==index)$('#'+i+'.tab').css('opacity', 1);
+		else $('#'+i+'.tab').css('opacity', 0.5);
 	}
 }
 

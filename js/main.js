@@ -1,6 +1,9 @@
+
+// *** Global Variable - Start ***
+
 // Node js includes
-path = require('path');
-fs = require('fs')
+var path = require('path');
+var fs = require('fs')
 
 // Define variables
 var selectedTabIndex = 0;
@@ -13,24 +16,42 @@ ace.require("ace/ext/language_tools")
 var UndoManager = ace.require("ace/undomanager").UndoManager;
 var modelist = ace.require("ace/ext/modelist");
 
-editor.setFontSize(16);
-editor.getBehavioursEnabled(true); // Quote and bracket pairing
-editor.setHighlightActiveLine(true); 
-editor.setHighlightSelectedWord(true);
-editor.setShowPrintMargin(false); // We're coding, not printing!
-editor.getSession().setMode("ace/mode/php");
+// *** Global Variable - End ***
 
-editor.setOptions(
+// Initialisation and setup
+$(document).ready(function()
 {
-	enableSnippets: true,
-	enableBasicAutocompletion: true,
-	enableLiveAutocompletion: true
-});
+	// Config default editor parameters
+	editor.setFontSize(16);
+	editor.getBehavioursEnabled(true); // Quote and bracket pairing
+	editor.setHighlightActiveLine(true); 
+	editor.setHighlightSelectedWord(true);
+	editor.setShowPrintMargin(false); // We're coding, not printing!
+	editor.getSession().setMode("ace/mode/php");
 
-// Set theme
-if (localStorage.themeName==null) localStorage.themeName = 'eclipse';
-if (localStorage.themeStyle==null) localStorage.themeStyle = 'light';
-setTheme(localStorage.themeName, localStorage.themeStyle);
+	editor.setOptions(
+	{
+		enableSnippets: true,
+		enableBasicAutocompletion: true,
+		enableLiveAutocompletion: true
+	});
+
+	// Set theme
+	if (localStorage.themeName==null) localStorage.themeName = 'eclipse';
+	if (localStorage.themeStyle==null) localStorage.themeStyle = 'light';
+	setTheme(localStorage.themeName, localStorage.themeStyle);
+
+	// Restore previously opened directory tree
+	try
+	{
+		activeDirectoryTree = JSON.parse(localStorage.activeDirectoryTree);
+		ui_updateDirectoryTree();
+	}
+	catch(e)
+	{
+		console.log('Error decoded previously opened directory tree. Details: '+e);
+	}
+});
 
 // Refresh theme
 function refreshTheme()
@@ -160,6 +181,8 @@ function openDirectory(id)
 // Update display of directory tree
 function ui_updateDirectoryTree()
 {
+	if (activeDirectoryTree==null) return;
+	
 	var output = '';
 	
 	for (var i = 0; i < activeDirectoryTree.length; i++) 
@@ -347,6 +370,9 @@ function generateDirectoryTree(currentDirectory, level, previousDirectory)
 				console.log(err);
 			}
 		}
+		
+		if (level==0) localStorage.activeDirectoryTree = JSON.stringify(activeDirectoryTree);
+		
 	}
 	catch (err)
 	{

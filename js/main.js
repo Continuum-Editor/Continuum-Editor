@@ -120,7 +120,7 @@ function ui_updateTabs()
 	
 	for (var i = 0; i < activeTabs.length; i++) 
 	{
-		output += '<div class="tab">';
+		output += '<div class="tab" id="'+i+'">';
 		output += '<span class="tabContent" id="'+i+'">'+path.basename(activeTabs[i].path)+'</span>';
 		output += '<span class="tabCloseButton" id="'+i+'">&#10006;</span>';
 		output += '</div>'
@@ -145,6 +145,11 @@ function ui_switchTab(index)
 		selectedTabIndex = 0;
 	}
 	
+	for (var i = 0; i < activeTabs.length; i++) 
+	{
+		if (i==index) $('#'+i+'.tab').css('opacity', 1);
+		else $('#'+i+'.tab').css('opacity', 0.25);
+	}
 }
 
 // Handle tab being clicked

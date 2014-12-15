@@ -80,6 +80,16 @@ function openFile(id)
 
 function openFileByName(path)
 {
+	// Check if file is already open in an existing tab
+	for (var i = 0; i < activeTabs.length; i++) 
+	{
+		if (activeTabs[i].path==path)
+		{
+			ui_switchTab(i);
+			return;
+		}
+	}
+	
 	fs.readFile(path, 'utf8', function (err, fileContent) 
 	{
 		if (err) 

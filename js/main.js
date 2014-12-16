@@ -310,7 +310,7 @@ function ui_generateDirectoryTreeEntryHTML(i)
 	
 	var output = '';
 	
-	output += '<div class="directoryTreeEntry" id="'+i+'" style="margin-left: '+margin+'px;">';
+	output += '<div class="directoryTreeEntry" id="'+i+'" style="margin-left: '+margin+'px;" title="'+activeDirectoryTree[i].path+'">';
 	output += '<img src="images/'+fileTypeImage+'" /> ';
 	output += path.basename(activeDirectoryTree[i].path);
 	output += '</div>'

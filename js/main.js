@@ -49,9 +49,32 @@ $(document).ready(function()
 	}
 	catch(e)
 	{
-		console.log('Error decoded previously opened directory tree. Details: '+e);
+		console.log('Error decoding previously opened directory tree. Details: '+e);
 	}
+	
+	// Restore previously opened tabs
+	try
+	{
+		recoverTabs();
+	}
+	catch(e)
+	{
+		console.log('Error recovering previously opened tabs. Details: '+e);
+	}
+	
 });
+
+// Recover tabs
+function recoverTabs()
+{
+	var tabsToRecover = JSON.parse(localStorage.tabsToRecover);
+	
+	for (var i = 0; i < tabsToRecover.length; i++) 
+	{
+		openFileByName(tabsToRecover[i]);
+	}
+	
+}
 
 // Refresh theme
 function refreshTheme()
@@ -129,6 +152,21 @@ function ui_updateTabs()
 	$('#tabs').html(output);
 	
 	refreshTheme();
+	
+	storeTabsToRecover();
+}
+
+function storeTabsToRecover()
+{
+	var tabsToRecover = new Array();
+	
+	for (var i = 0; i < activeTabs.length; i++) 
+	{
+		tabsToRecover.push(activeTabs[i].path);
+	}
+	
+	localStorage.tabsToRecover = JSON.stringify(tabsToRecover);
+	
 }
 
 // Switch to tab (passing tab index)
@@ -150,6 +188,8 @@ function ui_switchTab(index)
 		if (i==index)$('#'+i+'.tab').css('opacity', 1);
 		else $('#'+i+'.tab').css('opacity', 0.5);
 	}
+	
+	storeTabsToRecover();
 }
 
 // Handle tab being clicked

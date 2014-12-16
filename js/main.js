@@ -68,7 +68,7 @@ function openFile(id)
 	{
 		var path = $(this).val();
 		
-		openFileByName(path);
+		if (path.length>0) openFileByName(path);
 		
 		$(this).val('');
 		

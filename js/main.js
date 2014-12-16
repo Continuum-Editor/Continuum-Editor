@@ -144,8 +144,8 @@ function ui_updateTabs()
 	for (var i = 0; i < activeTabs.length; i++) 
 	{
 		output += '<div class="tab" id="'+i+'">';
-		output += '<span class="tabContent" id="'+i+'">'+path.basename(activeTabs[i].path)+'</span>';
-		output += '<span class="tabCloseButton" id="'+i+'">&#10006;</span>';
+		output += '<span class="tabContent" id="'+i+'" title="'+activeTabs[i].path+'">'+path.basename(activeTabs[i].path)+'</span>';
+		output += '<span class="tabCloseButton" id="'+i+'" title="Close tab">&#10006;</span>';
 		output += '</div>'
 	}
 	

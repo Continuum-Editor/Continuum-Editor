@@ -8,6 +8,11 @@ var fileMenu = new gui.Menu();
 fileMenu.append(new gui.MenuItem({ label: 'Open File...', click: function(){ openFile('#openFileDialog'); } }));
 fileMenu.append(new gui.MenuItem({ label: 'Open Directory...', click: function(){ openDirectory('#openDirectoryDialog'); } }));
 fileMenu.append(new gui.MenuItem({ type: 'separator' }));
+
+var recentMenu = new gui.Menu();
+fileMenu.append(new gui.MenuItem({ label: 'Open Recent', submenu: recentMenu }));
+
+fileMenu.append(new gui.MenuItem({ type: 'separator' }));
 fileMenu.append(new gui.MenuItem({ label: 'Save', click: function(){ saveSelectedTab(); } }));
 fileMenu.append(new gui.MenuItem({ label: 'Save As...', click: function(){ saveFileAs('#saveFileAsDialog'); } }));
 

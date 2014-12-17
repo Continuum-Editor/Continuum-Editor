@@ -9,6 +9,7 @@ var fs = require('fs')
 var selectedTabIndex = 0;
 var activeTabs = new Array(); // Array of tab objects
 var activeDirectoryTree = new Array();
+var recentlyAccessed = new Array();
 
 // Setup editor with initial configuration
 var editor = ace.edit("editor");
@@ -63,6 +64,44 @@ $(document).ready(function()
 	}
 	
 });
+
+function addToRecentlyAccessed(path, type)
+{
+	for (var i = 0; i < recentlyAccessed.length; i++) 
+	{
+		if (recentlyAccessed[i].path == path) return;
+	}
+	
+	var newRecentlyAccessed = { path: path, type: type };
+	recentlyAccessed.push(newRecentlyAccessed);
+	
+	ui_updateRecentlyAccessedMenu();
+}
+
+function ui_updateRecentlyAccessedMenu()
+{
+	for (var i = 0; i < recentMenu.items.length; i++) 
+	{
+		recentMenu.removeAt(i);
+	}
+	
+	for (var i = 0; i < recentlyAccessed.length; i++) 
+	{
+		if (recentlyAccessed[i].type=='file')
+		{
+			var path = recentlyAccessed[i].path;
+			
+			recentMenu.append(new gui.MenuItem({ label: path, click: makeOpenRecentFunction(path) }));
+		}
+		
+		if (i>=20) break;
+	}
+	
+	function makeOpenRecentFunction(path)
+	{
+		return function() { openFileByName(path); }; 
+	}
+}
 
 // Recover tabs
 function recoverTabs()
@@ -130,6 +169,8 @@ function openFileByName(path)
 		
 		var newTab = { path: path, editSession: editSession };
 		activeTabs.push(newTab);
+		
+		addToRecentlyAccessed(path, 'file');
 		
 		ui_updateTabs();
 		ui_switchTab(activeTabs.length-1);
@@ -426,8 +467,11 @@ function generateDirectoryTree(currentDirectory, level, previousDirectory)
 			}
 		}
 		
-		if (level==0) localStorage.activeDirectoryTree = JSON.stringify(activeDirectoryTree);
-		
+		if (level==0)
+		{
+			localStorage.activeDirectoryTree = JSON.stringify(activeDirectoryTree);
+			addToRecentlyAccessed(currentDirectory, 'directory');
+		}
 	}
 	catch (err)
 	{

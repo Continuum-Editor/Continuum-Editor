@@ -249,10 +249,10 @@ function closeTab(index)
 {
 	activeTabs.splice(index, 1);
 	
+	ui_updateTabs();
+	
 	if (index-1>0) ui_switchTab(index-1);
 	else ui_switchTab(0);
-	
-	ui_updateTabs();
 }
 
 // Open a directory (passing the id of the relevant hidden file input box)

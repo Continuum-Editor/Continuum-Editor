@@ -226,15 +226,15 @@ function ui_switchTab(index)
 	
 	for (var i = 0; i < activeTabs.length; i++) 
 	{
-		if (i==index)$('#'+i+'.tab').css('opacity', 1);
-		else $('#'+i+'.tab').css('opacity', 0.5);
+		if (i==index)$('#'+i+'.tab').css('background-color', '#2e353b');
+		else $('#'+i+'.tab').css('background-color', '#3a3e41');
 	}
 	
 	storeTabsToRecover();
 }
 
 // Handle tab being clicked
-$(document).on('click', ".tabContent", function()
+$(document).on('click', ".tab", function()
 {
 	ui_switchTab($(this).attr('id'));
 });

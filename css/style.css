@@ -66,24 +66,26 @@ body
 	left: 310px;
 	right: 0px;
 	bottom: 0px;
-	height: 26px;
+	height: 65px;
 	position: absolute;
 	overflow-x: auto;
 	cursor: default;
+	background-color: #2e353b;
 }
 
 #tabs .tab
 {
-	padding-top: 1px;
+	padding-top: 13px;
 	padding-bottom: 4px;
-	padding-left: 5px;
-	margin-top: 1px;
-	margin-right: 4px;
-	border: solid 1px #aaaaaa;
-	border-radius: 5px;
+	padding-left: 40px;
+	margin-top: 3px;
+	margin-left: 4px;
 	float: left;
-	width: auto;
-	height: 18px;
+	width: 220px;
+	height: 26px;
+	background-image: url('../images/tab_file_icon.png');	
+	background-repeat: no-repeat;
+	background-position: 10px 10px;
 }
 
 #tabs .tab .tabContent
@@ -101,7 +103,7 @@ body
 
 #editor
 {
-	top: 66px;
+	top: 105px;
 	left: 310px;
 	right: 0px;
 	bottom: 0px;

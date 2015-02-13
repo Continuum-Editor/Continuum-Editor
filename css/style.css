@@ -60,17 +60,36 @@ body
 	padding: 5px;
 }
 
-#tabs
+#tabsScrollButtons
 {
+	position: absolute;
+	top: 40px;
+	right: 0px;
+	width: 30px;
+	height: 45px;
+	background-color: #3a3e41;
+	padding-top: 5px;
+	padding-left: 10px;
+	cursor: default;
+}
+
+#tabsContainer
+{
+	position: absolute;
 	top: 40px;
 	left: 310px;
 	right: 0px;
 	bottom: 0px;
 	height: 65px;
-	position: absolute;
-	overflow-x: auto;
+	overflow-x: hidden;
+}
+
+#tabs
+{
+	overflow-y: auto;
 	cursor: default;
 	background-color: #2e353b;
+	width: 999999px;
 }
 
 #tabs .tab

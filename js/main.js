@@ -21,7 +21,7 @@ var modelist = ace.require("ace/ext/modelist");
 
 // Initialisation and setup
 $(document).ready(function()
-{
+{	
 	// Config default editor parameters
 	editor.setFontSize(16);
 	editor.getBehavioursEnabled(true); // Quote and bracket pairing
@@ -463,3 +463,19 @@ function generateDirectoryTree(currentDirectory, level, previousDirectory)
 		console.log(err);
 	}
 }
+
+// Handle left tab scroll button being clicked
+$(document).on('click', '#tabsScrollButtonLeft', function()
+{
+	alert('left tab scroll button clicked');
+	var leftPos = $('#tabs').scrollLeft();
+	$('#tabs').animate({ scrollLeft: leftPos - 50 }, 1000);
+});
+
+// Handle right tab scroll button being clicked
+$(document).on('click', '#tabsScrollButtonRight', function()
+{
+	alert('right tab scroll button clicked');
+	var leftPos = $('#tabs').scrollLeft();
+	$('#tabs').animate({ scrollLeft: leftPos + 50 }, 1000);
+});

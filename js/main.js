@@ -38,8 +38,8 @@ $(document).ready(function()
 	});
 
 	// Set theme
-	if (localStorage.themeName==null) localStorage.themeName = 'eclipse';
-	if (localStorage.themeStyle==null) localStorage.themeStyle = 'light';
+	if (localStorage.themeName==null) localStorage.themeName = 'monokai';
+	if (localStorage.themeStyle==null) localStorage.themeStyle = 'dark';
 	setTheme(localStorage.themeName, localStorage.themeStyle);
 
 	// Restore previously opened directory tree
@@ -416,22 +416,7 @@ function saveFileAs(id)
 function setTheme(themeName, themeStyle)
 {
 	editor.setTheme('ace/theme/'+themeName);
-	
-	if (themeStyle=='light')
-	{
-		$('body').css('background-color', '#D9D9D9');
-		$('body').css('color', '#191E23');
-		$('img').css('-webkit-filter', 'invert(0%)'); 
-		$('#directoryTree .directoryTreeEntry').css('border-left-color', '#000000');
-	}
-	else if (themeStyle=='dark')
-	{
-		$('body').css('background-color', '#262626');
-		$('body').css('color', '#E6E1DC');
-		$('img').css('-webkit-filter', 'invert(100%)'); 
-		$('#directoryTree .directoryTreeEntry').css('border-left-color', '#FFFFFF');
-	}
-	
+		
 	localStorage.themeName = themeName;
 	localStorage.themeStyle = themeStyle;
 }

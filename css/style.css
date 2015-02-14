@@ -65,40 +65,35 @@ body
 	position: absolute;
 	top: 40px;
 	right: 0px;
-	width: 30px;
-	height: 45px;
+	width: 20px;
+	height: 65px;
 	background-color: #3a3e41;
-	padding-top: 5px;
+	padding-top: 14px;
 	padding-left: 10px;
 	cursor: default;
 }
 
-#tabsContainer
+#tabs
 {
 	position: absolute;
 	top: 40px;
 	left: 310px;
 	right: 0px;
 	bottom: 0px;
-	height: 65px;
-	overflow-x: hidden;
-}
-
-#tabs
-{
-	overflow-y: auto;
+	height: 70px;
 	cursor: default;
 	background-color: #2e353b;
-	width: 999999px;
+	overflow: auto;
 }
 
 #tabs .tab
 {
-	padding-top: 13px;
-	padding-bottom: 4px;
+	padding-top: 15px;
+	padding-bottom: 10px;
 	padding-left: 40px;
 	margin-top: 3px;
 	margin-left: 4px;
+	margin-bottom: 20px;
 	float: left;
 	width: 220px;
 	height: 26px;
@@ -122,7 +117,7 @@ body
 
 #editor
 {
-	top: 105px;
+	top: 110px;
 	left: 310px;
 	right: 0px;
 	bottom: 0px;

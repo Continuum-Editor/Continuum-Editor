@@ -226,9 +226,17 @@ function ui_switchTab(index)
 	
 	for (var i = 0; i < activeTabs.length; i++) 
 	{
-		if (i==index)$('#'+i+'.tab').css('background-color', '#2e353b');
-		else $('#'+i+'.tab').css('background-color', '#3a3e41');
+		if (i==index)
+		{
+			$('#'+i+'.tab').css('background-color', '#2e353b');
+		}
+		else
+		{
+			$('#'+i+'.tab').css('background-color', '#3a3e41');
+		}
 	}
+	
+	
 	
 	storeTabsToRecover();
 }
@@ -465,17 +473,13 @@ function generateDirectoryTree(currentDirectory, level, previousDirectory)
 }
 
 // Handle left tab scroll button being clicked
-$(document).on('click', '#tabsScrollButtonLeft', function()
+$(document).on('click', '#tabsScrollButtonUp', function()
 {
-	alert('left tab scroll button clicked');
-	var leftPos = $('#tabs').scrollLeft();
-	$('#tabs').animate({ scrollLeft: leftPos - 50 }, 1000);
+	$('#tabs').animate({ scrollTop: '-=74' }, 250);
 });
 
 // Handle right tab scroll button being clicked
-$(document).on('click', '#tabsScrollButtonRight', function()
+$(document).on('click', '#tabsScrollButtonDown', function()
 {
-	alert('right tab scroll button clicked');
-	var leftPos = $('#tabs').scrollLeft();
-	$('#tabs').animate({ scrollLeft: leftPos + 50 }, 1000);
+	$('#tabs').animate({ scrollTop: '+=74' }, 250);
 });

@@ -6,7 +6,7 @@ $(document).ready(function()
 	loadAddonJS = function(src) 
 	{
 		var jsLink = $("<script src='"+src+"' type='text/javascript'>");
-		$("body").prepend(jsLink); 
+		$("body").append(jsLink); 
 	}; 
 	
 	glob("addons/*.js", null, function (er, files) 

@@ -215,7 +215,7 @@ function storeTabsToRecover()
 
 // Switch to tab (passing tab index)
 function ui_switchTab(index)
-{
+{	
 	if (typeof activeTabs[index] !== 'undefined')
 	{
 		editor.setSession(activeTabs[index].editSession);
@@ -251,9 +251,10 @@ $(document).on('click', ".tab", function()
 });
 
 // Handle tab close button being clicked
-$(document).on('click', ".tabCloseButton", function()
+$(document).on('click', ".tabCloseButton", function(event)
 {
 	closeTab($(this).attr('id'));
+	event.stopPropagation();
 });
 
 function closeTab(index)

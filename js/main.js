@@ -427,7 +427,16 @@ function saveFileAs(id)
 function setTheme(themeName, themeStyle)
 {
 	editor.setTheme('ace/theme/'+themeName);
-		
+	
+	if (themeStyle=='light')
+	{
+		$('#editor .ace_content').css('background-color', '#fff');
+	}
+	else
+	{
+		$('#editor .ace_content').css('background-color', '');
+	}
+	
 	localStorage.themeName = themeName;
 	localStorage.themeStyle = themeStyle;
 }

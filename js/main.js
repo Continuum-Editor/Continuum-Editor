@@ -21,7 +21,7 @@ var modelist = ace.require("ace/ext/modelist");
 
 // Initialisation and setup
 $(document).ready(function()
-{	
+{		
 	// Config default editor parameters
 	editor.setFontSize(16);
 	editor.getBehavioursEnabled(true); // Quote and bracket pairing
@@ -41,6 +41,9 @@ $(document).ready(function()
 	if (localStorage.themeName==null) localStorage.themeName = 'monokai';
 	if (localStorage.themeStyle==null) localStorage.themeStyle = 'dark';
 	setTheme(localStorage.themeName, localStorage.themeStyle);
+
+	// Trigger resizing of various elements
+	$(window).trigger('resize');
 
 	// Restore previously opened directory tree
 	try
@@ -482,4 +485,11 @@ $(document).on('click', '#tabsScrollButtonLeft', function()
 $(document).on('click', '#tabsScrollButtonRight', function()
 {
 	$('#tabsContainer').animate({ scrollLeft: '+=400' }, 250);
+});
+
+// Handle resizing of various elements when the window is resized
+$(window).on('resize', function()
+{
+	var tabContainerWidth = $(window).width() - $('#left').width() - $('#tabsScrollButtons').width();
+	$('#tabsContainer').width(tabContainerWidth);
 });

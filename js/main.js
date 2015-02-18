@@ -473,13 +473,13 @@ function generateDirectoryTree(currentDirectory, level, previousDirectory)
 }
 
 // Handle left tab scroll button being clicked
-$(document).on('click', '#tabsScrollButtonUp', function()
+$(document).on('click', '#tabsScrollButtonLeft', function()
 {
-	$('#tabs').animate({ scrollTop: '-=74' }, 250);
+	$('#tabsContainer').animate({ scrollLeft: '-=400' }, 250);
 });
 
 // Handle right tab scroll button being clicked
-$(document).on('click', '#tabsScrollButtonDown', function()
+$(document).on('click', '#tabsScrollButtonRight', function()
 {
-	$('#tabs').animate({ scrollTop: '+=74' }, 250);
+	$('#tabsContainer').animate({ scrollLeft: '+=400' }, 250);
 });

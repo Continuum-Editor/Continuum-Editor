@@ -116,7 +116,7 @@ body
 	margin-left: 4px;
 	margin-bottom: 20px;
 	float: left;
-	width: 220px;
+	min-width: 220px;
 	height: 26px;
 	background-image: url('../images/tab_file_icon.png');	
 	background-repeat: no-repeat;

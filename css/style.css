@@ -179,3 +179,31 @@ body
 	font-weight: bold;
 	/* font-size: 16px; */
 }
+
+#right
+{
+	top: 110px;
+	right: 0px;
+	position: absolute;
+	width: 300px;
+}
+
+#right #rightSelect
+{
+	margin: 0px;
+	background-color: #3a3e41;
+	width: 100%;
+	height: 40px;
+	padding: 10px;
+	color: #d9e1e4;
+	border: none;
+	-webkit-appearance: none;
+	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+	font-size: 16px;
+}
+
+#right #rightContent
+{
+	padding: 20px;
+	font-size: 14px;
+}

@@ -10,6 +10,7 @@ var selectedTabIndex = 0;
 var activeTabs = new Array(); // Array of tab objects
 var activeDirectoryTree = new Array();
 var recentlyAccessed = new Array();
+var rightSidebarSelectEmpty = true;
 
 // Setup editor with initial configuration
 var editor = ace.edit("editor");
@@ -497,9 +498,64 @@ $(document).on('click', '#tabsScrollButtonRight', function()
 	$('#tabsContainer').animate({ scrollLeft: '+=400' }, 250);
 });
 
+// Handle right sidebar left tab scroll button being clicked
+$(document).on('click', '#rightTabsScrollButtonLeft', function()
+{
+	$('#rightTabsContainer').animate({ scrollLeft: '-=100' }, 250);
+});
+
+// Handle right sidebar right tab scroll button being clicked
+$(document).on('click', '#rightTabsScrollButtonRight', function()
+{
+	$('#rightTabsContainer').animate({ scrollLeft: '+=100' }, 250);
+});
+
 // Handle resizing of various elements when the window is resized
 $(window).on('resize', function()
 {
-	var tabContainerWidth = $(window).width() - $('#left').width() - $('#tabsScrollButtons').width();
-	$('#tabsContainer').width(tabContainerWidth);
+	var tabContainerWidth = $(window).outerWidth() - $('#left').outerWidth() - $('#tabsScrollButtons').outerWidth();
+	$('#tabsContainer').outerWidth(tabContainerWidth);
+	
+	var editorWidth = $(window).outerWidth() - $('#left').outerWidth() - $('#right').outerWidth();
+	$('#editor').outerWidth(editorWidth);
 });
+
+function setAddonSidebarDetails(label, callback)
+{
+	var fn = window[callback];
+	
+	if(typeof fn === 'function') 
+	{
+		if (rightSidebarSelectEmpty)
+		{
+			$('#rightSelect').append('<option value="'+callback+'" selected>'+label+'</a>');
+			$('#rightSelect').trigger('change');
+		}
+		else
+		{
+			$('#rightSelect').append('<option value="'+callback+'" selected>'+label+'</a>');
+		}
+		
+		rightSidebarSelectEmpty = false
+	}
+}
+
+$('#rightSelect').on('change', function()
+{
+	var fn = window[$('#rightSelect').val()];
+	
+	if(typeof fn === 'function') 
+	{
+		fn();
+	}
+});
+
+$('#rightSelect').on('click', function()
+{
+	$('#rightSelect').trigger('change');
+});
+
+function setAddonSidebarContent(html)
+{
+	$('#rightContent').html(html);
+}

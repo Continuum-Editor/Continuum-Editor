@@ -23,8 +23,8 @@ function minimapDisplay()
 	{
 		var line = lines[i];
 		escapedLine = $('<div/>').text(line).html();
-		escapedLine = escapedLine.replace(' ', '&nbsp;');
-		escapedLine = escapedLine.replace('\t', '&nbsp;&nbsp;&nbsp;&nbsp;');
+		escapedLine = escapedLine.replace(/ /g, '&nbsp;');
+		escapedLine = escapedLine.replace(/\t/g, '&nbsp;&nbsp;&nbsp;&nbsp;');
 		
 		var lineSnippetLength = 100;
 		var lineSnippet = line.trim().substr(0, lineSnippetLength).replace(/"/g, '&quot;');

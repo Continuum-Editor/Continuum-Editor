@@ -206,4 +206,7 @@ body
 {
 	padding: 20px;
 	font-size: 14px;
+	height: 500px;
+	overflow-y: scroll;
+	
 }

@@ -518,6 +518,9 @@ $(window).on('resize', function()
 	
 	var editorWidth = $(window).outerWidth() - $('#left').outerWidth() - $('#right').outerWidth();
 	$('#editor').outerWidth(editorWidth);
+	
+	var rightContentHeight = $(window).outerHeight() - $('#topMenuBar').outerHeight() - $('#tabsContainer').outerHeight() - $('#rightSelect').outerHeight();
+	$('#rightContent').outerHeight(rightContentHeight);
 });
 
 function setAddonSidebarDetails(addonName, callback)

@@ -26,10 +26,10 @@ function minimapDisplay()
 		line = line.replace(' ', '&nbsp;');
 		line = line.replace('\t', '&nbsp;&nbsp;&nbsp;&nbsp;');
 		
-		html += '<span class="minimapLine" id="'+(i+1)+'">';
-		html += line;
-		html += '</span>';
-		html += '<br/>';
+		html += '<div class="minimapLine" id="'+(i+1)+'">';
+		if (line=='') html += '<br/>';
+		else html += line;
+		html += '</div>';
 	}
 	
 	html += '</div>';

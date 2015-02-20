@@ -37,6 +37,9 @@ $(document).ready(function()
 		enableBasicAutocompletion: true,
 		enableLiveAutocompletion: true
 	});
+	
+	// Hide editor by default (until we have one or more open tabs)
+	$('#editor').hide();
 
 	// Set theme
 	if (localStorage.themeName==null) localStorage.themeName = 'monokai';
@@ -195,6 +198,9 @@ function ui_updateTabs()
 	}
 	
 	$('#tabs').html(output);
+	
+	if (activeTabs.length==0) $('#editor').hide();
+	else $('#editor').show();
 	
 	refreshTheme();
 	

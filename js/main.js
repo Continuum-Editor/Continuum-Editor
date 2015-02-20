@@ -520,7 +520,7 @@ $(window).on('resize', function()
 	$('#editor').outerWidth(editorWidth);
 });
 
-function setAddonSidebarDetails(label, callback)
+function setAddonSidebarDetails(addonName, callback)
 {
 	var fn = window[callback];
 	
@@ -528,16 +528,22 @@ function setAddonSidebarDetails(label, callback)
 	{
 		if (rightSidebarSelectEmpty)
 		{
-			$('#rightSelect').append('<option value="'+callback+'" selected>'+label+'</a>');
+			$('#rightSelect').append('<option value="'+callback+'" selected>'+addonName+'</a>');
 			$('#rightSelect').trigger('change');
 		}
 		else
 		{
-			$('#rightSelect').append('<option value="'+callback+'" selected>'+label+'</a>');
+			$('#rightSelect').append('<option value="'+callback+'">'+addonName+'</a>');
 		}
 		
 		rightSidebarSelectEmpty = false
 	}
+}
+
+
+function isAddonActive(addonName)
+{
+	return ($('#rightSelect option:selected').text()==addonName);
 }
 
 $('#rightSelect').on('change', function()

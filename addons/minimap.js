@@ -22,13 +22,17 @@ function minimapDisplay()
 	for (var i = 0; i < lines.length; i++) 
 	{
 		var line = lines[i];
-		line = $('<div/>').text(line).html();
-		line = line.replace(' ', '&nbsp;');
-		line = line.replace('\t', '&nbsp;&nbsp;&nbsp;&nbsp;');
+		escapedLine = $('<div/>').text(line).html();
+		escapedLine = escapedLine.replace(' ', '&nbsp;');
+		escapedLine = escapedLine.replace('\t', '&nbsp;&nbsp;&nbsp;&nbsp;');
 		
-		html += '<div class="minimapLine" id="'+(i+1)+'">';
+		var lineSnippetLength = 100;
+		var lineSnippet = line.trim().substr(0, lineSnippetLength).replace(/"/g, '&quot;');
+		if (line.trim().length>lineSnippetLength) lineSnippet += ' [...]';
+		
+		html += '<div style="width: 100%" title="Line '+(i+1)+': '+lineSnippet+'" class="minimapLine" id="'+(i+1)+'">';
 		if (line=='') html += '<br/>';
-		else html += line;
+		else html += escapedLine;
 		html += '</div>';
 	}
 	

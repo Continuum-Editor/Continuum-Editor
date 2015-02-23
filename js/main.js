@@ -10,7 +10,6 @@ var selectedTabIndex = 0;
 var activeTabs = new Array(); // Array of tab objects
 var activeDirectoryTree = new Array();
 var recentlyAccessed = new Array();
-var addons = Array();
 
 // Setup editor with initial configuration
 var editor = ace.edit("editor");
@@ -529,54 +528,3 @@ $(window).on('resize', function()
 	$('#rightContent').outerHeight(rightContentHeight);
 });
 
-function initialiseAddon(addon)
-{
-	if(typeof addon.sidebarCallback === 'function') 
-	{
-		addons.push(addon);
-		
-		if (addons.length===1)
-		{
-			$('#rightSelect').append('<option value="'+addon.name+'" selected>'+addon.name+'</a>');
-			$('#rightSelect').trigger('change');
-		}
-		else
-		{
-			$('#rightSelect').append('<option value="'+addon.name+'">'+addon.name+'</a>');
-		}
-	}
-}
-
-$('#rightSelect').on('change', function()
-{
-	var i = 0;
-	while(i < addons.length)
-	{
-		var addon = addons[i];
-		
-		if ($('#rightSelect').val()==addon.name)
-		{
-			if(typeof addon.sidebarCallback === 'function') 
-			{
-				addon.active = true;
-				addon.sidebarCallback();
-			}
-		}
-		else
-		{
-			addon.active = false;
-		}
-		
-		i++;
-	}
-});
-
-$('#rightSelect').on('click', function()
-{
-	$('#rightSelect').trigger('change');
-});
-
-function setAddonSidebarContent(html)
-{
-	$('#rightContent').html(html);
-}

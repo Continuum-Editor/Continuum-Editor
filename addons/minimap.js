@@ -13,7 +13,7 @@ function minimapAddon()
 	{
 		if (this.active===false) return;
 		
-		var lines = editor.getValue().split('\n');
+		var lines = getEditorLines();
 		
 		var html = '';
 		

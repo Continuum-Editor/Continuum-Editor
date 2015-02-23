@@ -83,6 +83,12 @@ function setAddonSidebarContent(html)
 	$('#rightContent').html(html);
 }
 
+// Return editor content (as a string)
+function getEditorContent()
+{
+	return editor.getValue();
+}
+
 // Returns all the lines in the editor (as an array of strings)
 function getEditorLines()
 {

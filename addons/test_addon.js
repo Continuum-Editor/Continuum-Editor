@@ -1,9 +1,15 @@
 
-setAddonSidebarDetails('Test addon!', 'testAddonRightSidebarFunction');
-
-function testAddonRightSidebarFunction()
-{	
-	var html = 'Test!<br/>123<br/>456';
+function testAddon()
+{
+	this.name = 'Test addon!';
+	this.active = false;
 	
-	setAddonSidebarContent(html);
+	this.sidebarCallback = function()
+	{	
+		var html = 'Test!<br/>123<br/>456';
+		
+		setAddonSidebarContent(html);
+	};
 }
+
+initialiseAddon(new testAddon());

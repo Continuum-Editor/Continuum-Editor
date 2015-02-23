@@ -10,7 +10,7 @@ var selectedTabIndex = 0;
 var activeTabs = new Array(); // Array of tab objects
 var activeDirectoryTree = new Array();
 var recentlyAccessed = new Array();
-var rightSidebarSelectEmpty = true;
+var addons = Array();
 
 // Setup editor with initial configuration
 var editor = ace.edit("editor");
@@ -529,39 +529,45 @@ $(window).on('resize', function()
 	$('#rightContent').outerHeight(rightContentHeight);
 });
 
-function setAddonSidebarDetails(addonName, callback)
+function initialiseAddon(addon)
 {
-	var fn = window[callback];
-	
-	if(typeof fn === 'function') 
+	if(typeof addon.sidebarCallback === 'function') 
 	{
-		if (rightSidebarSelectEmpty)
+		addons.push(addon);
+		
+		if (addons.length===1)
 		{
-			$('#rightSelect').append('<option value="'+callback+'" selected>'+addonName+'</a>');
+			$('#rightSelect').append('<option value="'+addon.name+'" selected>'+addon.name+'</a>');
 			$('#rightSelect').trigger('change');
 		}
 		else
 		{
-			$('#rightSelect').append('<option value="'+callback+'">'+addonName+'</a>');
+			$('#rightSelect').append('<option value="'+addon.name+'">'+addon.name+'</a>');
 		}
-		
-		rightSidebarSelectEmpty = false
 	}
-}
-
-
-function isAddonActive(addonName)
-{
-	return ($('#rightSelect option:selected').text()==addonName);
 }
 
 $('#rightSelect').on('change', function()
 {
-	var fn = window[$('#rightSelect').val()];
-	
-	if(typeof fn === 'function') 
+	var i = 0;
+	while(i < addons.length)
 	{
-		fn();
+		var addon = addons[i];
+		
+		if ($('#rightSelect').val()==addon.name)
+		{
+			if(typeof addon.sidebarCallback === 'function') 
+			{
+				addon.active = true;
+				addon.sidebarCallback();
+			}
+		}
+		else
+		{
+			addon.active = false;
+		}
+		
+		i++;
 	}
 });
 

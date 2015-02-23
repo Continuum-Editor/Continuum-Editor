@@ -17,7 +17,7 @@ function minimapAddon()
 		
 		var html = '';
 		
-		html += '<div id="minimapEditor" style="font-size: 25%;">'
+		html += '<div id="minimap" style="font-size: 25%;">'
 		
 		for (var i = 0; i < lines.length; i++) 
 		{
@@ -45,7 +45,7 @@ function minimapAddon()
 	}
 }
 
-$(document).on('click', '.minimapLine', function()
+$(document).on('click', '#minimap .minimapLine', function()
 {
 	var lineNumber = $(this).attr('id');
 	

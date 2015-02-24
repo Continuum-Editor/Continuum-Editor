@@ -7,7 +7,7 @@ function outlineAddon()
 	this.sidebarCallback = function()
 	{
 		this.outlineDisplay();
-	}
+	};
 	
 	this.outlineDisplay = function()
 	{
@@ -22,34 +22,54 @@ function outlineAddon()
 			var line = lines[i];
 		
 			var tokens = line.match(/\S+/g);
-			if (tokens==null) continue;
+			if (tokens===null) continue;
 			
 			for (var j = 0; j < tokens.length; j++) 
 			{
 				var token = tokens[j];
 				
-				if (token=='function' && tokens.length>=j+2)
+				var functionWord = 'function';
+				
+				if (token.substr(0, functionWord.length)==functionWord)
 				{
-					var type = 'standard';
+				    var name = 'unknown';
+				    var type = 'standard';
+				    
+				    if (tokens.length>=j+2)
+				    {
+				        name = tokens[j+1];
+				    }
 					
-					if (j-1 >= 0)
+					if (token.substr(0, functionWord.length+1)==functionWord+'(' || name.substr(0, 1)=='(')
 					{
-						if (tokens[j-1]=='private' || tokens[j-1]=='public' || tokens[j-1]=='protected' || tokens[j-1]=='static')
-						{
-							type = tokens[j-1];
-						}
-						else
-						{
-							type = 'unknown';
-						}
+					    name = 'n/a';
+					    type = 'anonymous';
+					}
+					else if (token==functionWord)
+					{
+    					if (j-1 >= 0)
+    					{
+    						if (tokens[j-1]=='private' || tokens[j-1]=='public' || tokens[j-1]=='protected' || tokens[j-1]=='static')
+    						{
+    							type = tokens[j-1];
+    						}
+    						else
+    						{
+    							type = 'unknown';
+    						}
+    					}
+    					
+    					if (name.substr(0,2)=='__')
+    					{
+    						type += ' magic';
+    					}
+					}
+					else
+					{
+					    continue;
 					}
 					
-					if (tokens[j+1].substr(0,2)=='__')
-					{
-						type += ' magic';
-					}
-					
-					var functionObj = { lineNumber: i+1, name: tokens[j+1], type: type };
+					var functionObj = { lineNumber: i+1, name: name, type: type };
 					
 					functions.push(functionObj);
 				}
@@ -59,7 +79,7 @@ function outlineAddon()
 		
 		var html = '';
 		
-		html += '<div id="outline">'
+		html += '<div id="outline">';
 		
 		html += '<table class="outlineFunctions" style="width: 100%;">';
 		
@@ -74,7 +94,7 @@ function outlineAddon()
 			var functionObj = functions[i];
 			
 			html += '<tr class="outlineLine" id="'+(functionObj.lineNumber)+'">';
-			html += '<td>' + functionObj.lineNumber + '</td>'
+			html += '<td>' + functionObj.lineNumber + '</td>';
 			html += '<td>' + functionObj.name + '</td>';
 			html += '<td>' + functionObj.type + '</td>';
 			html += '</tr>';
@@ -89,10 +109,10 @@ function outlineAddon()
 		
 		var me = this;
 		setTimeout(function() { me.outlineDisplay() }, 1000);
-	}
+	};
 }
 
-$(document).on('click', '#outline .outlineLine', function()
+$(document).on('click', '#outline .outlineLine', function ()
 {
 	var lineNumber = $(this).attr('id');
 	

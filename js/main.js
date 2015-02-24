@@ -601,10 +601,13 @@ $(document).on('click', '#rightTabsScrollButtonRight', function()
 // Handle resizing of various elements when the window is resized
 $(window).on('resize', function()
 {
-	var tabContainerWidth = $(window).outerWidth() - $('#left').outerWidth() - $('#tabsScrollButtons').outerWidth();
+	var leftWidth = $('#left').outerWidth();
+	if ($('#left').position().left<0) leftWidth = 40;
+	
+	var tabContainerWidth = $(window).outerWidth() - leftWidth - $('#tabsScrollButtons').outerWidth();
 	$('#tabsContainer').outerWidth(tabContainerWidth);
 	
-	var editorWidth = $(window).outerWidth() - $('#left').outerWidth() - $('#right').outerWidth();
+	var editorWidth = $(window).outerWidth() - leftWidth - $('#right').outerWidth();
 	$('#editor').outerWidth(editorWidth);
 	
 	var rightContentHeight = $(window).outerHeight() - $('#topMenuBar').outerHeight() - $('#tabsContainer').outerHeight() - $('#rightSelect').outerHeight() - 16;
@@ -629,6 +632,17 @@ $(document).on('click', '#refreshDirectionTreeButton', function()
 $(document).on('click', '#leftMinimizeButton', function()
 {
     $('#left').animate({'left': -$('#left').outerWidth()}, 500);
-    $('#editor').animate({'left': 0, 'width': $('#editor').outerWidth()+$('#left').outerWidth()}, 500);
-    $('#tabsContainer').animate({'left': 0, 'width': $('#tabsContainer').outerWidth()+$('#left').outerWidth()}, 500);
+    $('#editor').animate({'left': 40, 'width': $('#editor').outerWidth()+$('#left').outerWidth()-40}, 500);
+    $('#tabsContainer').animate({'left': 40, 'width': $('#tabsContainer').outerWidth()+$('#left').outerWidth()-40}, 500);
+    
+    $('#leftUnminimizeButton').fadeIn(1000);
+});
+
+$(document).on('click', '#leftUnminimizeButton', function()
+{
+    $('#left').animate({'left': 0}, 500);
+    $('#editor').animate({'left': $('#left').outerWidth(), 'width': $('#editor').outerWidth()-$('#left').outerWidth()+40}, 500);
+    $('#tabsContainer').animate({'left': $('#left').outerWidth(), 'width': $('#tabsContainer').outerWidth()-$('#left').outerWidth()+40}, 500);
+    
+    $('#leftUnminimizeButton').fadeOut(500);
 });

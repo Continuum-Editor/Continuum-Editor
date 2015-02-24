@@ -30,7 +30,7 @@
 		<input style="display:none;" id="saveFileAsDialog" type="file" nwsaveas />
 		<input style="display:none;" id="openDirectoryDialog" type="file" nwdirectory />
 		
-		<div id="leftContent">
+		<div id="leftContent" class="preventTextSelection">
 		    <div id="directoryTree"></div>
 		    <div id="leftBottomButtons">
 		        <div id="leftMinimizeButton" class="leftBottomButton">&larr; Minimize</div>
@@ -39,6 +39,8 @@
 		</div>
 		
 	</div>
+	
+	<div id="leftUnminimizeButton" class="preventTextSelection">&rarr;</div>
 	
 	<div id="tabsContainer">
 		<div id="tabs" class="preventTextSelection"></div>

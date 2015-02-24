@@ -28,6 +28,7 @@ body
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+    cursor: default;
 }
 
 #topMenuBar
@@ -73,6 +74,16 @@ body
 	overflow-y: auto;
 	cursor: default;
 	padding: 5px;
+}
+
+#leftUnminimizeButton
+{
+	left: 15px;
+	bottom: 56px;
+	position: absolute;
+	width: 30px;
+	height: 20px;
+	display: none;
 }
 
 #left #leftContent

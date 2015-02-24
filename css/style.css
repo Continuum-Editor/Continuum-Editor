@@ -83,6 +83,21 @@ body
 	padding: 10px;
 }
 
+#left #leftBottomButtons .leftBottomButton
+{
+    margin: 10px;
+}
+
+#left #leftBottomButtons #leftMinimizeButton
+{
+    float: left;
+}
+
+#left #leftBottomButtons #refreshDirectionTreeButton
+{
+    float: right;
+}
+
 #tabsScrollButtons
 {
 	position: absolute;

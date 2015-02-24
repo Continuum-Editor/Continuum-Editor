@@ -9,6 +9,7 @@ var fs = require('fs')
 var selectedTabIndex = 0;
 var activeTabs = new Array(); // Array of tab objects
 var activeDirectoryTree = new Array();
+var activeDirectoryTreeRoot = null;
 var recentlyAccessed = new Array();
 
 // Setup editor with initial configuration
@@ -51,12 +52,14 @@ $(document).ready(function()
 	// Restore previously opened directory tree
 	try
 	{
+	    activeDirectoryTreeRoot = localStorage.activeDirectoryTreeRoot;
 		activeDirectoryTree = JSON.parse(localStorage.activeDirectoryTree);
+		
 		ui_updateDirectoryTree();
 	}
 	catch(e)
 	{
-		console.log('Error decoding previously opened directory tree. Details: '+e);
+		console.log('Error recovering previously opened directory tree. Details: '+e);
 	}
 	
 	// Restore previously opened tabs
@@ -282,15 +285,60 @@ function openDirectory(id)
 	{
 		var directoryToOpen = $(this).val();
 		
-		activeDirectoryTree = new Array();
-		generateDirectoryTree(directoryToOpen, 0, directoryToOpen);
-		
-		ui_updateDirectoryTree();
+		openDirectoryByPath(directoryToOpen);
 		
 		chooser.off('change');
 	});
 
 	chooser.trigger('click');  
+}
+
+function cloneArray(arrayToClone)
+{
+    return arrayToClone.slice(0);
+}
+
+function openDirectoryByPath(path) 
+{
+    var maintainDirectoryTreeOpenState = false;
+    var oldDirectoryTree = null;
+    
+    if (activeDirectoryTreeRoot==path)
+    {
+        maintainDirectoryTreeOpenState = true;
+        oldDirectoryTree = cloneArray(activeDirectoryTree);
+    }
+    
+    activeDirectoryTreeRoot = path;
+	
+	activeDirectoryTree = new Array();
+    generateDirectoryTree(activeDirectoryTreeRoot, 0, activeDirectoryTreeRoot);
+	
+	if (maintainDirectoryTreeOpenState===true)
+    {
+        for (var i = 0; i < oldDirectoryTree.length; i++) 
+        {
+            if (oldDirectoryTree[i].isOpen)
+            {
+                for (var j = 0; j < activeDirectoryTree.length; j++) 
+                {
+                    if (oldDirectoryTree[i].path==activeDirectoryTree[j].path)
+                    {
+                        activeDirectoryTree[j].isOpen = true;
+                    }
+                }
+            }
+        }
+        
+        localStorage.activeDirectoryTree = JSON.stringify(activeDirectoryTree);
+    }
+	
+	ui_updateDirectoryTree();
+}
+
+function refreshDirectoryTree()
+{
+    openDirectoryByPath(activeDirectoryTreeRoot);
 }
 
 // Update display of directory tree
@@ -310,6 +358,14 @@ function ui_updateDirectoryTree()
 	
 	$('#directoryTree').html(output);
 	
+	for (i = 0; i < activeDirectoryTree.length; i++) 
+	{
+	   if (activeDirectoryTree[i].isOpen)
+	   {
+	       ui_expandDirectoryTreeEntry(i);
+	   }
+	}
+	
 	refreshTheme();
 }
 
@@ -325,41 +381,64 @@ $(document).on('click', ".directoryTreeEntry", function()
 	}
 	else if (directoryTreeEntry.type=='directory')
 	{
-		var output = '';
+		if (directoryTreeEntry.isOpen==false) ui_expandDirectoryTreeEntry(id);
+		else ui_contractDirectoryTreeEntry(id);
 		
-		for (var i = id; i < activeDirectoryTree.length; i++) 
-		{
-			if (i == id) continue;
-			
-			if (activeDirectoryTree[i].path.indexOf(directoryTreeEntry.path)>-1)
-			{
-				if (directoryTreeEntry.isOpen==false)
-				{
-					if (activeDirectoryTree[i].level==directoryTreeEntry.level+1)
-					{						
-						output += ui_generateDirectoryTreeEntryHTML(i);
-					}
-				}
-				else
-				{
-					$('#'+i+'.directoryTreeEntry').remove();
-					
-					activeDirectoryTree[i].isOpen = false;
-				}
-			}
-			else
-			{
-				break;
-			}
-		}
+		activeDirectoryTree[id].isOpen = !directoryTreeEntry.isOpen;
 		
-		$(this).after(output);
+		localStorage.activeDirectoryTree = JSON.stringify(activeDirectoryTree);
 		
 		refreshTheme();
 	}
-	
-	directoryTreeEntry.isOpen = !directoryTreeEntry.isOpen;
 });
+
+function ui_expandDirectoryTreeEntry(id)
+{
+	var directoryTreeEntry = activeDirectoryTree[id];
+    
+    var output = '';
+	
+	for (var i = id; i < activeDirectoryTree.length; i++) 
+	{
+		if (i == id) continue;
+		
+		if (activeDirectoryTree[i].path.indexOf(directoryTreeEntry.path)>-1)
+		{
+			
+			if (activeDirectoryTree[i].level==directoryTreeEntry.level+1)
+			{						
+				output += ui_generateDirectoryTreeEntryHTML(i);
+			}
+		}
+		else
+		{
+			break;
+		}
+	}
+	
+    $('#'+id+'.directoryTreeEntry').after(output);
+}
+
+function ui_contractDirectoryTreeEntry(id)
+{
+    var directoryTreeEntry = activeDirectoryTree[id];
+    
+	for (var i = id; i < activeDirectoryTree.length; i++) 
+	{
+		if (i == id) continue;
+		
+		if (activeDirectoryTree[i].path.indexOf(directoryTreeEntry.path)>-1)
+		{
+			$('#'+i+'.directoryTreeEntry').remove();
+			
+			activeDirectoryTree[i].isOpen = false;
+		}
+		else
+		{
+			break;
+		}
+	}
+}
 
 function ui_generateDirectoryTreeEntryHTML(i)
 {
@@ -484,6 +563,7 @@ function generateDirectoryTree(currentDirectory, level, previousDirectory)
 		
 		if (level==0)
 		{
+		    localStorage.activeDirectoryTreeRoot = currentDirectory;
 			localStorage.activeDirectoryTree = JSON.stringify(activeDirectoryTree);
 			addToRecentlyAccessed(currentDirectory, 'directory');
 		}
@@ -537,3 +617,18 @@ $(window).on('resize', function()
 	$('#leftContent #directoryTree').outerHeight(directoryTreeHeight);
 });
 
+$(document).on('click', '#refreshDirectionTreeButton', function()
+{
+    $('#refreshDirectionTreeButton').html('&#8635; Refreshing...');
+    
+    refreshDirectoryTree();
+    
+    setTimeout(function() { $('#refreshDirectionTreeButton').html('&#8635; Refresh Files'); }, 500);
+});
+
+$(document).on('click', '#leftMinimizeButton', function()
+{
+    $('#left').animate({'left': -$('#left').outerWidth()}, 500);
+    $('#editor').animate({'left': 0, 'width': $('#editor').outerWidth()+$('#left').outerWidth()}, 500);
+    $('#tabsContainer').animate({'left': 0, 'width': $('#tabsContainer').outerWidth()+$('#left').outerWidth()}, 500);
+});

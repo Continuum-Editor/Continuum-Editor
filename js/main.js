@@ -365,12 +365,14 @@ function ui_generateDirectoryTreeEntryHTML(i)
 {
 	var margin = activeDirectoryTree[i].level * 10;
 	
+	var additionalClasses = 'level'+activeDirectoryTree[i].level;
+	
 	var fileTypeImage = 'text70.svg';
 	if (activeDirectoryTree[i].type=='directory') fileTypeImage = 'folder215.svg';
 	
 	var output = '';
 	
-	output += '<div class="directoryTreeEntry" id="'+i+'" style="margin-left: '+margin+'px;" title="'+activeDirectoryTree[i].path+'">';
+	output += '<div class="directoryTreeEntry '+additionalClasses+'" id="'+i+'" style="margin-left: '+margin+'px;" title="'+activeDirectoryTree[i].path+'">';
 	output += '<img src="images/'+fileTypeImage+'" /> ';
 	output += path.basename(activeDirectoryTree[i].path);
 	output += '</div>'
@@ -525,7 +527,13 @@ $(window).on('resize', function()
 	var editorWidth = $(window).outerWidth() - $('#left').outerWidth() - $('#right').outerWidth();
 	$('#editor').outerWidth(editorWidth);
 	
-	var rightContentHeight = $(window).outerHeight() - $('#topMenuBar').outerHeight() - $('#tabsContainer').outerHeight() - $('#rightSelect').outerHeight();
+	var rightContentHeight = $(window).outerHeight() - $('#topMenuBar').outerHeight() - $('#tabsContainer').outerHeight() - $('#rightSelect').outerHeight() - 16;
 	$('#rightContent').outerHeight(rightContentHeight);
+	
+	var leftContentHeight = $(window).outerHeight() - $('#topMenuBar').outerHeight() - 16;
+	$('#leftContent').outerHeight(leftContentHeight);
+	
+	var directoryTreeHeight = $('#leftContent').outerHeight() - 75;
+	$('#leftContent #directoryTree').outerHeight(directoryTreeHeight);
 });
 

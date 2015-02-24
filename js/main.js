@@ -225,6 +225,7 @@ function ui_switchTab(index)
 	if (typeof activeTabs[index] !== 'undefined')
 	{
 		editor.setSession(activeTabs[index].editSession);
+		editor.focus();
 		selectedTabIndex = index;
 	}
 	else

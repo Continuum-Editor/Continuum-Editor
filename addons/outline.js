@@ -69,6 +69,13 @@ function outlineAddon()
 					    continue;
 					}
 					
+					var bracketInNamePos = name.indexOf('(');
+					
+					if (bracketInNamePos>0)
+					{
+						name = name.substr(0, bracketInNamePos);
+					}
+					
 					var functionObj = { lineNumber: i+1, name: name, type: type };
 					
 					functions.push(functionObj);

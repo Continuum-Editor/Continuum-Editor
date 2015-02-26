@@ -169,8 +169,6 @@ function openFileByName(path)
 			return;
 		}
 		
-		// TODO: Change the editor's mode to reflect the type of file opened
-		
 		var mode = modelist.getModeForPath(path).mode;
 		
 		var editSession = new ace.EditSession(fileContent, mode);

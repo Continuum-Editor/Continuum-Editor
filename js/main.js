@@ -194,6 +194,18 @@ function openFileByName(path)
 	});
 }
 
+function openNewFile()
+{
+	var editSession = new ace.EditSession('');
+	editSession.setUndoManager(new UndoManager());
+	
+	var newTab = { path: '', editSession: editSession };
+	activeTabs.push(newTab);
+	
+	ui_updateTabs();
+	ui_switchTab(activeTabs.length-1);
+}
+
 // Update display of tabs
 function ui_updateTabs()
 {
@@ -202,7 +214,16 @@ function ui_updateTabs()
 	for (var i = 0; i < activeTabs.length; i++) 
 	{
 		output += '<div class="tab" id="'+i+'">';
-		output += '<span class="tabContent" id="'+i+'" title="'+activeTabs[i].path+'">'+path.basename(activeTabs[i].path)+'</span>';
+		
+		if (activeTabs[i].path)
+		{
+		    output += '<span class="tabContent" id="'+i+'" title="'+activeTabs[i].path+'">'+path.basename(activeTabs[i].path)+'</span>';
+		}
+		else
+		{
+		    output += '<span class="tabContent" id="'+i+'" title="File not yet saved.">Untitled Document '+i+'</span>';
+		}
+		
 		output += '<span class="tabCloseButton" id="'+i+'" title="Close tab">&#10006;</span>';
 		output += '</div>';
 	}
@@ -470,6 +491,12 @@ function ui_generateDirectoryTreeEntryHTML(i)
 function saveSelectedTab()
 {
 	var activeTab = activeTabs[selectedTabIndex];
+	
+	if (!activeTab.path)
+	{
+	    saveFileAs('#saveFileAsDialog');
+	    return;
+	}
 	
 	var dataToSave = activeTab.editSession.getValue();
 		

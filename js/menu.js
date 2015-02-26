@@ -6,6 +6,7 @@ var mainMenu = new gui.Menu({ type: 'menubar' });
 // File Menu
 
 var fileMenu = new gui.Menu();
+fileMenu.append(new gui.MenuItem({ label: 'New', click: function(){ openNewFile(); } }));
 fileMenu.append(new gui.MenuItem({ label: 'Open File...', click: function(){ openFile('#openFileDialog'); } }));
 fileMenu.append(new gui.MenuItem({ label: 'Open Directory...', click: function(){ openDirectory('#openDirectoryDialog'); } }));
 fileMenu.append(new gui.MenuItem({ type: 'separator' }));

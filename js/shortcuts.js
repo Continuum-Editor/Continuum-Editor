@@ -1,3 +1,5 @@
+// New File
+$("body, textarea").bind('keydown', 'ctrl+n', function(){ openNewFile(); });
 
 // Open File
 $("body, textarea").bind('keydown', 'ctrl+o', function(){ openFile('#openFileDialog'); });

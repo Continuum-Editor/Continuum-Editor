@@ -3,7 +3,7 @@
 
 // Node js includes
 var path = require('path');
-var fs = require('fs')
+var fs = require('fs');
 
 // Define variables
 var selectedTabIndex = 0;
@@ -14,7 +14,7 @@ var recentlyAccessed = new Array();
 
 // Setup editor with initial configuration
 var editor = ace.edit("editor");
-ace.require("ace/ext/language_tools")
+ace.require("ace/ext/language_tools");
 var UndoManager = ace.require("ace/undomanager").UndoManager;
 var modelist = ace.require("ace/ext/modelist");
 
@@ -204,7 +204,7 @@ function ui_updateTabs()
 		output += '<div class="tab" id="'+i+'">';
 		output += '<span class="tabContent" id="'+i+'" title="'+activeTabs[i].path+'">'+path.basename(activeTabs[i].path)+'</span>';
 		output += '<span class="tabCloseButton" id="'+i+'" title="Close tab">&#10006;</span>';
-		output += '</div>'
+		output += '</div>';
 	}
 	
 	$('#tabs').html(output);

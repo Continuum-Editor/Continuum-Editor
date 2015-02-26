@@ -61,6 +61,24 @@ $(document).ready(function()
 	});
 });
 
+// Help Menu
+
+var helpMenu = new gui.Menu();
+helpMenu.append(new gui.MenuItem({ label: 'Report bug / suggest feature...', click: function(){ gui.Shell.openExternal('https://github.com/DivineOmega/unnamed-editor/issues/new'); } }));
+
+mainMenu.append(new gui.MenuItem({ label: 'Help', submenu: helpMenu }));
+
+$(document).ready(function()
+{
+	$("#helpMenu").bind("click", function() 
+	{
+		var pos = $("#helpMenu").position();
+		var height = $("#helpMenu").height();
+		var offset = 5;
+		helpMenu.popup(Math.floor(pos.left), Math.floor(pos.top+height+offset));
+	});
+});
+
 // Window buttons
 
 $(document).ready(function()

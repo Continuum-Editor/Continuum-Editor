@@ -161,6 +161,16 @@ function openFileByName(path)
 		}
 	}
 	
+	var isBinaryFile = require("isbinaryfile");
+	
+	var fileIsBinary = isBinaryFile(path);
+
+	if (fileIsBinary)
+	{
+	    gui.Shell.openItem(path);
+	    return;
+	}
+	
 	fs.readFile(path, 'utf8', function (err, fileContent) 
 	{
 		if (err) 

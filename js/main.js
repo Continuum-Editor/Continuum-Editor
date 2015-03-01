@@ -48,7 +48,21 @@ $(document).ready(function()
 
 	// Trigger resizing of various elements
 	$(window).trigger('resize');
-
+	
+	// Restore recently accessed list
+	try
+	{
+		if (localStorage.recentlyAccessed != null)
+		{
+			recentlyAccessed = JSON.parse(localStorage.recentlyAccessed);
+			ui_updateRecentlyAccessedMenu();
+		}
+	}
+	catch(e)
+	{
+		console.log('Error recovering recently accessed list. Details: '+e);
+	}
+	
 	// Restore previously opened directory tree
 	try
 	{
@@ -83,6 +97,8 @@ function addToRecentlyAccessed(path, type)
 	
 	var newRecentlyAccessed = { path: path, type: type };
 	recentlyAccessed.push(newRecentlyAccessed);
+	
+	localStorage.recentlyAccessed = JSON.stringify(recentlyAccessed);
 	
 	ui_updateRecentlyAccessedMenu();
 }

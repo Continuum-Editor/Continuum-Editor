@@ -26,6 +26,7 @@ $(document).ready(function()
 			i++;
 		}
 	});
+	
 });
 
 // Initalise addon (called by addon itself)
@@ -35,10 +36,10 @@ function initialiseAddon(addon)
 	{
 		addons.push(addon);
 		
-		if (addons.length===1)
+		if ((addons.length===1 && !localStorage.activeAddonName) || localStorage.activeAddonName==addon.name)
 		{
 			$('#rightSelect').append('<option value="'+addon.name+'" selected>'+addon.name+'</a>');
-			$('#rightSelect').trigger('change');
+			changeActiveAddon(addon.name);
 		}
 		else
 		{
@@ -47,20 +48,21 @@ function initialiseAddon(addon)
 	}
 }
 
-// Call addon's sidebarCallback function when right sidebar dropdown is changed
-$('#rightSelect').on('change', function()
+// Call addon's sidebarCallback function based on the addon name passed to it
+function changeActiveAddon(addonName)
 {
-	var i = 0;
+    var i = 0;
 	while(i < addons.length)
 	{
 		var addon = addons[i];
 		
-		if ($('#rightSelect').val()==addon.name)
+		if (addonName==addon.name)
 		{
 			if(typeof addon.sidebarCallback === 'function') 
 			{
 				addon.active = true;
 				addon.sidebarCallback();
+				localStorage.activeAddonName = addon.name;
 			}
 		}
 		else
@@ -70,6 +72,11 @@ $('#rightSelect').on('change', function()
 		
 		i++;
 	}
+}
+
+$('#rightSelect').on('change', function()
+{
+	changeActiveAddon($('#rightSelect').val());
 });
 
 $('#rightSelect').on('click', function()

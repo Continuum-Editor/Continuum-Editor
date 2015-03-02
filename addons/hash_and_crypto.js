@@ -46,17 +46,17 @@ function hashAndCryptoAddon()
 
 initialiseAddon(new hashAndCryptoAddon());
 
-$('#hashAndCryptoAddon #hashAlgo').on('change', function()
+$(document).on('change', '#hashAndCryptoAddon #hashAlgo', function()
 {
     $('#hashAndCryptoAddon #hashPlaintext').trigger('keyup');
 });
 
-$('#hashAndCryptoAddon #hashPlaintext').on('change', function()
+$(document).on('change', '#hashAndCryptoAddon #hashPlaintext', function()
 {
     $('#hashAndCryptoAddon #hashPlaintext').trigger('keyup');
 });
 
-$('#hashAndCryptoAddon #hashPlaintext').on('keyup', function()
+$(document).on('keyup', '#hashAndCryptoAddon #hashPlaintext', function()
 {
     var hashAlgo = $('#hashAndCryptoAddon #hashAlgo option:selected').val();
     

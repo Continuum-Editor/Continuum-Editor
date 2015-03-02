@@ -508,6 +508,9 @@ function saveSelectedTab()
 {
 	var activeTab = activeTabs[selectedTabIndex];
 	
+	// If there is no active tab, there is nothing to save
+	if (typeof activeTab === 'undefined') return;
+	
 	if (!activeTab.path)
 	{
 	    saveFileAs('#saveFileAsDialog');

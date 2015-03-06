@@ -101,3 +101,20 @@ function getEditorLines()
 {
 	return editor.getValue().split('\n');
 }
+
+// Function get active directory tree
+function getDirectoryTree()
+{
+    return activeDirectoryTree;
+}
+
+// Function get active directory tree root
+function getDirectoryTreeRoot()
+{
+    return activeDirectoryTreeRoot;
+}
+
+function openFileInNewTab(path)
+{
+    openFileByName(path);
+}

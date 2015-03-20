@@ -1,9 +1,9 @@
 {
-  "name": "Unnamed_Editor",
+  "name": "Continuum_Editor",
   "main": "index.html",
   "window": 
   {
-    "title": "Unnamed Editor",
+    "title": "Continuum Editor",
     "icon": "images/icon.png",
     "toolbar": false,
     "frame": false,

@@ -672,6 +672,8 @@ $(window).on('resize', function()
 	
 	var directoryTreeHeight = $('#leftContent').outerHeight() - 75;
 	$('#leftContent #directoryTree').outerHeight(directoryTreeHeight);
+
+	editor.resize(true);
 });
 
 $(document).on('click', '#refreshDirectionTreeButton', function()

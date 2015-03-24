@@ -725,6 +725,8 @@ $(document).on('click', '#leftMinimizeButton', function()
     $('#tabsContainer').animate({'left': 40, 'width': $('#tabsContainer').outerWidth()+$('#left').outerWidth()-40}, 500);
     
     $('#leftUnminimizeButton').fadeIn(1000);
+    
+    setTimeout(function() { editor.resize(true); }, 500);
 });
 
 $(document).on('click', '#leftUnminimizeButton', function()
@@ -734,4 +736,6 @@ $(document).on('click', '#leftUnminimizeButton', function()
     $('#tabsContainer').animate({'left': $('#left').outerWidth(), 'width': $('#tabsContainer').outerWidth()-$('#left').outerWidth()+40}, 500);
     
     $('#leftUnminimizeButton').fadeOut(500);
+    
+    setTimeout(function() { editor.resize(true); }, 500);
 });

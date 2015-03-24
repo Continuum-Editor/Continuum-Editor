@@ -200,7 +200,7 @@ function openFileByName(path)
 		var editSession = new ace.EditSession(fileContent, mode);
 		editSession.setUndoManager(new UndoManager());
 		
-		var newTab = { path: path, editSession: editSession };
+		var newTab = { path: path, editSession: editSession, unsavedChanges: false };
 		activeTabs.push(newTab);
 		
 		addToRecentlyAccessed(path, 'file');
@@ -215,7 +215,7 @@ function openNewFile()
 	var editSession = new ace.EditSession('');
 	editSession.setUndoManager(new UndoManager());
 	
-	var newTab = { path: '', editSession: editSession };
+	var newTab = { path: '', editSession: editSession, unsavedChanges: false };
 	activeTabs.push(newTab);
 	
 	ui_updateTabs();
@@ -231,13 +231,16 @@ function ui_updateTabs()
 	{
 		output += '<div class="tab" id="'+i+'">';
 		
+		var additionalClasses = ''; 
+		if (activeTabs[i].unsavedChanges===true) additionalClasses += 'tabUnsavedChanges ';
+		
 		if (activeTabs[i].path)
 		{
-		    output += '<span class="tabContent" id="'+i+'" title="'+activeTabs[i].path+'">'+path.basename(activeTabs[i].path)+'</span>';
+		    output += '<span class="tabContent '+additionalClasses+'" id="'+i+'" title="'+activeTabs[i].path+'">'+path.basename(activeTabs[i].path)+'</span>';
 		}
 		else
 		{
-		    output += '<span class="tabContent" id="'+i+'" title="File not yet saved.">Untitled Document '+i+'</span>';
+		    output += '<span class="tabContent '+additionalClasses+'" id="'+i+'" title="File not yet saved.">Untitled Document '+i+'</span>';
 		}
 		
 		output += '<span class="tabCloseButton" id="'+i+'" title="Close tab">&#10006;</span>';
@@ -522,6 +525,9 @@ function saveSelectedTab()
 	try
 	{
 		fs.writeFileSync(activeTab.path, dataToSave);
+		
+		activeTabs[selectedTabIndex].unsavedChanges = false;
+        ui_updateTabs();
 	}
 	catch (err)
 	{
@@ -539,13 +545,14 @@ function saveSelectedTabAs(newPath)
 	{
 		fs.writeFileSync(newPath, dataToSave);
 		activeTab.path = newPath;
+		
+		activeTabs[selectedTabIndex].unsavedChanges = false;
+        ui_updateTabs();
 	}
 	catch (err)
 	{
 		alert('Bogus, save error: '+err);
 	}
-	
-	ui_updateTabs();
 }
 
 // Save file as (with different name) (passing the id of the relevant hidden file input box)
@@ -627,6 +634,12 @@ function generateDirectoryTree(currentDirectory, level, previousDirectory)
 		console.log(err);
 	}
 }
+
+editor.on('change', function()
+{
+    activeTabs[selectedTabIndex].unsavedChanges = true; 
+    ui_updateTabs();
+});
 
 // Handle left tab scroll button being clicked
 $(document).on('click', '#tabsScrollButtonLeft', function()

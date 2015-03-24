@@ -164,6 +164,11 @@ body
 	overflow-y: hidden;
 }
 
+#tabs .tab .tabUnsavedChanges
+{
+    color: #ff0000;
+}
+
 #tabs .tab .tabCloseButton
 {
 	margin-left: 5px;

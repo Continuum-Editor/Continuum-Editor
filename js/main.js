@@ -249,8 +249,15 @@ function ui_updateTabs()
 	
 	$('#tabs').html(output);
 	
-	if (activeTabs.length==0) $('#editor').hide();
-	else $('#editor').show();
+	if (activeTabs.length==0) 
+	{
+	    $('#editor').hide();
+	}
+	else 
+	{
+	    $('#editor').show();
+	    ui_highlightSelectedTab();
+	}
 	
 	refreshTheme();
 	
@@ -285,9 +292,16 @@ function ui_switchTab(index)
 		selectedTabIndex = 0;
 	}
 	
-	for (var i = 0; i < activeTabs.length; i++) 
+	ui_highlightSelectedTab();
+	
+	storeTabsToRecover();
+}
+
+function ui_highlightSelectedTab()
+{
+    for (var i = 0; i < activeTabs.length; i++) 
 	{
-		if (i==index)
+		if (i==selectedTabIndex)
 		{
 			$('#'+i+'.tab').css('background-color', '#2e353b');
 		}
@@ -296,10 +310,6 @@ function ui_switchTab(index)
 			$('#'+i+'.tab').css('background-color', '#3a3e41');
 		}
 	}
-	
-	
-	
-	storeTabsToRecover();
 }
 
 // Handle tab being clicked

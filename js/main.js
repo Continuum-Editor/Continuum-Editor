@@ -317,6 +317,16 @@ $(document).on('click', ".tabCloseButton", function(event)
 
 function closeTab(index)
 {
+    if (activeTabs[index].unsavedChanges===true)
+    {
+        var result = confirm('This file is not saved. Do you wish to save it before closing?\n\nFile: '+path.basename(activeTabs[index].path));
+        
+        if (result===true)
+        {
+            saveSelectedTab();
+        }
+    }
+    
 	activeTabs.splice(index, 1);
 	
 	ui_updateTabs();

@@ -4,7 +4,7 @@
   "window": 
   {
     "title": "Continuum Editor",
-    "icon": "images/icon.png",
+    "icon": "images/continuum_editor_icon.png",
     "toolbar": false,
     "frame": false,
     "width": 1300,

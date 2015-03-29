@@ -113,7 +113,7 @@ body
 {
 	position: absolute;
 	top: 40px;
-	right: 0px;
+	right: 300px;
 	width: 25px;
 	height: 65px;
 	background-color: #3a3e41;
@@ -129,7 +129,7 @@ body
 	left: 310px;
 	right: 0px;
 	bottom: 0px;
-	width: 700px;
+	width: 400px;
 	height: 70px;
 	cursor: default;
 	overflow: hidden;
@@ -229,10 +229,11 @@ body
 
 #right
 {
-	top: 110px;
+	top: 40px;
 	right: 0px;
 	position: absolute;
 	width: 300px;
+	background-color: #3a3e41;
 }
 
 #right #rightSelect

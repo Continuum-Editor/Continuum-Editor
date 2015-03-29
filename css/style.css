@@ -114,12 +114,18 @@ body
 	position: absolute;
 	top: 40px;
 	right: 300px;
-	width: 25px;
+	width: 50px;
 	height: 65px;
 	background-color: #3a3e41;
-	padding-top: 14px;
+	padding-top: 10px;
 	padding-left: 10px;
 	cursor: default;
+}
+
+#tabsScrollButtons .tabsScrollButton
+{
+	float: left;
+	margin-right: 5px;
 }
 
 #tabsContainer
@@ -130,7 +136,7 @@ body
 	right: 0px;
 	bottom: 0px;
 	width: 400px;
-	height: 70px;
+	height: 40px;
 	cursor: default;
 	overflow: hidden;
 }
@@ -144,18 +150,18 @@ body
 
 #tabs .tab
 {
-	padding-top: 15px;
-	padding-bottom: 10px;
-	padding-left: 40px;
-	margin-top: 3px;
-	margin-left: 4px;
-	margin-bottom: 20px;
-	float: left;
-	min-width: 220px;
-	height: 26px;
-	background-image: url('../images/tab_file_icon.png');	
-	background-repeat: no-repeat;
-	background-position: 10px 10px;
+	padding-top: 10px;
+    padding-bottom: 14px;
+    padding-left: 40px;
+    margin-top: 3px;
+    margin-left: 4px;
+    margin-bottom: 22px;
+    float: left;
+    min-width: 110px;
+    height: 13px;
+    background-image: url('../images/tab_file_icon.png');
+    background-repeat: no-repeat;
+    background-position: 10px 6.5px;
 }
 
 #tabs .tab .tabContent
@@ -178,7 +184,7 @@ body
 
 #editor
 {
-	top: 110px;
+	top: 80px;
 	left: 310px;
 	right: 0px;
 	bottom: 20px;

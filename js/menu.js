@@ -1,4 +1,3 @@
-var gui = require('nw.gui');
 
 var mainMenu = new gui.Menu({ type: 'menubar' });
 //gui.Window.get().menu = mainMenu;
@@ -66,6 +65,7 @@ $(document).ready(function()
 
 var helpMenu = new gui.Menu();
 helpMenu.append(new gui.MenuItem({ label: 'Report bug / suggest feature...', click: function(){ gui.Shell.openExternal('https://github.com/DivineOmega/unnamed-editor/issues/new'); } }));
+helpMenu.append(new gui.MenuItem({ label: 'About Continuum Editor', click: function(){ gui.Window.open('about.html', { position: 'center', width: 450, height: 350, frame: true, toolbar: false, resizable: false, focus: true }); } } ) );
 
 mainMenu.append(new gui.MenuItem({ label: 'Help', submenu: helpMenu }));
 

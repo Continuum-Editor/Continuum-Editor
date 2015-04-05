@@ -4,6 +4,7 @@
 // Node js includes
 var path = require('path');
 var fs = require('fs');
+var gui = require('nw.gui');
 
 // Define variables
 var selectedTabIndex = 0;

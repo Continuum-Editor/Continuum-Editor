@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Continuum Editor</title>
+    <link href="css/style.css" rel="stylesheet">
+    <style>
+        body
+        {
+            padding: 20px;
+        }
+        
+        a
+        {
+            color: inherit;
+        }
+        
+        .centre
+        {
+            text-align: center;
+        }
+    </style>
+  </head>
+  <body>
+      
+    <h1>Continuum Editor</h1>
+    
+    <p>An awesome open source text/code editor for everyone.</p>
+    
+    <p>Developed by these <a href="#" id="contributionsLink">fine people!</a></p>
+    
+    <p>Hope you enjoy using it!</p>
+    
+    <!-- Load jQuery -->
+	<script src="js/jquery.min.js" type="text/javascript"></script>
+    
+    <script>
+        var gui = require('nw.gui');
+    
+        $('#contributionsLink').on('click', function()
+        {
+            gui.Shell.openExternal('https://github.com/Continuum-Editor/Continuum-Editor/graphs/contributors'); 
+        });
+    </script>
+    
+  </body>
+</html>

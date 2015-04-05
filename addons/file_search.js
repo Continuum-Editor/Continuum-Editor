@@ -17,7 +17,7 @@ function fileSearchAddon()
 		
 		html += '<div id="fileSearchAddonResults" style="cursor: default; font-size: 75%;"></div>';
 		
-		setAddonSidebarContent(html);
+		addonSystem.setAddonSidebarContent(html);
 		
 		$('#fileSearchAddonSearch').focus();
 		
@@ -34,8 +34,8 @@ $(document).on('keyup', '#fileSearchAddonSearch', function()
         return;
     }
     
-    var directoryTree = getDirectoryTree();
-    var directoryTreeRoot = getDirectoryTreeRoot();
+    var directoryTree = addonSystem.getDirectoryTree();
+    var directoryTreeRoot = addonSystem.getDirectoryTreeRoot();
     
     var pathsFound = [];
    
@@ -72,4 +72,4 @@ $(document).on('click', '.fileSearchAddonResult', function()
     openFileInNewTab(path);
 });
 
-initialiseAddon(new fileSearchAddon());
+addonSystem.initialiseAddon(new fileSearchAddon());

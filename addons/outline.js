@@ -13,7 +13,7 @@ function outlineAddon()
 	{
 		if (this.active===false) return;
 		
-		var lines = getEditorLines();
+		var lines = addonSystem.getEditorLines();
 		
 		var functions = Array();
 		
@@ -91,12 +91,12 @@ function outlineAddon()
 		html += '<table class="outlineFunctions" style="width: 100%;">';
 		
 		html += '<tr>';
-		html += '<th style="text-align: left;">Line</th>'
+		html += '<th style="text-align: left;">Line</th>';
 		html += '<th style="text-align: left;">Function name</th>';
 		html += '<th style="text-align: left;">Type</th>';
 		html += '</tr>';
 		
-		for (var i = 0; i < functions.length; i++) 
+		for (i = 0; i < functions.length; i++) 
 		{
 			var functionObj = functions[i];
 			
@@ -111,8 +111,7 @@ function outlineAddon()
 		
 		html += '</div>';
 		
-		setAddonSidebarContent(html);
-		
+		addonSystem.setAddonSidebarContent(html);
 		
 		var me = this;
 		setTimeout(function() { me.outlineDisplay() }, 1000);
@@ -123,7 +122,7 @@ $(document).on('click', '#outline .outlineLine', function ()
 {
 	var lineNumber = $(this).attr('id');
 	
-	editor.gotoLine(lineNumber, 0, true);
+	addonSystem.changeEditorLineNumber(lineNumber);
 });
 
-initialiseAddon(new outlineAddon());
+addonSystem.initialiseAddon(new outlineAddon());

@@ -37,14 +37,12 @@ function hashAndCryptoAddon()
 		
 		html += '</div>';
 		
-		setAddonSidebarContent(html);
+		addonSystem.setAddonSidebarContent(html);
 		
 		setTimeout(function() { $('#hashAndCryptoAddon #hashPlaintext').trigger('keyup'); }, 500);
 		
 	};
 }
-
-initialiseAddon(new hashAndCryptoAddon());
 
 $(document).on('change', '#hashAndCryptoAddon #hashAlgo', function()
 {
@@ -116,3 +114,5 @@ $(document).on('keyup', '#hashAndCryptoAddon #hashPlaintext', function()
         });
     }
 });
+
+addonSystem.initialiseAddon(new hashAndCryptoAddon());

@@ -8,8 +8,8 @@ function testAddon()
 	{	
 		var html = 'Test!<br/>123<br/>456';
 		
-		setAddonSidebarContent(html);
+		addonSystem.setAddonSidebarContent(html);
 	};
 }
 
-initialiseAddon(new testAddon());
+addonSystem.initialiseAddon(new testAddon());

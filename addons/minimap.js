@@ -7,17 +7,17 @@ function minimapAddon()
 	this.sidebarCallback = function()
 	{
 		this.minimapDisplay();
-	}
+	};
 	
 	this.minimapDisplay = function()
 	{
 		if (this.active===false) return;
 		
-		var lines = getEditorLines();
+		var lines = addonSystem.getEditorLines();
 		
 		var html = '';
 		
-		html += '<div id="minimap" style="font-size: 25%;">'
+		html += '<div id="minimap" style="font-size: 25%;">';
 		
 		for (var i = 0; i < lines.length; i++) 
 		{
@@ -31,25 +31,25 @@ function minimapAddon()
 			if (line.trim().length>lineSnippetLength) lineSnippet += ' [...]';
 			
 			html += '<div style="width: 100%" title="Line '+(i+1)+': '+lineSnippet+'" class="minimapLine" id="'+(i+1)+'">';
-			if (line=='') html += '<br/>';
+			if (line==='') html += '<br/>';
 			else html += escapedLine;
 			html += '</div>';
 		}
 		
 		html += '</div>';
 		
-		setAddonSidebarContent(html);
+		addonSystem.setAddonSidebarContent(html);
 		
 		var me = this;
 		setTimeout(function() { me.minimapDisplay() }, 1000);
-	}
+	};
 }
 
 $(document).on('click', '#minimap .minimapLine', function()
 {
 	var lineNumber = $(this).attr('id');
 	
-	editor.gotoLine(lineNumber, 0, true);
+	addonSystem.changeEditorLineNumber(lineNumber);
 });
 
-initialiseAddon(new minimapAddon());
+addonSystem.initialiseAddon(new minimapAddon());

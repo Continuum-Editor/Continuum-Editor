@@ -697,7 +697,7 @@ $(window).on('resize', function()
 	var editorWidth = $(window).outerWidth() - leftWidth - $('#right').outerWidth();
 	$('#editor').outerWidth(editorWidth);
 	
-	var rightContentHeight = $(window).outerHeight() - $('#topMenuBar').outerHeight() - $('#tabsContainer').outerHeight() - $('#rightSelect').outerHeight() - 16;
+	var rightContentHeight = $(window).outerHeight() - $('#topMenuBar').outerHeight() - 16;
 	$('#rightContent').outerHeight(rightContentHeight);
 	
 	var leftContentHeight = $(window).outerHeight() - $('#topMenuBar').outerHeight() - 16;

@@ -50,12 +50,12 @@ function addonSystem()
     		
     		if ((this.addons.length===1 && !localStorage.activeAddonName) || localStorage.activeAddonName==addon.name)
     		{
-    			$('#rightSelect').append('<option value="'+addon.name+'" selected>'+addon.name+'</a>');
+    			$('#addonSelect').append('<option value="'+addon.name+'" selected>'+addon.name+'</a>');
     			this.changeActiveAddon(addon.name);
     		}
     		else
     		{
-    			$('#rightSelect').append('<option value="'+addon.name+'">'+addon.name+'</a>');
+    			$('#addonSelect').append('<option value="'+addon.name+'">'+addon.name+'</a>');
     		}
     	}
     };
@@ -89,7 +89,7 @@ function addonSystem()
     // Allows addons to change the right sidebar content
     this.setAddonSidebarContent = function(html)
     {
-    	$('#rightContent').html(html);
+    	$('#right #rightContent #addonContent').html(html);
     };
     
     // Return editor content (as a string)
@@ -129,12 +129,12 @@ function addonSystem()
 }
 
 
-$('#rightSelect').on('change', function()
+$('#addonSelect').on('change', function()
 {
-	addonSystem.changeActiveAddon($('#rightSelect').val());
+	addonSystem.changeActiveAddon($('#addonSelect').val());
 });
 
-$('#rightSelect').on('click', function()
+$('#addonSelect').on('click', function()
 {
-	$('#rightSelect').trigger('change');
+	$('#addonSelect').trigger('change');
 });

@@ -706,6 +706,9 @@ $(window).on('resize', function()
 	var directoryTreeHeight = $('#leftContent').outerHeight() - 75;
 	$('#leftContent #directoryTree').outerHeight(directoryTreeHeight);
 
+    var addonContentHeight = $('#rightContent').outerHeight() - $('#rightSelect').outerHeight() - 115;
+	$('#rightContent #addonContent').outerHeight(addonContentHeight);
+
 	editor.resize(true);
 });
 
@@ -736,6 +739,30 @@ $(document).on('click', '#leftUnminimizeButton', function()
     $('#tabsContainer').animate({'left': $('#left').outerWidth(), 'width': $('#tabsContainer').outerWidth()-$('#left').outerWidth()+40}, 500);
     
     $('#leftUnminimizeButton').fadeOut(500);
+    
+    setTimeout(function() { editor.resize(true); }, 500);
+});
+
+$(document).on('click', '#rightMinimizeButton', function()
+{
+    $('#right').animate({'right': -$('#right').outerWidth()}, 500);
+    $('#tabsScrollButtons').animate({'right': 0}, 500);
+    $('#editor').animate({'width': $('#editor').outerWidth()+$('#right').outerWidth()-40}, 500);
+    $('#tabsContainer').animate({'width': $('#tabsContainer').outerWidth()+$('#right').outerWidth()-40}, 500);
+
+    $('#rightUnminimizeButton').fadeIn(1000);
+    
+    setTimeout(function() { editor.resize(true); }, 500);
+});
+
+$(document).on('click', '#rightUnminimizeButton', function()
+{
+    $('#right').animate({'right': 0}, 500);
+    $('#tabsScrollButtons').animate({'right': $('#right').outerWidth()}, 500);
+    $('#editor').animate({'width': $('#editor').outerWidth()-$('#right').outerWidth()+40}, 500);
+    $('#tabsContainer').animate({'width': $('#tabsContainer').outerWidth()-$('#right').outerWidth()+40}, 500);
+
+    $('#rightUnminimizeButton').fadeOut(500);
     
     setTimeout(function() { editor.resize(true); }, 500);
 });

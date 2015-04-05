@@ -1,12 +1,14 @@
 body
 {
 	margin: 0px;
+	padding: 0px;
 	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
 	font-size: 16px;
 	line-height: normal;
 	direction: ltr;
 	background-color: #3a3e41;
 	color: #d9e1e4;
+	overflow: hidden;
 }
 
 *::-webkit-scrollbar {
@@ -81,7 +83,7 @@ body
 	left: 15px;
 	bottom: 56px;
 	position: absolute;
-	width: 30px;
+	width: 15px;
 	height: 20px;
 	display: none;
 }
@@ -260,6 +262,9 @@ body
 #right #rightContent #addonContent
 {
     margin-top: 10px;
+	overflow-x: auto;
+	overflow-y: auto;
+	font-size: 14px;
 }
 
 #right #rightContent
@@ -268,8 +273,27 @@ body
 	margin-left: 10px;
 	margin-right: 15px;
 	padding: 10px;
-	font-size: 14px;
 	height: 500px;
 	overflow-y: scroll;
 	
+}
+
+#right #rightBottomButtons .rightBottomButton
+{
+    margin: 10px;
+}
+
+#right #rightBottomButtons #rightMinimizeButton
+{
+    float: right;
+}
+
+#rightUnminimizeButton
+{
+	right: 15px;
+	bottom: 56px;
+	position: absolute;
+	width: 15px;
+	height: 20px;
+	display: none;
 }

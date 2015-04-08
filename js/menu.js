@@ -73,6 +73,7 @@ var lightThemeMenu = new gui.Menu();
 
 lightThemeMenu.append(new gui.MenuItem({ label: 'Eclipse', click: function(){ setTheme('eclipse', 'light'); } }));
 lightThemeMenu.append(new gui.MenuItem({ label: 'Dreamweaver', click: function(){ setTheme('dreamweaver', 'light'); } }));
+lightThemeMenu.append(new gui.MenuItem({ label: 'Notepad++', click: function(){ setTheme('notepadplusplus', 'light'); } }));
 
 var themeMenu = new gui.Menu();
 themeMenu.append(new gui.MenuItem({ label: 'Dark', submenu: darkThemeMenu }));

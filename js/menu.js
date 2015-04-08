@@ -30,6 +30,39 @@ $(document).ready(function()
 	});
 });
 
+// Edit Menu
+
+var editMenu = new gui.Menu();
+editMenu.append(new gui.MenuItem({ label: 'Cut', click: function()
+{ 
+    gui.Clipboard.get().set(editor.session.getTextRange(editor.getSelectionRange()), 'text'); 
+    editor.getSession().getDocument().remove(editor.getSelectionRange()); 
+}}));
+
+
+editMenu.append(new gui.MenuItem({ label: 'Copy', click: function()
+{ 
+    gui.Clipboard.get().set(editor.session.getTextRange(editor.getSelectionRange()), 'text'); 
+}}));
+
+editMenu.append(new gui.MenuItem({ label: 'Paste', click: function()
+{ 
+    editor.getSession().getDocument().remove(editor.getSelectionRange()); editor.getSession().getDocument().insert(editor.getCursorPosition(), gui.Clipboard.get().get('text')); 
+}}));
+
+mainMenu.append(new gui.MenuItem({ label: 'Edit', submenu: editMenu }));
+
+$(document).ready(function()
+{
+	$("#editMenu").bind("click", function() 
+	{
+		var pos = $("#editMenu").position();
+		var height = $("#editMenu").height();
+		var offset = 5;
+		editMenu.popup(Math.floor(pos.left), Math.floor(pos.top+height+offset));
+	});
+});
+
 // View Menu
 
 var darkThemeMenu = new gui.Menu();

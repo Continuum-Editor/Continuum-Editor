@@ -69,7 +69,7 @@ $(document).on('click', '.fileSearchAddonResult', function()
 {
     var path = $(this).attr('id');
     
-    openFileInNewTab(path);
+    addonSystem.openFileInNewTab(path);
 });
 
 addonSystem.initialiseAddon(new fileSearchAddon());

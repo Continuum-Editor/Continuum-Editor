@@ -79,8 +79,38 @@ var themeMenu = new gui.Menu();
 themeMenu.append(new gui.MenuItem({ label: 'Dark', submenu: darkThemeMenu }));
 themeMenu.append(new gui.MenuItem({ label: 'Light', submenu: lightThemeMenu }));
 
+var darkUiThemeMenu = new gui.Menu();
+darkUiThemeMenu.append(new gui.MenuItem({ label: 'Continuum (default)', click: function(){ setUiTheme(''); } }));
+
+var lightUiThemeMenu = new gui.Menu();
+
+var glob = require("glob");
+var path = require('path');
+
+glob("css/ui_theme/light/*.css", null, function (er, files)
+{
+	var i = 0;
+    		
+	while (i < files.length)
+	{
+		var file = files[i];
+		
+		var uiThemeName = (path.basename(file).charAt(0).toUpperCase() + path.basename(file).slice(1)).replace('.css', '');
+	
+		lightUiThemeMenu.append(new gui.MenuItem({ label: uiThemeName, click: function(){ setUiTheme(file); } }));
+	
+		i++;
+	}
+	
+});
+
+var uiThemeMenu = new gui.Menu();
+uiThemeMenu.append(new gui.MenuItem({ label: 'Dark', submenu: darkUiThemeMenu }));
+uiThemeMenu.append(new gui.MenuItem({ label: 'Light', submenu: lightUiThemeMenu }));
+
 var viewMenu = new gui.Menu();
-viewMenu.append(new gui.MenuItem({ label: 'Theme', submenu: themeMenu }));
+viewMenu.append(new gui.MenuItem({ label: 'Editor Theme', submenu: themeMenu }));
+viewMenu.append(new gui.MenuItem({ label: 'UI Theme', submenu: uiThemeMenu }));
 
 mainMenu.append(new gui.MenuItem({ label: 'View', submenu: viewMenu }));
 

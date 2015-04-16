@@ -165,6 +165,12 @@ body
     background-image: url('../images/tab_file_icon.png');
     background-repeat: no-repeat;
     background-position: 10px 6.5px;
+    background-color: #3a3e41;
+}
+
+#tabs .activeTab
+{
+	background-color: #2e353b !important;
 }
 
 #tabs .tab .tabContent

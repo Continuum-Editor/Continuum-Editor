@@ -23,7 +23,11 @@ var modelist = ace.require("ace/ext/modelist");
 
 // Initialisation and setup
 $(document).ready(function()
-{		
+{
+	// Set Ui theme
+	if (localStorage.themeName==null) localStorage.themeName = '';
+	setUiTheme(localStorage.uiThemeCssFile);
+	
 	// Config default editor parameters
 	editor.setFontSize(16);
 	editor.getBehavioursEnabled(true); // Quote and bracket pairing
@@ -304,11 +308,11 @@ function ui_highlightSelectedTab()
 	{
 		if (i==selectedTabIndex)
 		{
-			$('#'+i+'.tab').css('background-color', '#2e353b');
+			if(!$('#'+i+'.tab').hasClass("activeTab")) $('#'+i+'.tab').addClass("activeTab");
 		}
 		else
 		{
-			$('#'+i+'.tab').css('background-color', '#3a3e41');
+			$('#'+i+'.tab').removeClass("activeTab");
 		}
 	}
 }
@@ -610,6 +614,13 @@ function setTheme(themeName, themeStyle)
 	
 	localStorage.themeName = themeName;
 	localStorage.themeStyle = themeStyle;
+}
+
+function setUiTheme(cssFile)
+{
+	$('#uiTheme').attr('href', cssFile);
+	
+	localStorage.uiThemeCssFile = cssFile;
 }
 
 function generateDirectoryTree(currentDirectory, level, previousDirectory)

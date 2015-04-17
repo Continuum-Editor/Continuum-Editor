@@ -28,6 +28,28 @@ $(document).ready(function()
 	if (localStorage.themeName==null) localStorage.themeName = '';
 	setUiTheme(localStorage.uiThemeCssFile);
 	
+	// Restore window size
+	if (localStorage.windowSize!=null)
+	{
+		var win = gui.Window.get();
+		if (localStorage.windowSize=='maximized')
+		{
+			win.maximize();
+		}
+		else
+		{
+			try
+			{
+				var windowSizeParts = localStorage.windowSize.split(',');
+				win.resizeTo(windowSizeParts[0], windowSizeParts[1]);
+			}
+			catch(e)
+			{
+				console.log('Error recovering window size. Details: '+e);
+			}
+		}
+	}
+	
 	// Config default editor parameters
 	editor.setFontSize(16);
 	editor.getBehavioursEnabled(true); // Quote and bracket pairing
@@ -90,6 +112,9 @@ $(document).ready(function()
 	{
 		console.log('Error recovering previously opened tabs. Details: '+e);
 	}
+	
+	var win = gui.Window.get();
+	win.show();
 	
 });
 
@@ -697,6 +722,17 @@ $(document).on('click', '#rightTabsScrollButtonRight', function()
 	$('#rightTabsContainer').animate({ scrollLeft: '+=100' }, 250);
 });
 
+gui.Window.get().on('maximize', function () 
+{
+	localStorage.windowSize = 'maximized';
+});
+
+gui.Window.get().on('unmaximize', function () 
+{
+	var win = gui.Window.get();
+	localStorage.windowSize = win.width+','+win.height;
+});
+
 // Handle resizing of various elements when the window is resized
 $(window).on('resize', function()
 {
@@ -722,6 +758,12 @@ $(window).on('resize', function()
 	$('#rightContent #addonContent').outerHeight(addonContentHeight);
 
 	editor.resize(true);
+	
+	if (localStorage.windowSize!='maximized')
+	{
+		var win = gui.Window.get();
+		localStorage.windowSize = win.width+','+win.height;
+	}
 });
 
 $(document).on('click', '#refreshDirectionTreeButton', function()

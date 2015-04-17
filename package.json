@@ -8,6 +8,7 @@
     "toolbar": false,
     "frame": false,
     "width": 1300,
-    "height": 768
+    "height": 768,
+    "show": false
    }
 }

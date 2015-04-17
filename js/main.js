@@ -770,9 +770,11 @@ $(document).on('click', '#refreshDirectionTreeButton', function()
 {
     $('#refreshDirectionTreeButton').html('&#8635; Refreshing...');
     
-    refreshDirectoryTree();
-    
-    setTimeout(function() { $('#refreshDirectionTreeButton').html('&#8635; Refresh Files'); }, 500);
+    setTimeout(function() 
+    { 
+		refreshDirectoryTree(); 
+		$('#refreshDirectionTreeButton').html('&#8635; Refresh Files'); 
+	}, 250);
 });
 
 $(document).on('click', '#leftMinimizeButton', function()

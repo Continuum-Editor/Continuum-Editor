@@ -152,6 +152,23 @@ $(document).ready(function()
 	
 	$("#closeButton").bind("click", function() 
 	{
+		var i = 0;
+	
+		while(i < activeTabs.length)
+		{
+			if (activeTabs[i].unsavedChanges===true)
+			{
+				var result = confirm('The file \''+path.basename(activeTabs[i].path)+'\' is not saved. Do you wish to save it before closing?');
+				 
+				if (result===true)
+				{
+					saveSelectedTab();
+				}
+			}
+			
+			i++;
+		}
+		
 		var gui = require('nw.gui');
 		gui.App.quit();
 	});

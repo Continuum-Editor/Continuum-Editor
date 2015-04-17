@@ -822,3 +822,27 @@ $(document).on('click', '#rightUnminimizeButton', function()
     
     setTimeout(function() { editor.resize(true); }, 500);
 });
+
+$(document).on("dragover", function(e) {
+    event.preventDefault();  
+    event.stopPropagation();
+});
+
+$(document).on("dragleave", function(e) {
+    event.preventDefault();  
+    event.stopPropagation();
+});
+
+$(document).on("drop", function(e) {
+    event.preventDefault();  
+    event.stopPropagation();
+    
+    for (var i = 0; i < e.originalEvent.dataTransfer.files.length; ++i) 
+    {
+		var pathToOpen = e.originalEvent.dataTransfer.files[i].path;
+		
+		openFileByName(pathToOpen)
+	}
+    
+  return false;
+});

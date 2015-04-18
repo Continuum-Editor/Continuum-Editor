@@ -125,6 +125,11 @@ function addToRecentlyAccessed(path, type)
 		if (recentlyAccessed[i].path == path) return;
 	}
 	
+	while (recentlyAccessed.length>=20)
+	{
+	    recentlyAccessed.shift();
+	}
+	
 	var newRecentlyAccessed = { path: path, type: type };
 	recentlyAccessed.push(newRecentlyAccessed);
 	
@@ -135,12 +140,12 @@ function addToRecentlyAccessed(path, type)
 
 function ui_updateRecentlyAccessedMenu()
 {
-	for (var i = 0; i < recentMenu.items.length; i++) 
+	while (recentMenu.items.length > 0) 
 	{
-		recentMenu.removeAt(i);
-	}
+        recentMenu.removeAt(0);
+    }
 	
-	for (var i = 0; i < recentlyAccessed.length; i++) 
+	for (var i = recentlyAccessed.length-1; i > 0; i--) 
 	{
 		if (recentlyAccessed[i].type=='file')
 		{
@@ -148,8 +153,6 @@ function ui_updateRecentlyAccessedMenu()
 			
 			recentMenu.append(new gui.MenuItem({ label: path, click: makeOpenRecentFunction(path) }));
 		}
-		
-		if (i>=20) break;
 	}
 	
 	function makeOpenRecentFunction(path)

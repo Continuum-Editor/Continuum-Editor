@@ -849,3 +849,32 @@ $(document).on("drop", function(e) {
     
   return false;
 });
+
+function ui_switchTabRight()
+{
+    var newTabIndex = selectedTabIndex+1;
+    
+    if (newTabIndex>activeTabs.length-1)
+    {
+        newTabIndex = 0;
+    }
+    
+    ui_switchTab(newTabIndex);
+}
+
+function ui_switchTabLeft()
+{
+    var newTabIndex = selectedTabIndex-1;
+    
+    if (newTabIndex<0)
+    {
+        newTabIndex = activeTabs.length-1;
+    }
+    
+    ui_switchTab(newTabIndex);
+}
+
+function closeActiveTab()
+{
+    closeTab(selectedTabIndex);
+}

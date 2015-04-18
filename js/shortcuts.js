@@ -12,3 +12,12 @@ $("body, textarea").bind('keydown', 'ctrl+s', function(){ saveSelectedTab(); });
 
 // Save As
 $("body, textarea").bind('keydown', 'ctrl+shift+s', function(){ saveFileAs('#saveFileAsDialog'); });
+
+// Tab right
+$("body, textarea").bind('keydown', 'ctrl+tab', function(){ ui_switchTabRight() });
+
+// Tab left
+$("body, textarea").bind('keydown', 'ctrl+shift+tab', function(){ ui_switchTabLeft() });
+
+// Tab close
+$("body, textarea").bind('keydown', 'ctrl+w', function(){ closeActiveTab() });

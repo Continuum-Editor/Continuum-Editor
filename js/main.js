@@ -113,10 +113,48 @@ $(document).ready(function()
 		console.log('Error recovering previously opened tabs. Details: '+e);
 	}
 	
+	checkForExternalChanges();
+	
 	var win = gui.Window.get();
 	win.show();
 	
 });
+
+function checkForExternalChanges()
+{
+    for (var i = 0; i < activeTabs.length; i++)
+    {
+        if (!activeTabs[i].lastModified && activeTabs[i].path)
+        {
+            var stats = fs.statSync(activeTabs[i].path);
+            activeTabs[i].lastModified = stats.mtime;
+        }
+        
+        if (activeTabs[i].lastModified && activeTabs[i].path)
+        {
+            var stats = fs.statSync(activeTabs[i].path);
+            if (activeTabs[i].lastModified.getTime() != stats.mtime.getTime())
+            {
+                if (!activeTabs[i].unsavedChanges)
+                {
+                    reloadTabContents(i);
+                }
+                else
+                {
+                    var result = confirm('The file \''+path.basename(activeTabs[i].path)+'\' has been changed by another program. Would you like to reload this file?');
+                    if (result)
+                    {
+                        reloadTabContents(i);
+                    }
+                }
+                
+                activeTabs[i].lastModified = stats.mtime;
+            }
+        }
+    }
+    
+    setTimeout(function() { checkForExternalChanges(); }, 5000);
+}
 
 function addToRecentlyAccessed(path, type)
 {
@@ -240,6 +278,30 @@ function openFileByName(path)
 		
 		ui_updateTabs();
 		ui_switchTab(activeTabs.length-1);
+	});
+}
+
+function reloadTabContents(tabIndex)
+{
+    var path = activeTabs[tabIndex].path;
+    
+    fs.readFile(path, 'utf8', function (err, fileContent) 
+	{
+		if (err) 
+		{
+			alert("Whoops! Error opening file. "+err);
+			return;
+		}
+		
+		var mode = modelist.getModeForPath(path).mode;
+		
+		var editSession = new ace.EditSession(fileContent, mode);
+		editSession.setUndoManager(new UndoManager());
+		
+		activeTabs[tabIndex].editSession.setValue(fileContent);
+		activeTabs[tabIndex].unsavedChanges = false;
+		
+		ui_updateTabs();
 	});
 }
 

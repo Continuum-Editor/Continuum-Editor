@@ -723,16 +723,18 @@ function generateDirectoryTree(currentDirectory, level, previousDirectory)
 		{
 			var currentPath = currentDirectory + path.sep + files[i]
 			
+			var fileLStat = fs.lstatSync(currentPath);
+			
 			try
 			{
-				if (fs.lstatSync(currentPath).isDirectory())
+				if (fileLStat.isDirectory())
 				{
 					var newDirectoryTreeEntry = { path: currentPath + path.sep, type: 'directory', level: level, previousDirectory: previousDirectory, isOpen: false };
 					activeDirectoryTree.push(newDirectoryTreeEntry);
 					
 					generateDirectoryTree(currentPath, level + 1, currentDirectory);
 				}
-				else if (fs.lstatSync(currentPath).isFile())
+				else if (fileLStat.isFile())
 				{
 					var newDirectoryTreeEntry = { path: currentPath, type: 'file', level: level, previousDirectory: currentDirectory, isOpen: false };
 					activeDirectoryTree.push(newDirectoryTreeEntry);

@@ -123,7 +123,7 @@ function addonSystem()
     
     this.changeEditorLineNumber = function(lineNumber)
     {
-        editor.gotoLine(lineNumber, 0, true);
+        setLineNumberAndColumn(lineNumber, 0);
     };
     
 }

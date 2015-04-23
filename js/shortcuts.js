@@ -21,3 +21,6 @@ $("body, textarea").bind('keydown', 'ctrl+shift+tab', function(){ ui_switchTabLe
 
 // Tab close
 $("body, textarea").bind('keydown', 'ctrl+w', function(){ closeActiveTab() });
+
+// Go to line number
+$("body, textarea").bind('keydown', 'ctrl+g', function(){ promptAndGotoLineNumber() });

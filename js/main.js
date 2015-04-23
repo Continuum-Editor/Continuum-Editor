@@ -964,3 +964,15 @@ function closeActiveTab()
 {
     closeTab(selectedTabIndex);
 }
+
+function setLineNumberAndColumn(lineNumber, column)
+{
+    editor.gotoLine(lineNumber, column, true);
+}
+
+function promptAndGotoLineNumber()
+{
+    var lineNumber = prompt('Line number: ');
+    if (lineNumber!==null && lineNumber!==false) setLineNumberAndColumn(lineNumber, 0);
+    editor.focus();
+}

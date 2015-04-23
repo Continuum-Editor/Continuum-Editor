@@ -63,6 +63,27 @@ $(document).ready(function()
 	});
 });
 
+// Search Menu
+
+var searchMenu = new gui.Menu();
+searchMenu.append(new gui.MenuItem({ label: 'Go to line number', click: function()
+{ 
+    promptAndGotoLineNumber();
+}}));
+
+mainMenu.append(new gui.MenuItem({ label: 'Search', submenu: searchMenu }));
+
+$(document).ready(function()
+{
+	$("#searchMenu").bind("click", function() 
+	{
+		var pos = $("#searchMenu").position();
+		var height = $("#searchMenu").height();
+		var offset = 5;
+		searchMenu.popup(Math.floor(pos.left), Math.floor(pos.top+height+offset));
+	});
+});
+
 // View Menu
 
 var darkThemeMenu = new gui.Menu();

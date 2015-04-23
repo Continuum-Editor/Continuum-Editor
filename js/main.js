@@ -113,6 +113,16 @@ $(document).ready(function()
 		console.log('Error recovering previously opened tabs. Details: '+e);
 	}
 	
+	setTimeout(function()
+	{
+    	var commandLineArgs = gui.App.argv;
+    	
+    	for (var i = 0; i < commandLineArgs.length; i++)
+        {
+            openFileByName(commandLineArgs[i]);
+        }
+	}, 500);
+	
 	checkForExternalChanges();
 	
 	var win = gui.Window.get();

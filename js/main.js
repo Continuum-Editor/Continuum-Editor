@@ -662,6 +662,7 @@ function saveSelectedTab()
 		fs.writeFileSync(activeTab.path, dataToSave);
 		
 		activeTabs[selectedTabIndex].unsavedChanges = false;
+		activeTabs[selectedTabIndex].lastModified = null;
         ui_updateTabs();
 	}
 	catch (err)
@@ -682,6 +683,7 @@ function saveSelectedTabAs(newPath)
 		activeTab.path = newPath;
 		
 		activeTabs[selectedTabIndex].unsavedChanges = false;
+		activeTabs[selectedTabIndex].lastModified = null;
         ui_updateTabs();
 	}
 	catch (err)

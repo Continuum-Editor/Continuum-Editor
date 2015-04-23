@@ -130,6 +130,16 @@ $(document).ready(function()
 	
 });
 
+gui.App.on('open', function(cmdline) 
+{
+    var commandLineArgs = cmdline.split(' ');
+    	
+	for (var i = 0; i < commandLineArgs.length; i++)
+    {
+        openFileByName(commandLineArgs[i]);
+    }
+});
+
 function checkForExternalChanges()
 {
     for (var i = 0; i < activeTabs.length; i++)

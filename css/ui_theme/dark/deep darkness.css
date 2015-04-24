@@ -1,0 +1,63 @@
+body
+{
+	background-color: #000000;
+	color: #CCC;
+}
+
+#left
+{
+	background-color: #000000;
+	color: #CCC;
+}
+
+#left #leftContent
+{
+	background-color: #000000;
+	color: #CCC;
+}
+
+#right
+{
+	background-color: #000000;
+	color: #CCC;
+}
+
+#right #rightContent
+{
+	background-color: #000000;
+	color: #CCC;
+}
+
+#right #rightContent #addonSelect
+{
+	background-color: #000000;
+	color: #CCC;
+}
+
+#editor .ace_gutter-layer
+{
+	background-color: #000000;
+}
+
+#tabsScrollButtons
+{
+	background-color: #000000;
+	color: #CCC;
+}
+
+#tabs
+{
+	background-color: #000000;
+	color: #CCC;
+}
+
+#tabs .tab
+{
+	background-color: #333;
+}
+
+#tabs .activeTab
+{
+	background-color: #000 !important;
+	color: #CCC;
+}

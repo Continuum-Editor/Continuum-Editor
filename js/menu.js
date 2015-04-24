@@ -100,13 +100,30 @@ var themeMenu = new gui.Menu();
 themeMenu.append(new gui.MenuItem({ label: 'Dark', submenu: darkThemeMenu }));
 themeMenu.append(new gui.MenuItem({ label: 'Light', submenu: lightThemeMenu }));
 
+var glob = require("glob");
+var path = require('path');
+
 var darkUiThemeMenu = new gui.Menu();
 darkUiThemeMenu.append(new gui.MenuItem({ label: 'Continuum (default)', click: function(){ setUiTheme(''); } }));
 
-var lightUiThemeMenu = new gui.Menu();
+glob("css/ui_theme/dark/*.css", null, function (er, files)
+{
+	var i = 0;
+    		
+	while (i < files.length)
+	{
+		var file = files[i];
+		
+		var uiThemeName = (path.basename(file).charAt(0).toUpperCase() + path.basename(file).slice(1)).replace('.css', '');
+	
+		darkUiThemeMenu.append(new gui.MenuItem({ label: uiThemeName, click: function(){ setUiTheme(file); } }));
+	
+		i++;
+	}
+	
+});
 
-var glob = require("glob");
-var path = require('path');
+var lightUiThemeMenu = new gui.Menu();
 
 glob("css/ui_theme/light/*.css", null, function (er, files)
 {

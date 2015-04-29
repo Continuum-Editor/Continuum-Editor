@@ -783,6 +783,7 @@ function generateDirectoryTree(currentDirectory, level, previousDirectory)
 
 editor.on('change', function()
 {
+    if (typeof activeTabs[selectedTabIndex] == 'undefined') return;
     activeTabs[selectedTabIndex].unsavedChanges = true; 
     ui_updateTabs();
 });

@@ -583,7 +583,7 @@ function ui_expandDirectoryTreeEntry(id)
     
     var output = '';
 	
-	for (var i = id; i < activeDirectoryTree.length; i++) 
+	for (var i = 0; i < activeDirectoryTree.length; i++) 
 	{
 		if (i == id) continue;
 		
@@ -595,10 +595,6 @@ function ui_expandDirectoryTreeEntry(id)
 				output += ui_generateDirectoryTreeEntryHTML(i);
 			}
 		}
-		else
-		{
-			break;
-		}
 	}
 	
     $('#'+id+'.directoryTreeEntry').after(output);
@@ -608,7 +604,7 @@ function ui_contractDirectoryTreeEntry(id)
 {
     var directoryTreeEntry = activeDirectoryTree[id];
     
-	for (var i = id; i < activeDirectoryTree.length; i++) 
+	for (var i = 0; i < activeDirectoryTree.length; i++) 
 	{
 		if (i == id) continue;
 		
@@ -617,10 +613,6 @@ function ui_contractDirectoryTreeEntry(id)
 			$('#'+i+'.directoryTreeEntry').remove();
 			
 			activeDirectoryTree[i].isOpen = false;
-		}
-		else
-		{
-			break;
 		}
 	}
 }
@@ -772,6 +764,9 @@ function generateDirectoryTree(currentDirectory, level, previousDirectory)
 		
 		if (level==0)
 		{
+		    activeDirectoryTree.sort(sort_object_by_field('path', false, function(a){return a.toLowerCase()}));
+		    activeDirectoryTree.sort(sort_object_by_field('type', false));
+		    
 		    localStorage.activeDirectoryTreeRoot = currentDirectory;
 			localStorage.activeDirectoryTree = JSON.stringify(activeDirectoryTree);
 			addToRecentlyAccessed(currentDirectory, 'directory');
@@ -781,6 +776,19 @@ function generateDirectoryTree(currentDirectory, level, previousDirectory)
 	{
 		console.log(err);
 	}
+}
+
+function sort_object_by_field(field, reverse, primer){
+
+   var key = primer ? 
+       function(x) {return primer(x[field])} : 
+       function(x) {return x[field]};
+
+   reverse = !reverse ? 1 : -1;
+
+   return function (a, b) {
+       return a = key(a), b = key(b), reverse * ((a > b) - (b > a));
+     } 
 }
 
 editor.on('change', function()

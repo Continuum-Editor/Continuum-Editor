@@ -764,8 +764,7 @@ function generateDirectoryTree(currentDirectory, level, previousDirectory)
 		
 		if (level==0)
 		{
-		    activeDirectoryTree.sort(sort_object_by_field('path', false, function(a){return a.toLowerCase()}));
-		    activeDirectoryTree.sort(sort_object_by_field('type', false));
+		    activeDirectoryTree.sort(sort_by_type_and_path(false));
 		    
 		    localStorage.activeDirectoryTreeRoot = currentDirectory;
 			localStorage.activeDirectoryTree = JSON.stringify(activeDirectoryTree);
@@ -776,6 +775,17 @@ function generateDirectoryTree(currentDirectory, level, previousDirectory)
 	{
 		console.log(err);
 	}
+}
+
+function sort_by_type_and_path(reverse){
+
+   var key = function(x) { return (x['type']+x['path']).toLowerCase() };
+
+   reverse = !reverse ? 1 : -1;
+
+   return function (a, b) {
+       return a = key(a), b = key(b), reverse * ((a > b) - (b > a));
+     } 
 }
 
 function sort_object_by_field(field, reverse, primer){

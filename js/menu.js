@@ -235,6 +235,7 @@ $(document).ready(function()
 var directoryTreeEntryIDForContextMenu = null;
 
 var directoryListingMenu = new gui.Menu();
+
 directoryListingMenu.append(new gui.MenuItem({ label: 'Rename...', click: function()
 {  
     var directoryTreeEntry = activeDirectoryTree[directoryTreeEntryIDForContextMenu];
@@ -258,6 +259,28 @@ directoryListingMenu.append(new gui.MenuItem({ label: 'Rename...', click: functi
     }
     
     ui_updateTabs();
+    refreshDirectoryTree();
+    
+} }));
+
+directoryListingMenu.append(new gui.MenuItem({ label: 'Create new file here...', click: function()
+{
+    var directoryTreeEntry = activeDirectoryTree[directoryTreeEntryIDForContextMenu];
+    
+    var randNum = Math.floor((Math.random() * 99999) + 1);
+    
+    var newFilename = prompt('Creating a new file here: '+path.dirname(directoryTreeEntry.path)+'\n\nName the new name:', 'new_file_'+randNum+'.txt');
+
+    newFilename = path.basename(newFilename);
+
+    if (newFilename===null || newFilename==='null' || newFilename==='') return;
+    
+    var newPath = path.dirname(directoryTreeEntry.path) + path.sep + newFilename;
+    
+    fs.closeSync(fs.openSync(newPath, 'a'));
+    
+    openFileByName(newPath);
+    
     refreshDirectoryTree();
     
 } }));

@@ -243,7 +243,7 @@ directoryListingMenu.append(new gui.MenuItem({ label: 'Rename...', click: functi
 
     newFilename = path.basename(newFilename);
 
-    if (newFilename===null || newFilename==='') return;
+    if (newFilename===null || newFilename==='null' || newFilename==='') return;
     
     var newPath = path.dirname(directoryTreeEntry.path) + path.sep + newFilename;
     

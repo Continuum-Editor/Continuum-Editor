@@ -269,13 +269,18 @@ directoryListingMenu.append(new gui.MenuItem({ label: 'Create new file here...',
     
     var randNum = Math.floor((Math.random() * 99999) + 1);
     
-    var newFilename = prompt('Creating a new file here: '+path.dirname(directoryTreeEntry.path)+'\n\nName the new name:', 'new_file_'+randNum+'.txt');
+    var creationPath = null;
+    
+    if (directoryTreeEntry.type=='file') creationPath = path.dirname(directoryTreeEntry.path);
+    else creationPath = directoryTreeEntry.path;
+    
+    var newFilename = prompt('Creating a new file here: '+creationPath+'\n\nName the new name:', 'new_file_'+randNum+'.txt');
 
     newFilename = path.basename(newFilename);
 
     if (newFilename===null || newFilename==='null' || newFilename==='') return;
     
-    var newPath = path.dirname(directoryTreeEntry.path) + path.sep + newFilename;
+    var newPath = creationPath + path.sep + newFilename;
     
     fs.closeSync(fs.openSync(newPath, 'a'));
     
@@ -291,13 +296,18 @@ directoryListingMenu.append(new gui.MenuItem({ label: 'Create new directory here
     
     var randNum = Math.floor((Math.random() * 99999) + 1);
     
-    var newFilename = prompt('Creating a new directory here: '+directoryTreeEntry.path+'\n\nName the new directory:', 'new_directory_'+randNum);
+    var creationPath = null;
+    
+    if (directoryTreeEntry.type=='file') creationPath = path.dirname(directoryTreeEntry.path);
+    else creationPath = directoryTreeEntry.path;
+    
+    var newFilename = prompt('Creating a new directory here: '+creationPath+'\n\nName the new directory:', 'new_directory_'+randNum);
 
     newFilename = path.basename(newFilename);
 
     if (newFilename===null || newFilename==='null' || newFilename==='') return;
     
-    var newPath = directoryTreeEntry.path + path.sep + newFilename;
+    var newPath = creationPath + path.sep + newFilename;
     
     fs.mkdirSync(newPath);
     

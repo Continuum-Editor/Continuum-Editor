@@ -229,3 +229,47 @@ $(document).ready(function()
 		win.minimize();
 	});
 });
+
+// Directory listing menu
+
+var directoryTreeEntryID = null;
+
+var directoryListingMenu = new gui.Menu();
+directoryListingMenu.append(new gui.MenuItem({ label: 'Rename...', click: function()
+{  
+    var directoryTreeEntry = activeDirectoryTree[directoryTreeEntryID];
+    
+    var newFilename = prompt('Rename '+path.basename(directoryTreeEntry.path)+' to: ', path.basename(directoryTreeEntry.path));
+
+    newFilename = path.basename(newFilename);
+
+    if (newFilename===null || newFilename==='') return;
+    
+    var newPath = path.dirname(directoryTreeEntry.path) + path.sep + newFilename;
+    
+    fs.renameSync(directoryTreeEntry.path, newPath);
+    
+    for (var i = 0; i < activeTabs.length; i++) 
+    {
+        if (activeTabs[i].path == directoryTreeEntry.path)
+        {
+            activeTabs[i].path = newPath;
+        }
+    }
+    
+    ui_updateTabs();
+    refreshDirectoryTree();
+    
+} }));
+
+$(document).ready(function()
+{
+    $(document).on('contextmenu', '.directoryTreeEntry', function()
+    {
+        directoryTreeEntryID = $(this).attr('id');
+        var pos = $(this).position();
+		var height = $(this).height();
+		var offset = 40;
+		directoryListingMenu.popup(Math.floor(pos.left), Math.floor(pos.top+height+offset));
+    });
+});

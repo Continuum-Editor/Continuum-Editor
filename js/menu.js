@@ -285,6 +285,26 @@ directoryListingMenu.append(new gui.MenuItem({ label: 'Create new file here...',
     
 } }));
 
+directoryListingMenu.append(new gui.MenuItem({ label: 'Create new directory here...', click: function()
+{
+    var directoryTreeEntry = activeDirectoryTree[directoryTreeEntryIDForContextMenu];
+    
+    var randNum = Math.floor((Math.random() * 99999) + 1);
+    
+    var newFilename = prompt('Creating a new directory here: '+directoryTreeEntry.path+'\n\nName the new directory:', 'new_directory_'+randNum);
+
+    newFilename = path.basename(newFilename);
+
+    if (newFilename===null || newFilename==='null' || newFilename==='') return;
+    
+    var newPath = directoryTreeEntry.path + path.sep + newFilename;
+    
+    fs.mkdirSync(newPath);
+    
+    refreshDirectoryTree();
+    
+} }));
+
 $(document).ready(function()
 {
     $(document).on('contextmenu', '.directoryTreeEntry', function()

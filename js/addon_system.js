@@ -126,6 +126,10 @@ function addonSystem()
         setLineNumberAndColumn(lineNumber, 0);
     };
     
+    this.isFileBinary = function(path)
+    {
+        
+    };
 }
 
 

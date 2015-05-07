@@ -48,7 +48,16 @@ $(document).on('click', '#fileContentSearchAddonSearchButton', function()
         
         if(directoryTreeEntry.type!='file') continue;
         
-        var contents = fs.readFileSync(directoryTreeEntry.path, 'utf-8');
+        var contents = null;
+        
+        try
+        {
+            contents = fs.readFileSync(directoryTreeEntry.path, 'utf-8');
+        }
+        catch(e)
+        {
+            contents = null;
+        }
         
         if (!contents) continue;
         

@@ -16,7 +16,8 @@ function fileContentSearchAddon()
 		html = '<input id="fileContentSearchAddonSearch" type="search" value="" placeholder="Search contents of files..." style="width: 75%; margin-bottom: 10px;" />';
 		html += '<input id="fileContentSearchAddonSearchButton" type="submit" value="Search" style="width: 24%; margin-bottom: 10px;" />';
 		
-		html += '<div id="fileContentSearchAddonResults" style="cursor: default;"></div>';
+		html += '<table style="width: 100%;" id="fileContentSearchAddonResults">';
+		html += '</table>';
 		
 		addonSystem.setAddonSidebarContent(html);
 		
@@ -32,15 +33,44 @@ $(document).on('click', '#fileContentSearchAddonSearchButton', function()
     
     if (searchTerm==='' || searchTerm.length<3)
     {
-        $('#fileContentSearchAddonResults').html('No search term or search term too short.');
+        $('#fileContentSearchAddonResults').html('<tr><td>No search term or search term too short.</td></tr>');
         return;
     }
     
-    $('#fileContentSearchAddonResults').html('');
+    searchTerm = searchTerm.toLowerCase();
+    
+    var html = '<tr>';
+	html += '<th style="text-align: left;">Line</th>';
+	html += '<th style="text-align: left;">File</th>';
+	html += '</tr>';
+    
+    $('#fileContentSearchAddonResults').html(html);
     
     var isBinaryFile = require("isbinaryfile");
     
     var directoryTree = addonSystem.getDirectoryTree();
+    var directoryTreeRoot = addonSystem.getDirectoryTreeRoot();
+    
+    function makeSearchFileFunction(path)
+    {
+        return function (err, contents)
+        {
+            if (!contents) return;
+        
+            contents = contents.toLowerCase();
+        
+            var shortPath = path.replace(directoryTreeRoot, '');
+            var lines = contents.split('\n');
+    	    
+    	    for (var j = 0; j < lines.length; j++) 
+            {
+                if (lines[j].indexOf(searchTerm) != -1) 
+                {
+                    $('#fileContentSearchAddonResults').append('<tr class="fileContentSearchAddonResult" style="margin-bottom: 4px;" id="Line '+path+'"><td>'+(j+1)+'</td><td>'+shortPath+'</td></tr>');   
+                }
+            }
+        };
+    }
     
     for (var i = 0; i < directoryTree.length; i++) 
     {
@@ -50,26 +80,9 @@ $(document).on('click', '#fileContentSearchAddonSearchButton', function()
         
         var contents = null;
         
-        try
-        {
-            contents = fs.readFileSync(directoryTreeEntry.path, 'utf-8');
-        }
-        catch(e)
-        {
-            contents = null;
-        }
+        contents = fs.readFile(directoryTreeEntry.path, 'utf-8', makeSearchFileFunction(directoryTreeEntry.path));
+
         
-        if (!contents) continue;
-        
-        var lines = contents.split('\n');
-	    
-	    for (var j = 0; j < lines.length; j++) 
-        {
-            if (lines[j].indexOf(searchTerm) != -1) 
-            {
-                $('#fileContentSearchAddonResults').append('<div class="fileContentSearchAddonResult" style="margin-bottom: 4px;" id="Line '+directoryTreeEntry.path+'">'+(j+1)+': '+path.basename(directoryTreeEntry.path)+'</div>');   
-            }
-        }
     }
 
 });

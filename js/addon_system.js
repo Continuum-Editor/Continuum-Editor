@@ -116,9 +116,19 @@ function addonSystem()
         return activeDirectoryTreeRoot;
     };
     
-    this.openFileInNewTab = function(path)
+    this.openFile = function(path)
     {
         openFileByName(path);
+    };
+    
+    this.openFileInNewTab = function(path)
+    {
+        this.openFile(path);
+    };
+    
+    this.openFileToLineNumber = function(path, lineNumber)
+    {
+        openFileByName(path, lineNumber);
     };
     
     this.changeEditorLineNumber = function(lineNumber)

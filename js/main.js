@@ -256,14 +256,17 @@ function openFile(id)
 	chooser.trigger('click');  
 }
 
-function openFileByName(path)
+function openFileByName(path, lineNumber)
 {
+    if (!lineNumber) lineNumber = 0;
+    
 	// Check if file is already open in an existing tab
 	for (var i = 0; i < activeTabs.length; i++) 
 	{
 		if (activeTabs[i].path==path)
 		{
 			ui_switchTab(i);
+			setLineNumberAndColumn(lineNumber, 0);
 			return;
 		}
 	}
@@ -298,6 +301,8 @@ function openFileByName(path)
 		
 		ui_updateTabs();
 		ui_switchTab(activeTabs.length-1);
+		
+		setLineNumberAndColumn(lineNumber, 0);
 	});
 }
 

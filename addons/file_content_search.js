@@ -66,7 +66,7 @@ $(document).on('click', '#fileContentSearchAddonSearchButton', function()
             {
                 if (lines[j].indexOf(searchTerm) != -1) 
                 {
-                    $('#fileContentSearchAddonResults').append('<tr class="fileContentSearchAddonResult" style="margin-bottom: 4px;" id="Line '+path+'"><td>'+(j+1)+'</td><td>'+shortPath+'</td></tr>');   
+                    $('#fileContentSearchAddonResults').append('<tr class="fileContentSearchAddonResult" style="margin-bottom: 4px;" id="'+(j+1)+'::::'+path+'"><td>'+(j+1)+'</td><td>'+shortPath+'</td></tr>');   
                 }
             }
         };
@@ -89,9 +89,13 @@ $(document).on('click', '#fileContentSearchAddonSearchButton', function()
 
 $(document).on('click', '.fileContentSearchAddonResult', function()
 {
-    var path = $(this).attr('id');
+    var searchResultId = $(this).attr('id');
+    var searchResultData = searchResultId.split('::::');
     
-    addonSystem.openFileInNewTab(path);
+    var lineNumber = searchResultData[0];
+    var path = searchResultData[1];
+    
+    addonSystem.openFileToLineNumber(path, lineNumber);
 });
 
 addonSystem.initialiseAddon(new fileContentSearchAddon());

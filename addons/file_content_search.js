@@ -46,8 +46,6 @@ $(document).on('click', '#fileContentSearchAddonSearchButton', function()
     
     $('#fileContentSearchAddonResults').html(html);
     
-    var isBinaryFile = require("isbinaryfile");
-    
     var directoryTree = addonSystem.getDirectoryTree();
     var directoryTreeRoot = addonSystem.getDirectoryTreeRoot();
     
@@ -55,6 +53,10 @@ $(document).on('click', '#fileContentSearchAddonSearchButton', function()
     {
         return function (err, contents)
         {
+            console.log(path);
+            
+            if (err) console.log(err);
+            
             if (!contents) return;
         
             contents = contents.toLowerCase();
@@ -72,19 +74,47 @@ $(document).on('click', '#fileContentSearchAddonSearchButton', function()
         };
     }
     
+    var pathsToCheck = [];
+    
     for (var i = 0; i < directoryTree.length; i++) 
     {
         var directoryTreeEntry = directoryTree[i];
         
-        if(directoryTreeEntry.type!='file') continue;
+        if(directoryTreeEntry.type!='file')
+        {
+            continue;
+        }
         
-        var contents = null;
+        if (directoryTreeEntry.path.indexOf('.git')!==-1)
+        {
+            continue;
+        }
         
-        contents = fs.readFile(directoryTreeEntry.path, 'utf-8', makeSearchFileFunction(directoryTreeEntry.path));
-
+        if (addonSystem.isFileBinary(directoryTreeEntry.path))
+        {
+            continue;
+        }
+        
+        pathsToCheck.push(directoryTreeEntry.path);
         
     }
-
+    
+    function makeLoopFunction(j)
+    {
+        return function()
+        {
+            for (i = j; i < j+100; i++) 
+            {
+                fs.readFile(pathsToCheck[i], 'utf-8', makeSearchFileFunction(pathsToCheck[i]));    
+            }
+        };
+    }
+    
+    for (var j = 0; j < pathsToCheck.length; j+=100)
+    {
+        setTimeout(makeLoopFunction(j), j*5);
+    }
+    
 });
 
 $(document).on('click', '.fileContentSearchAddonResult', function()

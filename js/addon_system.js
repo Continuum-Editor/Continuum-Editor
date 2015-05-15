@@ -138,7 +138,16 @@ function addonSystem()
     
     this.isFileBinary = function(path)
     {
+        var isBinaryFile = require("isbinaryfile");
         
+        return isBinaryFile(path);
+    };
+    
+    this.isDataBinary = function(data, size)
+    {
+        var isBinaryFile = require("isbinaryfile");
+        
+        return isBinaryFile(data, size);
     };
 }
 

@@ -258,8 +258,6 @@ function openFile(id)
 
 function openFileByName(path, lineNumber)
 {
-    if (!lineNumber) lineNumber = 0;
-    
 	// Check if file is already open in an existing tab
 	for (var i = 0; i < activeTabs.length; i++) 
 	{
@@ -302,7 +300,7 @@ function openFileByName(path, lineNumber)
 		ui_updateTabs();
 		ui_switchTab(activeTabs.length-1);
 		
-		setLineNumberAndColumn(lineNumber, 0);
+		if (lineNumber) setLineNumberAndColumn(lineNumber, 0);
 	});
 }
 

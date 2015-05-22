@@ -1007,3 +1007,37 @@ function promptAndGotoLineNumber()
     if (lineNumber!==null && lineNumber!==false) setLineNumberAndColumn(lineNumber, 0);
     editor.focus();
 }
+
+function exitContinuum()
+{
+    exitChecks();
+}
+
+function exitChecks()
+{
+    var unsavedTabsCount = 0;
+    
+    var i = 0;
+    
+    while(i < activeTabs.length)
+	{
+		if (activeTabs[i].unsavedChanges===true) unsavedTabsCount++;
+		
+		i++;
+	}
+	
+    if (unsavedTabsCount===0) exitFinal();
+    
+    var pluralString = 's';
+    if (unsavedTabsCount===1) pluralString = '';
+    
+    var result = confirm('You have '+unsavedTabsCount+' unsaved tab'+pluralString+'.\n\nExit anyway?')
+    
+    if (result) exitFinal();
+}
+
+
+function exitFinal()
+{
+    gui.App.quit();
+}

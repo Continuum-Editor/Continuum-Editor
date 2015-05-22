@@ -453,10 +453,12 @@ function closeTab(index)
         
         if (result===true)
         {
-            saveSelectedTab();
+            saveTab(index);
         }
     }
     
+    activeTabs[index].editSession = null;
+    activeTabs[index] = null;
 	activeTabs.splice(index, 1);
 	
 	ui_updateTabs();
@@ -639,9 +641,9 @@ function ui_generateDirectoryTreeEntryHTML(i)
 	return output;
 }
 
-function saveSelectedTab()
+function saveTab(index)
 {
-	var activeTab = activeTabs[selectedTabIndex];
+    var activeTab = activeTabs[index];
 	
 	// If there is no active tab, there is nothing to save
 	if (typeof activeTab === 'undefined') return;
@@ -658,14 +660,19 @@ function saveSelectedTab()
 	{
 		fs.writeFileSync(activeTab.path, dataToSave);
 		
-		activeTabs[selectedTabIndex].unsavedChanges = false;
-		activeTabs[selectedTabIndex].lastModified = null;
+		activeTabs[index].unsavedChanges = false;
+		activeTabs[index].lastModified = null;
         ui_updateTabs();
 	}
 	catch (err)
 	{
 		alert('Bogus, save error: '+err);
 	}
+}
+
+function saveSelectedTab()
+{
+	return saveTab(selectedTabIndex);
 }
 
 function saveSelectedTabAs(newPath)

@@ -146,9 +146,14 @@ var uiThemeMenu = new gui.Menu();
 uiThemeMenu.append(new gui.MenuItem({ label: 'Dark', submenu: darkUiThemeMenu }));
 uiThemeMenu.append(new gui.MenuItem({ label: 'Light', submenu: lightUiThemeMenu }));
 
+var sidebarsMenu = new gui.Menu();
+sidebarsMenu.append(new gui.MenuItem({ label: 'Left (directory tree)', click: function() { toggleDirectoryTreeSidebar(); } }));
+sidebarsMenu.append(new gui.MenuItem({ label: 'Right (addons)', click: function() { toggleAddonsSidebar(); } }));
+
 var viewMenu = new gui.Menu();
 viewMenu.append(new gui.MenuItem({ label: 'Editor Theme', submenu: themeMenu }));
 viewMenu.append(new gui.MenuItem({ label: 'UI Theme', submenu: uiThemeMenu }));
+viewMenu.append(new gui.MenuItem({ label: 'Sidebars', submenu: sidebarsMenu }));
 
 mainMenu.append(new gui.MenuItem({ label: 'View', submenu: viewMenu }));
 

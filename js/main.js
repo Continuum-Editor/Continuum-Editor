@@ -12,6 +12,8 @@ var activeTabs = new Array(); // Array of tab objects
 var activeDirectoryTree = new Array();
 var activeDirectoryTreeRoot = null;
 var recentlyAccessed = new Array();
+var directoryTreeSidebarHidden = false;
+var addonsSidebarHidden = false;
 
 // Setup editor with initial configuration
 var editor = ace.edit("editor");
@@ -897,52 +899,6 @@ $(document).on('click', '#refreshDirectionTreeButton', function()
 	}, 250);
 });
 
-$(document).on('click', '#leftMinimizeButton', function()
-{
-    $('#left').animate({'left': -$('#left').outerWidth()}, 500);
-    $('#editor').animate({'left': 40, 'width': $('#editor').outerWidth()+$('#left').outerWidth()-40}, 500);
-    $('#tabsContainer').animate({'left': 40, 'width': $('#tabsContainer').outerWidth()+$('#left').outerWidth()-40}, 500);
-    
-    $('#leftUnminimizeButton').fadeIn(1000);
-    
-    setTimeout(function() { editor.resize(true); }, 500);
-});
-
-$(document).on('click', '#leftUnminimizeButton', function()
-{
-    $('#left').animate({'left': 0}, 500);
-    $('#editor').animate({'left': $('#left').outerWidth(), 'width': $('#editor').outerWidth()-$('#left').outerWidth()+40}, 500);
-    $('#tabsContainer').animate({'left': $('#left').outerWidth(), 'width': $('#tabsContainer').outerWidth()-$('#left').outerWidth()+40}, 500);
-    
-    $('#leftUnminimizeButton').fadeOut(500);
-    
-    setTimeout(function() { editor.resize(true); }, 500);
-});
-
-$(document).on('click', '#rightMinimizeButton', function()
-{
-    $('#right').animate({'right': -$('#right').outerWidth()}, 500);
-    $('#tabsScrollButtons').animate({'right': 0}, 500);
-    $('#editor').animate({'width': $('#editor').outerWidth()+$('#right').outerWidth()-40}, 500);
-    $('#tabsContainer').animate({'width': $('#tabsContainer').outerWidth()+$('#right').outerWidth()-40}, 500);
-
-    $('#rightUnminimizeButton').fadeIn(1000);
-    
-    setTimeout(function() { editor.resize(true); }, 500);
-});
-
-$(document).on('click', '#rightUnminimizeButton', function()
-{
-    $('#right').animate({'right': 0}, 500);
-    $('#tabsScrollButtons').animate({'right': $('#right').outerWidth()}, 500);
-    $('#editor').animate({'width': $('#editor').outerWidth()-$('#right').outerWidth()+40}, 500);
-    $('#tabsContainer').animate({'width': $('#tabsContainer').outerWidth()-$('#right').outerWidth()+40}, 500);
-
-    $('#rightUnminimizeButton').fadeOut(500);
-    
-    setTimeout(function() { editor.resize(true); }, 500);
-});
-
 $(document).on("dragover", function(e) {
     event.preventDefault();  
     event.stopPropagation();
@@ -1041,3 +997,73 @@ function exitFinal()
 {
     gui.App.quit();
 }
+
+function toggleDirectoryTreeSidebar()
+{
+    if (directoryTreeSidebarHidden)
+    {
+        $('#left').animate({'left': 0}, 500);
+        $('#editor').animate({'left': $('#left').outerWidth(), 'width': $('#editor').outerWidth()-$('#left').outerWidth()+40}, 500);
+        $('#tabsContainer').animate({'left': $('#left').outerWidth(), 'width': $('#tabsContainer').outerWidth()-$('#left').outerWidth()+40}, 500);
+        
+        $('#leftUnminimizeButton').fadeOut(500);
+    }
+    else
+    {
+        $('#left').animate({'left': -$('#left').outerWidth()}, 500);
+        $('#editor').animate({'left': 40, 'width': $('#editor').outerWidth()+$('#left').outerWidth()-40}, 500);
+        $('#tabsContainer').animate({'left': 40, 'width': $('#tabsContainer').outerWidth()+$('#left').outerWidth()-40}, 500);
+        
+        $('#leftUnminimizeButton').fadeIn(1000);
+    }
+    
+    setTimeout(function() { editor.resize(true); }, 500);
+    
+    directoryTreeSidebarHidden = !directoryTreeSidebarHidden;
+}
+
+function toggleAddonsSidebar()
+{
+    if (addonsSidebarHidden)
+    {
+        $('#right').animate({'right': 0}, 500);
+        $('#tabsScrollButtons').animate({'right': $('#right').outerWidth()}, 500);
+        $('#editor').animate({'width': $('#editor').outerWidth()-$('#right').outerWidth()+40}, 500);
+        $('#tabsContainer').animate({'width': $('#tabsContainer').outerWidth()-$('#right').outerWidth()+40}, 500);
+    
+        $('#rightUnminimizeButton').fadeOut(500);
+    }
+    else
+    {
+        $('#right').animate({'right': -$('#right').outerWidth()}, 500);
+        $('#tabsScrollButtons').animate({'right': 0}, 500);
+        $('#editor').animate({'width': $('#editor').outerWidth()+$('#right').outerWidth()-40}, 500);
+        $('#tabsContainer').animate({'width': $('#tabsContainer').outerWidth()+$('#right').outerWidth()-40}, 500);
+    
+        $('#rightUnminimizeButton').fadeIn(1000);
+    }
+    
+    setTimeout(function() { editor.resize(true); }, 500);
+    
+    addonsSidebarHidden = !addonsSidebarHidden;
+}
+
+$(document).on('click', '#leftMinimizeButton', function()
+{
+    toggleDirectoryTreeSidebar();
+});
+
+$(document).on('click', '#leftUnminimizeButton', function()
+{
+    toggleDirectoryTreeSidebar();
+});
+
+$(document).on('click', '#rightMinimizeButton', function()
+{
+    toggleAddonsSidebar();
+});
+
+$(document).on('click', '#rightUnminimizeButton', function()
+{
+    toggleAddonsSidebar();
+});

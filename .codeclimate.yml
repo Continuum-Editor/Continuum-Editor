@@ -5,7 +5,7 @@ languages:
   PHP: false
   Python: false
 # exclude_paths:
- - "node_modules"
- - "js/ace"
+ - "node_modules/*"
+ - "js/ace/*"
  - "js/jquery.hotkeys.js"
  - "js/jquery.min.js"

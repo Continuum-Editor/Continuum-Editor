@@ -27,7 +27,7 @@ var modelist = ace.require("ace/ext/modelist");
 $(document).ready(function()
 {
 	// Set Ui theme
-	if (localStorage.themeName==null) localStorage.themeName = '';
+	if (localStorage.uiThemeCssFile==null) localStorage.uiThemeCssFile = '';
 	setUiTheme(localStorage.uiThemeCssFile);
 	
 	// Restore window size

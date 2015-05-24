@@ -6,7 +6,7 @@
     "title": "Continuum Editor",
     "icon": "images/continuum_editor_icon.png",
     "toolbar": false,
-    "frame": true,
+    "frame": false,
     "width": 1000,
     "height": 700,
     "show": false

@@ -2,6 +2,7 @@
 // *** Global Variable - Start ***
 
 // Node js includes
+var os = require('os');
 var path = require('path');
 var fs = require('fs');
 var gui = require('nw.gui');
@@ -26,6 +27,12 @@ var modelist = ace.require("ace/ext/modelist");
 // Initialisation and setup
 $(document).ready(function()
 {
+    // Remove themed Window on OS X
+    if (os.platform()=='darwin')
+    {
+        $('#topMenuBar').hide();
+    }
+    
 	// Set Ui theme
 	if (localStorage.uiThemeCssFile==null) localStorage.uiThemeCssFile = '';
 	setUiTheme(localStorage.uiThemeCssFile);

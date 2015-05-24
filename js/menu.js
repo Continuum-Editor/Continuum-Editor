@@ -1,6 +1,7 @@
 
+var os = require('os');
+
 var mainMenu = new gui.Menu({ type: 'menubar' });
-//gui.Window.get().menu = mainMenu;
 
 // File Menu
 
@@ -313,3 +314,8 @@ $(document).ready(function()
 		directoryListingMenu.popup(Math.floor(pos.left), Math.floor(pos.top+height+offset));
     });
 });
+
+if (os.platform()=='darwin')
+{
+    gui.Window.get().menu = mainMenu;
+}

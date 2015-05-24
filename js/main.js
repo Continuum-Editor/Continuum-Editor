@@ -866,12 +866,15 @@ gui.Window.get().on('unmaximize', function ()
 $(window).on('resize', function()
 {
 	var leftWidth = $('#left').outerWidth();
-	if ($('#left').position().left<0) leftWidth = 40;
+	if (directoryTreeSidebarHidden) leftWidth = 40;
 	
-	var tabContainerWidth = $(window).outerWidth() - leftWidth - $('#tabsScrollButtons').outerWidth();
+	var rightWidth = $('#right').outerWidth();
+	if (addonsSidebarHidden) rightWidth = 40;
+	
+	var tabContainerWidth = $(window).outerWidth() - leftWidth - rightWidth /*- $('#tabsScrollButtons').outerWidth()*/;
 	$('#tabsContainer').outerWidth(tabContainerWidth);
 	
-	var editorWidth = $(window).outerWidth() - leftWidth - $('#right').outerWidth();
+	var editorWidth = $(window).outerWidth() - leftWidth - rightWidth;
 	$('#editor').outerWidth(editorWidth);
 	
 	var rightContentHeight = $(window).outerHeight() - $('#topMenuBar').outerHeight() - 16;

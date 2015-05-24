@@ -17,6 +17,9 @@ mkdir continuum-editor-osx-x64/continuum-editor.app/Contents/Resources/app.nw
 # Sync *.html and *.js
 rsync ../* continuum-editor-osx-x64/continuum-editor.app/Contents/Resources/app.nw/ -r --exclude ../build
 
+# Replace package.json with OS X version
+mv continuum-editor-osx-x64/continuum-editor.app/Contents/Resources/app.nw/package_osx.json continuum-editor-osx-x64/continuum-editor.app/Contents/Resources/app.nw/package.json
+
 # Remove left over nw.js
 rm continuum-editor-osx-x64/credits.html
 rm continuum-editor-osx-x64/nwjc

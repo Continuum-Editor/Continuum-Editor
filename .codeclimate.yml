@@ -1,10 +1,9 @@
-# Save as .codeclimate.yml (note leading .) in project root directory
 languages:
   Ruby: false
   JavaScript: true
   PHP: false
   Python: false
-# exclude_paths:
+exclude_paths:
  - "node_modules/*"
  - "js/ace/*"
  - "js/jquery.hotkeys.js"

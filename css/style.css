@@ -1,8 +1,14 @@
+@font-face
+{
+    font-family: LiberationSans;
+    src: url(../fonts/LiberationSans-Regular.ttf);
+}
+
 body
 {
 	margin: 0px;
 	padding: 0px;
-	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+	font-family: LiberationSans;
 	font-size: 16px;
 	line-height: normal;
 	direction: ltr;
@@ -261,7 +267,7 @@ body
 	padding: 10px;
 	color: #d9e1e4;
 	-webkit-appearance: none;
-	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+	font-family: LiberationSans;
 	font-size: 16px;
 }
 

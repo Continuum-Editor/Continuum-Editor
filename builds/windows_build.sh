@@ -12,4 +12,4 @@ mv nwjs-v0.12.2-win-x64 continuum-editor-windows-x64
 mv continuum-editor-windows-x64/nw.exe continuum-editor-windows-x64/continuum-editor.exe
 
 # Sync *.html and *.js
-rsync ../* continuum-editor-windows-x64/ -r --exclude ../build
+rsync ../* continuum-editor-windows-x64/ -r --exclude builds

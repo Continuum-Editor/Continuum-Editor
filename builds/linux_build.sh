@@ -12,4 +12,4 @@ mv nwjs-v0.12.2-linux-x64 continuum-editor-linux-x64
 mv continuum-editor-linux-x64/nw continuum-editor-linux-x64/continuum-editor
 
 # Sync *.html and *.js
-rsync ../* continuum-editor-linux-x64/ -r --exclude ../build
+rsync ../* continuum-editor-linux-x64/ -r --exclude builds

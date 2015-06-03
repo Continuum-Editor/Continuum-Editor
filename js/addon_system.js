@@ -156,8 +156,3 @@ $('#addonSelect').on('change', function()
 {
 	addonSystem.changeActiveAddon($('#addonSelect').val());
 });
-
-$('#addonSelect').on('click', function()
-{
-	$('#addonSelect').trigger('change');
-});

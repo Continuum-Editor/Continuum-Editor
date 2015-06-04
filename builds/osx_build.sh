@@ -1,9 +1,8 @@
 #!/bin/bash
 
 # Download nw.js (OSX x64)
-wget http://dl.nwjs.io/v0.12.2/nwjs-v0.12.2-osx-x64.zip
+wget -nc http://dl.nwjs.io/v0.12.2/nwjs-v0.12.2-osx-x64.zip
 unzip nwjs-v0.12.2-osx-x64.zip
-rm nwjs-v0.12.2-osx-x64.zip
 
 # Rename nw.js directory
 mv nwjs-v0.12.2-osx-x64 continuum-editor-osx-x64

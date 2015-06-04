@@ -1,9 +1,8 @@
 #!/bin/bash
 
 # Download nw.js (Linux x64)
-wget http://dl.nwjs.io/v0.12.2/nwjs-v0.12.2-linux-x64.tar.gz
+wget -nc http://dl.nwjs.io/v0.12.2/nwjs-v0.12.2-linux-x64.tar.gz
 tar -xvf nwjs-v0.12.2-linux-x64.tar.gz
-rm nwjs-v0.12.2-linux-x64.tar.gz
 
 # Rename nw.js directory
 mv nwjs-v0.12.2-linux-x64 continuum-editor-linux-x64

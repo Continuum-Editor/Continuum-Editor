@@ -13,3 +13,8 @@ mv continuum-editor-linux-x64/nw continuum-editor-linux-x64/continuum-editor
 
 # Sync *.html and *.js
 rsync ../* continuum-editor-linux-x64/ -r --exclude builds
+
+# Install dependencies with npm install
+cd continuum-editor-linux-x64
+npm install
+cd ..

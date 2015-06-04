@@ -23,3 +23,8 @@ mv continuum-editor-osx-x64/continuum-editor.app/Contents/Resources/app.nw/packa
 # Remove left over nw.js
 rm continuum-editor-osx-x64/credits.html
 rm continuum-editor-osx-x64/nwjc
+
+# Install dependencies with npm install
+cd continuum-editor-osx-x64/continuum-editor.app/Contents/Resources/app.nw/
+npm install
+cd ../../../../../

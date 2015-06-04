@@ -13,3 +13,8 @@ mv continuum-editor-windows-x64/nw.exe continuum-editor-windows-x64/continuum-ed
 
 # Sync *.html and *.js
 rsync ../* continuum-editor-windows-x64/ -r --exclude builds
+
+# Install dependencies with npm install
+cd continuum-editor-windows-x64
+npm install
+cd ..

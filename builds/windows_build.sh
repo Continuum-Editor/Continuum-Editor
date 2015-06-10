@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# Clean up existing build if present
+rm -r continuum-editor-windows-x64
+rm -r nwjs-v0.12.2-win-x64
+
 # Download nw.js (Windows x64)
 wget -nc http://dl.nwjs.io/v0.12.2/nwjs-v0.12.2-win-x64.zip
 unzip nwjs-v0.12.2-win-x64.zip

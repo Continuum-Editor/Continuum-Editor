@@ -1,6 +1,10 @@
 
 // *** Global Variable - Start ***
 
+// Electron shell includes
+var remote = require('remote');
+var dialog = remote.require('dialog');
+
 // Node js includes
 var os = require('os');
 var path = require('path');
@@ -225,7 +229,7 @@ function ui_updateRecentlyAccessedMenu()
 		{
 			var path = recentlyAccessed[i].path;
 			
-			recentMenu.append(new gui.MenuItem({ label: path, click: makeOpenRecentFunction(path) }));
+			recentMenu.append(new MenuItem({ label: path, click: makeOpenRecentFunction(path) }));
 		}
 	}
 	
@@ -253,23 +257,15 @@ function refreshTheme()
 	setTheme(localStorage.themeName, localStorage.themeStyle);
 }
 
-// Open a file (passing the id of the relevant hidden file input box)
+// Open a file
 function openFile(id) 
 {
-	var chooser = $(id);
-	
-	chooser.change(function() 
+	var paths = dialog.showOpenDialog({ properties: ['openFile'] });
+		
+	for(var i = 0; i < paths.length; i++)
 	{
-		var path = $(this).val();
-		
-		if (path.length>0) openFileByName(path);
-		
-		$(this).val('');
-		
-		chooser.off('change');
-	});
-
-	chooser.trigger('click');  
+		openFileByName(paths[i]);
+	}
 }
 
 function openFileByName(path, lineNumber)

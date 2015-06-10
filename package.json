@@ -1,16 +1,6 @@
 {
   "name": "Continuum_Editor",
-  "main": "index.html",
-  "window": 
-  {
-    "title": "Continuum Editor",
-    "icon": "images/continuum_editor_icon.png",
-    "toolbar": false,
-    "frame": false,
-    "width": 1000,
-    "height": 700,
-    "show": false
-  },
+  "main": "start.js",
   "dependencies":
   {
     "glob": ">=4.3.5",

@@ -1,4 +1,4 @@
-
+/*
 var os = require('os');
 
 var mainMenu = new gui.Menu({ type: 'menubar' });
@@ -323,3 +323,4 @@ if (os.platform()=='darwin')
 {
     gui.Window.get().menu = mainMenu;
 }
+*/

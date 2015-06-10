@@ -1058,6 +1058,13 @@ function toggleAddonsSidebar()
     addonsSidebarHidden = !addonsSidebarHidden;
 }
 
+function toggleWordWrap()
+{
+    var currentUseWrapMode =  editor.getSession().getUseWrapMode();
+    
+    editor.getSession().setUseWrapMode(!currentUseWrapMode);
+}
+
 $(document).on('click', '#leftMinimizeButton', function()
 {
     toggleDirectoryTreeSidebar();

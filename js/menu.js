@@ -51,6 +51,10 @@ editMenu.append(new gui.MenuItem({ label: 'Paste', click: function()
     editor.getSession().getDocument().remove(editor.getSelectionRange()); editor.getSession().getDocument().insert(editor.getCursorPosition(), gui.Clipboard.get().get('text')); 
 }}));
 
+editMenu.append(new gui.MenuItem({ type: 'separator' }));
+
+editMenu.append(new gui.MenuItem({ label: 'Word Wrap', click: function(){ toggleWordWrap(); }}));
+
 mainMenu.append(new gui.MenuItem({ label: 'Edit', submenu: editMenu }));
 
 $(document).ready(function()

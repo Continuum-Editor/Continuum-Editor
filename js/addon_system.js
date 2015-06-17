@@ -19,7 +19,7 @@ function addonSystem()
     {
         var glob = require("glob");
 	
-    	glob("addons/*.js", null, function (er, files)
+    	glob("addons/*/*.js", null, function (er, files)
     	{
     	    var loadAddonJS = function(src) 
         	{

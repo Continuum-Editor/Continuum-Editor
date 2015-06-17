@@ -60,7 +60,7 @@ $(document).on('keyup', '#hashAndCryptoAddon #hashPlaintext', function()
     
     if (hashAlgo=='MD5')
     {
-        $.getScript("addons/hash_and_crypto/CryptoJS/md5.js", function()
+        $.getScript("addons/hash_and_crypto/hash_and_crypto/CryptoJS/md5.js", function()
         {
             var plaintext = $('#hashAndCryptoAddon #hashPlaintext').val();
             
@@ -71,7 +71,7 @@ $(document).on('keyup', '#hashAndCryptoAddon #hashPlaintext', function()
     }
     else if(hashAlgo=='SHA-1')
     {
-        $.getScript("addons/hash_and_crypto/CryptoJS/sha1.js", function()
+        $.getScript("addons/hash_and_crypto/hash_and_crypto/CryptoJS/sha1.js", function()
         {
             var plaintext = $('#hashAndCryptoAddon #hashPlaintext').val();
             
@@ -82,7 +82,7 @@ $(document).on('keyup', '#hashAndCryptoAddon #hashPlaintext', function()
     }
     else if(hashAlgo=='SHA-256')
     {
-        $.getScript("addons/hash_and_crypto/CryptoJS/sha256.js", function()
+        $.getScript("addons/hash_and_crypto/hash_and_crypto/CryptoJS/sha256.js", function()
         {
             var plaintext = $('#hashAndCryptoAddon #hashPlaintext').val();
             
@@ -93,7 +93,7 @@ $(document).on('keyup', '#hashAndCryptoAddon #hashPlaintext', function()
     }
     else if(hashAlgo=='SHA-512')
     {
-        $.getScript("addons/hash_and_crypto/CryptoJS/sha512.js", function()
+        $.getScript("addons/hash_and_crypto/hash_and_crypto/CryptoJS/sha512.js", function()
         {
             var plaintext = $('#hashAndCryptoAddon #hashPlaintext').val();
             
@@ -104,7 +104,7 @@ $(document).on('keyup', '#hashAndCryptoAddon #hashPlaintext', function()
     }
     else if(hashAlgo=='SHA-3')
     {
-        $.getScript("addons/hash_and_crypto/CryptoJS/sha3.js", function()
+        $.getScript("addons/hash_and_crypto/hash_and_crypto/CryptoJS/sha3.js", function()
         {
             var plaintext = $('#hashAndCryptoAddon #hashPlaintext').val();
             

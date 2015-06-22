@@ -88,26 +88,34 @@ function outlineAddon()
 		
 		html += '<div id="outline">';
 		
-		html += '<table class="outlineFunctions" style="width: 100%;">';
-		
-		html += '<tr>';
-		html += '<th style="text-align: left;">Line</th>';
-		html += '<th style="text-align: left;">Function name</th>';
-		html += '<th style="text-align: left;">Type</th>';
-		html += '</tr>';
-		
-		for (i = 0; i < functions.length; i++) 
+		if (functions.length>0)
 		{
-			var functionObj = functions[i];
-			
-			html += '<tr class="outlineLine" id="'+(functionObj.lineNumber)+'">';
-			html += '<td>' + functionObj.lineNumber + '</td>';
-			html += '<td>' + functionObj.name + '</td>';
-			html += '<td>' + functionObj.type + '</td>';
-			html += '</tr>';
-		}
+		    html += '<table class="outlineFunctions" style="width: 100%;">';
 		
-		html += '</table>';
+    		html += '<tr>';
+    		html += '<th style="text-align: left;">Line</th>';
+    		html += '<th style="text-align: left;">Function name</th>';
+    		html += '<th style="text-align: left;">Type</th>';
+    		html += '</tr>';
+    		
+    		for (i = 0; i < functions.length; i++) 
+    		{
+    			var functionObj = functions[i];
+    			
+    			html += '<tr class="outlineLine" id="'+(functionObj.lineNumber)+'">';
+    			html += '<td>' + functionObj.lineNumber + '</td>';
+    			html += '<td>' + functionObj.name + '</td>';
+    			html += '<td>' + functionObj.type + '</td>';
+    			html += '</tr>';
+    		}
+    		
+    		html += '</table>';
+		}
+		else
+		{
+		    html += '<p>No functions were found in this file.</p>';
+		    html += '<p>Either no functions are present or their format is not yet supported by this addon.</p>';
+		}
 		
 		html += '</div>';
 		

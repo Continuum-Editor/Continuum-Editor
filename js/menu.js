@@ -266,7 +266,7 @@ directoryListingMenu.append(new gui.MenuItem({ label: 'Create new file here...',
     if (directoryTreeEntry.type=='file') creationPath = path.dirname(directoryTreeEntry.path);
     else creationPath = directoryTreeEntry.path;
     
-    var newFilename = prompt('Creating a new file here: '+creationPath+'\n\nName the new name:', 'new_file_'+randNum+'.txt');
+    var newFilename = prompt('Creating a new file here: '+creationPath+'\n\nName the new file:', 'new_file_'+randNum+'.txt');
 
     newFilename = path.basename(newFilename);
 

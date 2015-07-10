@@ -167,16 +167,18 @@ body
     margin-bottom: 22px;
     float: left;
     min-width: 110px;
-    height: 13px;
+    height: 12px;
     background-image: url('../images/tab_file_icon.png');
     background-repeat: no-repeat;
     background-position: 10px 6.5px;
     background-color: #3a3e41;
+    border-bottom: solid 0 #d9e1e4;
 }
 
 #tabs .activeTab
 {
 	background-color: #2e353b !important;
+	border-bottom: dotted 1px #d9e1e4 !important;
 }
 
 #tabs .tab .tabContent
@@ -261,7 +263,7 @@ body
 {
 	margin: 0px;
 	background-color: #45494c;
-	border: 1px darkgrey solid;
+	border: dotted 1px #d9e1e4;
 	width: 100%;
 	height: 40px;
 	padding: 10px;

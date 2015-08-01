@@ -180,7 +180,13 @@ $(document).ready(function()
 // Help Menu
 
 var helpMenu = new Menu();
-helpMenu.append(new MenuItem({ label: 'Report bug / suggest feature...', click: function(){ gui.Shell.openExternal('https://github.com/Continuum-Editor/Continuum-Editor/issues/new'); } }));
+helpMenu.append(new MenuItem({ label: 'Report bug / suggest feature...', click: function(){
+
+    var shell = require('shell');
+    shell.openExternal('https://github.com/Continuum-Editor/Continuum-Editor/issues/new');
+    
+} }));
+
 helpMenu.append(new MenuItem({ label: 'About Continuum Editor', click: function(){ 
     
     window.open('about.html');

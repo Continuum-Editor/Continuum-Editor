@@ -485,17 +485,14 @@ function closeTab(index)
 // Open a directory (passing the id of the relevant hidden file input box)
 function openDirectory(id) 
 {
-	var chooser = $(id);
-	chooser.change(function() 
+    var paths = dialog.showOpenDialog({ properties: ['openDirectory'] });
+	
+	if (typeof paths == 'undefined') return;
+	
+	for(var i = 0; i < paths.length; i++)
 	{
-		var directoryToOpen = $(this).val();
-		
-		openDirectoryByPath(directoryToOpen);
-		
-		chooser.off('change');
-	});
-
-	chooser.trigger('click');  
+	    openDirectoryByPath(paths[i]);
+	}
 }
 
 function cloneArray(arrayToClone)

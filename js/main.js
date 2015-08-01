@@ -262,7 +262,9 @@ function refreshTheme()
 function openFile(id) 
 {
 	var paths = dialog.showOpenDialog({ properties: ['openFile'] });
-		
+	
+	if (typeof paths == 'undefined') return;
+	
 	for(var i = 0; i < paths.length; i++)
 	{
 		openFileByName(paths[i]);

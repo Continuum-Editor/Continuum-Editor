@@ -7,4 +7,4 @@ node_modules
 # Build ignores
 builds/*/
 builds/nwjs-*
-build/*.zip
+builds/*.zip

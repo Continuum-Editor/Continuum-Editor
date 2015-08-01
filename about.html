@@ -36,11 +36,10 @@
 	<script src="js/jquery.min.js" type="text/javascript"></script>
     
     <script>
-        var gui = require('nw.gui');
-    
         $('#contributionsLink').on('click', function()
         {
-            gui.Shell.openExternal('https://github.com/Continuum-Editor/Continuum-Editor/graphs/contributors'); 
+            var shell = require('shell');
+            shell.openExternal('https://github.com/Continuum-Editor/Continuum-Editor/graphs/contributors');
         });
     </script>
     

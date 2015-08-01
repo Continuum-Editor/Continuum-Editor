@@ -2,22 +2,21 @@
 
 # Clean up existing build if present
 rm -r continuum-editor-linux-x64
-rm -r nwjs-v0.12.2-linux-x64
 
-# Download nw.js (Linux x64)
-wget -nc http://dl.nwjs.io/v0.12.2/nwjs-v0.12.2-linux-x64.tar.gz
-tar -xvf nwjs-v0.12.2-linux-x64.tar.gz
+# Download electron (Linux x64)
+wget -nc https://github.com/atom/electron/releases/download/v0.30.2/electron-v0.30.2-linux-x64.zip
+unzip electron-v0.30.2-linux-x64.zip -d continuum-editor-linux-x64
 
-# Rename nw.js directory
-mv nwjs-v0.12.2-linux-x64 continuum-editor-linux-x64
+# Rename electron executable
+mv continuum-editor-linux-x64/electron continuum-editor-linux-x64/continuum-editor
 
-# Rename nw.js executable
-mv continuum-editor-linux-x64/nw continuum-editor-linux-x64/continuum-editor
+# Make app directory
+mkdir continuum-editor-linux-x64/resources/app
 
 # Sync *.html and *.js
-rsync ../* continuum-editor-linux-x64/ -r --exclude builds
+rsync ../* continuum-editor-linux-x64/resources/app/ -r --exclude builds
 
 # Install dependencies with npm install
-cd continuum-editor-linux-x64
+cd continuum-editor-linux-x64/resources/app/
 npm install
-cd ..
+cd ../../../

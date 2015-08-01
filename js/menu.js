@@ -1,24 +1,28 @@
 
 var os = require('os');
 
-var mainMenu = new gui.Menu({ type: 'menubar' });
+var remote = require('remote');
+var Menu = remote.require('menu');
+var MenuItem = remote.require('menu-item');
+
+var mainMenu = new Menu({ type: 'menubar' });
 
 // File Menu
 
-var fileMenu = new gui.Menu();
-fileMenu.append(new gui.MenuItem({ label: 'New', click: function(){ openNewFile(); } }));
-fileMenu.append(new gui.MenuItem({ label: 'Open File...', click: function(){ openFile('#openFileDialog'); } }));
-fileMenu.append(new gui.MenuItem({ label: 'Open Directory...', click: function(){ openDirectory('#openDirectoryDialog'); } }));
-fileMenu.append(new gui.MenuItem({ type: 'separator' }));
+var fileMenu = new Menu();
+fileMenu.append(new MenuItem({ label: 'New', click: function(){ openNewFile(); } }));
+fileMenu.append(new MenuItem({ label: 'Open File...', click: function(){ openFile('#openFileDialog'); } }));
+fileMenu.append(new MenuItem({ label: 'Open Directory...', click: function(){ openDirectory('#openDirectoryDialog'); } }));
+fileMenu.append(new MenuItem({ type: 'separator' }));
 
-var recentMenu = new gui.Menu();
-fileMenu.append(new gui.MenuItem({ label: 'Open Recent', submenu: recentMenu }));
+var recentMenu = new Menu();
+fileMenu.append(new MenuItem({ label: 'Open Recent', submenu: recentMenu }));
 
-fileMenu.append(new gui.MenuItem({ type: 'separator' }));
-fileMenu.append(new gui.MenuItem({ label: 'Save', click: function(){ saveSelectedTab(); } }));
-fileMenu.append(new gui.MenuItem({ label: 'Save As...', click: function(){ saveFileAs('#saveFileAsDialog'); } }));
+fileMenu.append(new MenuItem({ type: 'separator' }));
+fileMenu.append(new MenuItem({ label: 'Save', click: function(){ saveSelectedTab(); } }));
+fileMenu.append(new MenuItem({ label: 'Save As...', click: function(){ saveFileAs('#saveFileAsDialog'); } }));
 
-mainMenu.append(new gui.MenuItem({ label: 'File', submenu: fileMenu }));
+mainMenu.append(new MenuItem({ label: 'File', submenu: fileMenu }));
 
 $(document).ready(function()
 {
@@ -27,35 +31,35 @@ $(document).ready(function()
 		var pos = $("#fileMenu").position();
 		var height = $("#fileMenu").height();
 		var offset = 5;
-		fileMenu.popup(Math.floor(pos.left), Math.floor(pos.top+height+offset));
+		fileMenu.popup(remote.getCurrentWindow());
 	});
 });
 
 // Edit Menu
 
-var editMenu = new gui.Menu();
-editMenu.append(new gui.MenuItem({ label: 'Cut', click: function()
+var editMenu = new Menu();
+editMenu.append(new MenuItem({ label: 'Cut', click: function()
 { 
     gui.Clipboard.get().set(editor.session.getTextRange(editor.getSelectionRange()), 'text'); 
     editor.getSession().getDocument().remove(editor.getSelectionRange()); 
 }}));
 
 
-editMenu.append(new gui.MenuItem({ label: 'Copy', click: function()
+editMenu.append(new MenuItem({ label: 'Copy', click: function()
 { 
     gui.Clipboard.get().set(editor.session.getTextRange(editor.getSelectionRange()), 'text'); 
 }}));
 
-editMenu.append(new gui.MenuItem({ label: 'Paste', click: function()
+editMenu.append(new MenuItem({ label: 'Paste', click: function()
 { 
     editor.getSession().getDocument().remove(editor.getSelectionRange()); editor.getSession().getDocument().insert(editor.getCursorPosition(), gui.Clipboard.get().get('text')); 
 }}));
 
-editMenu.append(new gui.MenuItem({ type: 'separator' }));
+editMenu.append(new MenuItem({ type: 'separator' }));
 
-editMenu.append(new gui.MenuItem({ label: 'Word Wrap', click: function(){ toggleWordWrap(); }}));
+editMenu.append(new MenuItem({ label: 'Word Wrap', click: function(){ toggleWordWrap(); }}));
 
-mainMenu.append(new gui.MenuItem({ label: 'Edit', submenu: editMenu }));
+mainMenu.append(new MenuItem({ label: 'Edit', submenu: editMenu }));
 
 $(document).ready(function()
 {
@@ -64,19 +68,19 @@ $(document).ready(function()
 		var pos = $("#editMenu").position();
 		var height = $("#editMenu").height();
 		var offset = 5;
-		editMenu.popup(Math.floor(pos.left), Math.floor(pos.top+height+offset));
+		editMenu.popup(remote.getCurrentWindow());
 	});
 });
 
 // Search Menu
 
-var searchMenu = new gui.Menu();
-searchMenu.append(new gui.MenuItem({ label: 'Go to line number', click: function()
+var searchMenu = new Menu();
+searchMenu.append(new MenuItem({ label: 'Go to line number', click: function()
 { 
     promptAndGotoLineNumber();
 }}));
 
-mainMenu.append(new gui.MenuItem({ label: 'Search', submenu: searchMenu }));
+mainMenu.append(new MenuItem({ label: 'Search', submenu: searchMenu }));
 
 $(document).ready(function()
 {
@@ -85,31 +89,31 @@ $(document).ready(function()
 		var pos = $("#searchMenu").position();
 		var height = $("#searchMenu").height();
 		var offset = 5;
-		searchMenu.popup(Math.floor(pos.left), Math.floor(pos.top+height+offset));
+		searchMenu.popup(remote.getCurrentWindow());
 	});
 });
 
 // View Menu
 
-var darkThemeMenu = new gui.Menu();
+var darkThemeMenu = new Menu();
 
-darkThemeMenu.append(new gui.MenuItem({ label: 'Monokai', click: function(){ setTheme('monokai', 'dark'); } }));
+darkThemeMenu.append(new MenuItem({ label: 'Monokai', click: function(){ setTheme('monokai', 'dark'); } }));
 
-var lightThemeMenu = new gui.Menu();
+var lightThemeMenu = new Menu();
 
-lightThemeMenu.append(new gui.MenuItem({ label: 'Eclipse', click: function(){ setTheme('eclipse', 'light'); } }));
-lightThemeMenu.append(new gui.MenuItem({ label: 'Dreamweaver', click: function(){ setTheme('dreamweaver', 'light'); } }));
-lightThemeMenu.append(new gui.MenuItem({ label: 'Notepad++', click: function(){ setTheme('notepadplusplus', 'light'); } }));
+lightThemeMenu.append(new MenuItem({ label: 'Eclipse', click: function(){ setTheme('eclipse', 'light'); } }));
+lightThemeMenu.append(new MenuItem({ label: 'Dreamweaver', click: function(){ setTheme('dreamweaver', 'light'); } }));
+lightThemeMenu.append(new MenuItem({ label: 'Notepad++', click: function(){ setTheme('notepadplusplus', 'light'); } }));
 
-var themeMenu = new gui.Menu();
-themeMenu.append(new gui.MenuItem({ label: 'Dark', submenu: darkThemeMenu }));
-themeMenu.append(new gui.MenuItem({ label: 'Light', submenu: lightThemeMenu }));
+var themeMenu = new Menu();
+themeMenu.append(new MenuItem({ label: 'Dark', submenu: darkThemeMenu }));
+themeMenu.append(new MenuItem({ label: 'Light', submenu: lightThemeMenu }));
 
 var glob = require("glob");
 var path = require('path');
 
-var darkUiThemeMenu = new gui.Menu();
-darkUiThemeMenu.append(new gui.MenuItem({ label: 'Continuum (default)', click: function(){ setUiTheme(''); } }));
+var darkUiThemeMenu = new Menu();
+darkUiThemeMenu.append(new MenuItem({ label: 'Continuum (default)', click: function(){ setUiTheme(''); } }));
 
 glob("css/ui_theme/dark/*.css", null, function (er, files)
 {
@@ -121,14 +125,14 @@ glob("css/ui_theme/dark/*.css", null, function (er, files)
 		
 		var uiThemeName = (path.basename(file).charAt(0).toUpperCase() + path.basename(file).slice(1)).replace('.css', '');
 	
-		darkUiThemeMenu.append(new gui.MenuItem({ label: uiThemeName, click: function(){ setUiTheme(file); } }));
+		darkUiThemeMenu.append(new MenuItem({ label: uiThemeName, click: function(){ setUiTheme(file); } }));
 	
 		i++;
 	}
 	
 });
 
-var lightUiThemeMenu = new gui.Menu();
+var lightUiThemeMenu = new Menu();
 
 glob("css/ui_theme/light/*.css", null, function (er, files)
 {
@@ -140,27 +144,27 @@ glob("css/ui_theme/light/*.css", null, function (er, files)
 		
 		var uiThemeName = (path.basename(file).charAt(0).toUpperCase() + path.basename(file).slice(1)).replace('.css', '');
 	
-		lightUiThemeMenu.append(new gui.MenuItem({ label: uiThemeName, click: function(){ setUiTheme(file); } }));
+		lightUiThemeMenu.append(new MenuItem({ label: uiThemeName, click: function(){ setUiTheme(file); } }));
 	
 		i++;
 	}
 	
 });
 
-var uiThemeMenu = new gui.Menu();
-uiThemeMenu.append(new gui.MenuItem({ label: 'Dark', submenu: darkUiThemeMenu }));
-uiThemeMenu.append(new gui.MenuItem({ label: 'Light', submenu: lightUiThemeMenu }));
+var uiThemeMenu = new Menu();
+uiThemeMenu.append(new MenuItem({ label: 'Dark', submenu: darkUiThemeMenu }));
+uiThemeMenu.append(new MenuItem({ label: 'Light', submenu: lightUiThemeMenu }));
 
-var sidebarsMenu = new gui.Menu();
-sidebarsMenu.append(new gui.MenuItem({ label: 'Left (directory tree)', click: function() { toggleDirectoryTreeSidebar(); } }));
-sidebarsMenu.append(new gui.MenuItem({ label: 'Right (addons)', click: function() { toggleAddonsSidebar(); } }));
+var sidebarsMenu = new Menu();
+sidebarsMenu.append(new MenuItem({ label: 'Left (directory tree)', click: function() { toggleDirectoryTreeSidebar(); } }));
+sidebarsMenu.append(new MenuItem({ label: 'Right (addons)', click: function() { toggleAddonsSidebar(); } }));
 
-var viewMenu = new gui.Menu();
-viewMenu.append(new gui.MenuItem({ label: 'Editor Theme', submenu: themeMenu }));
-viewMenu.append(new gui.MenuItem({ label: 'UI Theme', submenu: uiThemeMenu }));
-viewMenu.append(new gui.MenuItem({ label: 'Sidebars', submenu: sidebarsMenu }));
+var viewMenu = new Menu();
+viewMenu.append(new MenuItem({ label: 'Editor Theme', submenu: themeMenu }));
+viewMenu.append(new MenuItem({ label: 'UI Theme', submenu: uiThemeMenu }));
+viewMenu.append(new MenuItem({ label: 'Sidebars', submenu: sidebarsMenu }));
 
-mainMenu.append(new gui.MenuItem({ label: 'View', submenu: viewMenu }));
+mainMenu.append(new MenuItem({ label: 'View', submenu: viewMenu }));
 
 $(document).ready(function()
 {
@@ -169,17 +173,27 @@ $(document).ready(function()
 		var pos = $("#viewMenu").position();
 		var height = $("#viewMenu").height();
 		var offset = 5;
-		viewMenu.popup(Math.floor(pos.left), Math.floor(pos.top+height+offset));
+		viewMenu.popup(remote.getCurrentWindow());
 	});
 });
 
 // Help Menu
 
-var helpMenu = new gui.Menu();
-helpMenu.append(new gui.MenuItem({ label: 'Report bug / suggest feature...', click: function(){ gui.Shell.openExternal('https://github.com/Continuum-Editor/Continuum-Editor/issues/new'); } }));
-helpMenu.append(new gui.MenuItem({ label: 'About Continuum Editor', click: function(){ gui.Window.open('about.html', { position: 'center', width: 450, height: 350, frame: true, toolbar: false, resizable: false, focus: true }); } } ) );
+var helpMenu = new Menu();
+helpMenu.append(new MenuItem({ label: 'Report bug / suggest feature...', click: function(){
 
-mainMenu.append(new gui.MenuItem({ label: 'Help', submenu: helpMenu }));
+    var shell = require('shell');
+    shell.openExternal('https://github.com/Continuum-Editor/Continuum-Editor/issues/new');
+    
+} }));
+
+helpMenu.append(new MenuItem({ label: 'About Continuum Editor', click: function(){ 
+    
+    window.open('about.html');
+    
+} } ) );
+
+mainMenu.append(new MenuItem({ label: 'Help', submenu: helpMenu }));
 
 $(document).ready(function()
 {
@@ -188,7 +202,7 @@ $(document).ready(function()
 		var pos = $("#helpMenu").position();
 		var height = $("#helpMenu").height();
 		var offset = 5;
-		helpMenu.popup(Math.floor(pos.left), Math.floor(pos.top+height+offset));
+		helpMenu.popup(remote.getCurrentWindow());
 	});
 });
 
@@ -226,9 +240,9 @@ $(document).ready(function()
 
 var directoryTreeEntryIDForContextMenu = null;
 
-var directoryListingMenu = new gui.Menu();
+var directoryListingMenu = new Menu();
 
-directoryListingMenu.append(new gui.MenuItem({ label: 'Rename...', click: function()
+directoryListingMenu.append(new MenuItem({ label: 'Rename...', click: function()
 {  
     var directoryTreeEntry = activeDirectoryTree[directoryTreeEntryIDForContextMenu];
     
@@ -255,7 +269,7 @@ directoryListingMenu.append(new gui.MenuItem({ label: 'Rename...', click: functi
     
 } }));
 
-directoryListingMenu.append(new gui.MenuItem({ label: 'Create new file here...', click: function()
+directoryListingMenu.append(new MenuItem({ label: 'Create new file here...', click: function()
 {
     var directoryTreeEntry = activeDirectoryTree[directoryTreeEntryIDForContextMenu];
     
@@ -282,7 +296,7 @@ directoryListingMenu.append(new gui.MenuItem({ label: 'Create new file here...',
     
 } }));
 
-directoryListingMenu.append(new gui.MenuItem({ label: 'Create new directory here...', click: function()
+directoryListingMenu.append(new MenuItem({ label: 'Create new directory here...', click: function()
 {
     var directoryTreeEntry = activeDirectoryTree[directoryTreeEntryIDForContextMenu];
     
@@ -315,11 +329,8 @@ $(document).ready(function()
         var pos = $(this).position();
 		var height = $(this).height();
 		var offset = 40;
-		directoryListingMenu.popup(Math.floor(pos.left), Math.floor(pos.top+height+offset));
+		directoryListingMenu.popup(remote.getCurrentWindow());
     });
 });
 
-if (os.platform()=='darwin')
-{
-    gui.Window.get().menu = mainMenu;
-}
+Menu.setApplicationMenu(mainMenu);

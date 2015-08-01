@@ -1,11 +1,16 @@
 
 // *** Global Variable - Start ***
 
+// Electron shell includes
+var remote = require('remote');
+var dialog = remote.require('dialog');
+
 // Node js includes
 var os = require('os');
 var path = require('path');
 var fs = require('fs');
-var gui = require('nw.gui');
+var shell = require('shell');
+//var gui = require('nw.gui');
 
 // Define variables
 var selectedTabIndex = 0;
@@ -40,6 +45,7 @@ $(document).ready(function()
 	// Restore window size
 	if (localStorage.windowSize!=null)
 	{
+		/*
 		var win = gui.Window.get();
 		if (localStorage.windowSize=='maximized')
 		{
@@ -57,6 +63,7 @@ $(document).ready(function()
 				console.log('Error recovering window size. Details: '+e);
 			}
 		}
+		*/
 	}
 	
 	// Config default editor parameters
@@ -124,21 +131,25 @@ $(document).ready(function()
 	
 	setTimeout(function()
 	{
+		/*
     	var commandLineArgs = gui.App.argv;
     	
     	for (var i = 0; i < commandLineArgs.length; i++)
         {
             openFileByName(commandLineArgs[i]);
         }
+        */
 	}, 500);
 	
 	checkForExternalChanges();
 	
+	/*
 	var win = gui.Window.get();
 	win.show();
-	
+	*/
 });
 
+/*
 gui.App.on('open', function(cmdline) 
 {
     var commandLineArgs = cmdline.split(' ');
@@ -148,6 +159,7 @@ gui.App.on('open', function(cmdline)
         openFileByName(commandLineArgs[i]);
     }
 });
+*/
 
 function checkForExternalChanges()
 {
@@ -207,10 +219,10 @@ function addToRecentlyAccessed(path, type)
 
 function ui_updateRecentlyAccessedMenu()
 {
-	while (recentMenu.items.length > 0) 
+	/*while (recentMenu.items.length > 0) 
 	{
         recentMenu.removeAt(0);
-    }
+    }*/
 	
 	for (var i = recentlyAccessed.length-1; i > 0; i--) 
 	{
@@ -218,7 +230,7 @@ function ui_updateRecentlyAccessedMenu()
 		{
 			var path = recentlyAccessed[i].path;
 			
-			recentMenu.append(new gui.MenuItem({ label: path, click: makeOpenRecentFunction(path) }));
+			recentMenu.append(new MenuItem({ label: path, click: makeOpenRecentFunction(path) }));
 		}
 	}
 	
@@ -246,23 +258,17 @@ function refreshTheme()
 	setTheme(localStorage.themeName, localStorage.themeStyle);
 }
 
-// Open a file (passing the id of the relevant hidden file input box)
+// Open a file
 function openFile(id) 
 {
-	var chooser = $(id);
+	var paths = dialog.showOpenDialog({ properties: ['openFile'] });
 	
-	chooser.change(function() 
+	if (typeof paths == 'undefined') return;
+	
+	for(var i = 0; i < paths.length; i++)
 	{
-		var path = $(this).val();
-		
-		if (path.length>0) openFileByName(path);
-		
-		$(this).val('');
-		
-		chooser.off('change');
-	});
-
-	chooser.trigger('click');  
+		openFileByName(paths[i]);
+	}
 }
 
 function openFileByName(path, lineNumber)
@@ -284,7 +290,7 @@ function openFileByName(path, lineNumber)
 
 	if (fileIsBinary)
 	{
-	    gui.Shell.openItem(path);
+	    shell.openItem(path);
 	    return;
 	}
 	
@@ -479,17 +485,14 @@ function closeTab(index)
 // Open a directory (passing the id of the relevant hidden file input box)
 function openDirectory(id) 
 {
-	var chooser = $(id);
-	chooser.change(function() 
+    var paths = dialog.showOpenDialog({ properties: ['openDirectory'] });
+	
+	if (typeof paths == 'undefined') return;
+	
+	for(var i = 0; i < paths.length; i++)
 	{
-		var directoryToOpen = $(this).val();
-		
-		openDirectoryByPath(directoryToOpen);
-		
-		chooser.off('change');
-	});
-
-	chooser.trigger('click');  
+	    openDirectoryByPath(paths[i]);
+	}
 }
 
 function cloneArray(arrayToClone)
@@ -851,6 +854,7 @@ $(document).on('click', '#rightTabsScrollButtonRight', function()
 	$('#rightTabsContainer').animate({ scrollLeft: '+=100' }, 250);
 });
 
+/*
 gui.Window.get().on('maximize', function () 
 {
 	localStorage.windowSize = 'maximized';
@@ -861,6 +865,7 @@ gui.Window.get().on('unmaximize', function ()
 	var win = gui.Window.get();
 	localStorage.windowSize = win.width+','+win.height;
 });
+*/
 
 // Handle resizing of various elements when the window is resized
 $(window).on('resize', function()
@@ -893,8 +898,10 @@ $(window).on('resize', function()
 	
 	if (localStorage.windowSize!='maximized')
 	{
+		/*
 		var win = gui.Window.get();
 		localStorage.windowSize = win.width+','+win.height;
+		*/
 	}
 });
 

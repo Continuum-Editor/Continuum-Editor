@@ -20,3 +20,7 @@ rsync ../* continuum-editor-osx-x64/continuum-editor.app/Contents/Resources/app/
 cd continuum-editor-osx-x64/continuum-editor.app/Contents/Resources/app/
 npm install
 cd ../../../../../
+
+# Remove extra files
+rm continuum-editor-osx-x64/LICENSE
+rm continuum-editor-osx-x64/version

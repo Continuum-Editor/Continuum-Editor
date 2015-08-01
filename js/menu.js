@@ -181,7 +181,11 @@ $(document).ready(function()
 
 var helpMenu = new Menu();
 helpMenu.append(new MenuItem({ label: 'Report bug / suggest feature...', click: function(){ gui.Shell.openExternal('https://github.com/Continuum-Editor/Continuum-Editor/issues/new'); } }));
-helpMenu.append(new MenuItem({ label: 'About Continuum Editor', click: function(){ gui.Window.open('about.html', { position: 'center', width: 450, height: 350, frame: true, toolbar: false, resizable: false, focus: true }); } } ) );
+helpMenu.append(new MenuItem({ label: 'About Continuum Editor', click: function(){ 
+    
+    window.open('about.html');
+    
+} } ) );
 
 mainMenu.append(new MenuItem({ label: 'Help', submenu: helpMenu }));
 

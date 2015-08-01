@@ -9,6 +9,7 @@ var dialog = remote.require('dialog');
 var os = require('os');
 var path = require('path');
 var fs = require('fs');
+var shell = require('shell');
 //var gui = require('nw.gui');
 
 // Define variables
@@ -218,10 +219,10 @@ function addToRecentlyAccessed(path, type)
 
 function ui_updateRecentlyAccessedMenu()
 {
-	while (recentMenu.items.length > 0) 
+	/*while (recentMenu.items.length > 0) 
 	{
         recentMenu.removeAt(0);
-    }
+    }*/
 	
 	for (var i = recentlyAccessed.length-1; i > 0; i--) 
 	{
@@ -287,7 +288,7 @@ function openFileByName(path, lineNumber)
 
 	if (fileIsBinary)
 	{
-	    gui.Shell.openItem(path);
+	    shell.openItem(path);
 	    return;
 	}
 	

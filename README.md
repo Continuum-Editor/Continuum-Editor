@@ -7,5 +7,5 @@ Continuum Editor
 
 Note that these are now downloaded as necessary by the build scripts.
 
-* nw.js (Node Webkit) v0.12.0 or greater
+* Electron v0.30.2 or greater
 

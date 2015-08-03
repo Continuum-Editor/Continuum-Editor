@@ -13,20 +13,45 @@ function gitAddon()
 	{
 		if (this.active===false) return;
 		
-		var exec = require('child_process').exec;
+		var html = '';
+		
+		html += '<div id="gitAddon">';
+			
+		html += '<p style="font-weight: bold;">Changes not staged for commit:</p>';
+		
+		html += '<div id="notStagedFiles"></div>';
+		
+		html += '<p style="font-weight: bold;">Changes to be commited:</p>';
+		
+		html += '<div id="stagedFiles"></div>';
+		
+		html += '<div id="commit">';
+		html += '<p style="font-weight: bold;">Commit:</p>';
+	    html += '<textarea style="width:100%;" id="commitMessage"></textarea>';
+	    html += '<button id="commitButton">Commit</button>';
+	    html += '</div>';
+		
+		html += '</div>';
+		
+		addonSystem.setAddonSidebarContent(html);
+		
+		this.gitDisplayUpdate();
+	};
+	
+	this.gitDisplayUpdate = function()
+	{
+	    var exec = require('child_process').exec;
 	
 		var rootDir = addonSystem.getDirectoryTreeRoot();
 	
 		var cmd = 'cd '+rootDir+' && git status --porcelain';
-				
-		exec(cmd, function(error, stdout, stderr) 
+	    
+	    exec(cmd, function(error, stdout, stderr) 
 		{
-			var html = '';
-			
 			var lines = stdout.split('\n');
 			
 			var changesNotStaged = [];
-			var changesStaged = []
+			var changesStaged = [];
 			
 			for (var i = 0; i < lines.length; i++) 
 			{
@@ -45,57 +70,88 @@ function gitAddon()
 			    }
 			}
 			
-			html += '<div id="gitAddon">';
-			
-			html += '<p style="font-weight: bold;">Changes not staged for commit:</p>';
-			
-			if (changesNotStaged.length>0)
-			{
-    			for (var i = 0; i < changesNotStaged.length; i++) 
-    			{
-    			    html += '<div class="stageFile" id="'+changesNotStaged[i]+'">&darr; ';
-    			    html += changesNotStaged[i];
-    			    html += '</div>';
-    			}
-			}
-			else
-			{
-			    html += 'None';
-    			html += '<br/>';
-			}
-			
-			html += '<p style="font-weight: bold;">Changes to be commited:</p>';
+			var html = '';
 			
 			if (changesStaged.length>0)
-			{
+    		{
     			for (var i = 0; i < changesStaged.length; i++) 
     			{
     			    html += '<div class="unstageFile" id="'+changesStaged[i]+'">&uarr;<span> ';
     			    html += changesStaged[i];
     			    html += '</div>';
     			}
-			}
-			else
-			{
-			    html += 'None';
+    		}
+    		else
+    		{
+    		    html += 'None';
     			html += '<br/>';
-			}
+    		}
+    		
+    		$('#gitAddon #stagedFiles').html(html);
+    		
+    		html = '';
+    		
+    		if (changesNotStaged.length>0)
+    		{
+    			for (var i = 0; i < changesNotStaged.length; i++) 
+    			{
+    			    html += '<div class="stageFile" id="'+changesNotStaged[i]+'">&darr; ';
+    			    html += changesNotStaged[i];
+    			    html += '</div>';
+    			}
+    		}
+    		else
+    		{
+    		    html += 'None';
+    			html += '<br/>';
+    		}
 			
-			html += '</div>';
+			$('#gitAddon #notStagedFiles').html(html);
+			
+		    if (changesStaged.length>0)
+    		{
+    		    $('#gitAddon #commit').slideDown(250);
+    		}
+    		else
+    		{
+    		    $('#gitAddon #commit').slideUp(250);
+    		    $('#gitAddon #commit #commitMessage').val('');
+    		}
 			
 			//console.log(stdout);
-			
-			addonSystem.setAddonSidebarContent(html);
 		});
 		
 		var me = this;
-		setTimeout(function() { me.gitDisplay() }, 1000);
-	}
+		setTimeout(function() { me.gitDisplayUpdate() }, 1000);
+	};
 }
+
+$(document).on('click', '#gitAddon #commit #commitButton', function()
+{
+    var commitMsg = $('#gitAddon #commit #commitMessage').val();
+    
+    commitMsg = commitMsg.replace(/"/g, '\\"');
+    
+    $('#gitAddon #commit #commitMessage').val('');
+    
+    var exec = require('child_process').exec;
+	
+	var rootDir = addonSystem.getDirectoryTreeRoot();
+
+	var cmd = 'cd '+rootDir+' && git commit -m "'+commitMsg+'"';
+	console.log(cmd);
+	
+	exec(cmd, function(error, stdout, stderr) 
+	{
+	    
+	});
+});
 
 $(document).on('click', '#gitAddon .stageFile', function()
 {
 	var file = $(this).attr('id');
+	
+	$(this).html('Staging... '+file);
 	
 	var exec = require('child_process').exec;
 	
@@ -112,6 +168,8 @@ $(document).on('click', '#gitAddon .stageFile', function()
 $(document).on('click', '#gitAddon .unstageFile', function()
 {
 	var file = $(this).attr('id');
+	
+	$(this).html('Unstaging... '+file);
 	
 	var exec = require('child_process').exec;
 	

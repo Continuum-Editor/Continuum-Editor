@@ -26,8 +26,8 @@ function gitAddon()
 		html += '<div id="stagedFiles"></div>';
 		
 		html += '<div id="commit">';
-		html += '<p style="font-weight: bold;">Commit:</p>';
-	    html += '<textarea style="width:100%;" id="commitMessage"></textarea>';
+		html += '<p style="font-weight: bold;">Commit message:</p>';
+	    html += '<input style="width:95%;" id="commitMessage" />';
 	    html += '<button id="commitButton">Commit</button>';
 	    html += '</div>';
 		

@@ -139,7 +139,6 @@ $(document).on('click', '#gitAddon #commit #commitButton', function()
 	var rootDir = addonSystem.getDirectoryTreeRoot();
 
 	var cmd = 'cd '+rootDir+' && git commit -m "'+commitMsg+'"';
-	console.log(cmd);
 	
 	exec(cmd, function(error, stdout, stderr) 
 	{

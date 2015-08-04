@@ -110,7 +110,12 @@ $(document).ready(function()
 	try
 	{
 	    activeDirectoryTreeRoot = localStorage.activeDirectoryTreeRoot;
-		activeDirectoryTree = JSON.parse(localStorage.activeDirectoryTree);
+	    
+	    var directoryTreeFile = activeDirectoryTreeRoot+'/.continuum_directoryTree';
+	    
+	    var directoryTreeFileContent = fs.readFileSync(directoryTreeFile);
+	    
+		activeDirectoryTree = JSON.parse(directoryTreeFileContent);
 		
 		ui_updateDirectoryTree();
 	}
@@ -532,7 +537,16 @@ function openDirectoryByPath(path)
             }
         }
         
-        localStorage.activeDirectoryTree = JSON.stringify(activeDirectoryTree);
+        var directoryTreeFile = activeDirectoryTreeRoot+'/.continuum_directoryTree';
+        
+        try
+        {
+            fs.writeFileSync(directoryTreeFile, JSON.stringify(activeDirectoryTree));
+        }
+        catch (e)
+        {
+            alert('Whoops. Couldn\'t write directory tree file to '.fileToWrite);
+        }
     }
 	
 	ui_updateDirectoryTree();

@@ -541,7 +541,7 @@ function openDirectoryByPath(path)
         
         try
         {
-            fs.writeFileSync(directoryTreeFile, JSON.stringify(activeDirectoryTree));
+            fs.writeFileSync(directoryTreeFile, JSON.stringify(activeDirectoryTree, null, 1));
         }
         catch (e)
         {

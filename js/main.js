@@ -187,8 +187,10 @@ function checkForExternalChanges()
                 }
                 else
                 {
-                    var result = confirm('The file \''+path.basename(activeTabs[i].path)+'\' has been changed by another program. Would you like to reload this file?');
-                    if (result)
+                    var result = dialog.showMessageBox({ type: 'question', message: 'The file \''+path.basename(activeTabs[i].path)+'\' has been changed by another program. Would you like to reload this file?',
+                                        title: 'External file change', buttons: ['Yes', 'No'] });
+                    
+                    if (result===0)
                     {
                         reloadTabContents(i);
                     }
@@ -469,9 +471,15 @@ function closeTab(index)
     
     if (activeTabs[index].unsavedChanges===true)
     {
-        var result = confirm('This file is not saved. Do you wish to save it before closing?\n\nFile: '+path.basename(activeTabs[index].path));
+        var result = dialog.showMessageBox({ type: 'warning', message: 'This file is not saved. Do you wish to save it before closing?\n\nFile: '+path.basename(activeTabs[index].path),
+                                        title: 'Unsaved Changes', buttons: ['Yes', 'No', 'Cancel'] });
         
-        if (result===true)
+        if (result===2)
+        {
+            return;
+        }
+        
+        if (result===0)
         {
             saveTab(index);
         }
@@ -995,6 +1003,12 @@ function promptAndGotoLineNumber()
     editor.focus();
 }
 
+window.onbeforeunload = function(e)
+{
+    exitContinuum();
+    return false;
+}
+
 function exitContinuum()
 {
     exitChecks();
@@ -1018,9 +1032,10 @@ function exitChecks()
     var pluralString = 's';
     if (unsavedTabsCount===1) pluralString = '';
     
-    var result = confirm('You have '+unsavedTabsCount+' unsaved tab'+pluralString+'.\n\nExit anyway?')
+    var result = dialog.showMessageBox({ type: 'warning', message: 'You have '+unsavedTabsCount+' unsaved tab'+pluralString+'.\n\nExit anyway?',
+                                        title: 'Exit Continuum?', buttons: ['Yes', 'No'] });
     
-    if (result) exitFinal();
+    if (result===0) exitFinal();
 }
 
 

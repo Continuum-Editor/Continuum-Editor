@@ -513,6 +513,20 @@ function cloneArray(arrayToClone)
     return arrayToClone.slice(0);
 }
 
+function saveActiveDirectoryTreeToFile()
+{
+    var directoryTreeFile = activeDirectoryTreeRoot+'/.continuum_directoryTree';
+        
+    try
+    {
+        fs.writeFileSync(directoryTreeFile, JSON.stringify(activeDirectoryTree, null, 1));
+    }
+    catch (e)
+    {
+        alert('Whoops. Couldn\'t write directory tree file to '.fileToWrite);
+    }
+}
+
 function openDirectoryByPath(path) 
 {
     var maintainDirectoryTreeOpenState = false;
@@ -545,16 +559,7 @@ function openDirectoryByPath(path)
             }
         }
         
-        var directoryTreeFile = activeDirectoryTreeRoot+'/.continuum_directoryTree';
-        
-        try
-        {
-            fs.writeFileSync(directoryTreeFile, JSON.stringify(activeDirectoryTree, null, 1));
-        }
-        catch (e)
-        {
-            alert('Whoops. Couldn\'t write directory tree file to '.fileToWrite);
-        }
+        saveActiveDirectoryTreeToFile();
     }
 	
 	ui_updateDirectoryTree();
@@ -811,7 +816,9 @@ function generateDirectoryTree(currentDirectory, level, previousDirectory)
 		    activeDirectoryTree.sort(sort_by_type_and_path(false));
 		    
 		    localStorage.activeDirectoryTreeRoot = currentDirectory;
-			localStorage.activeDirectoryTree = JSON.stringify(activeDirectoryTree);
+			
+			saveActiveDirectoryTreeToFile();
+			
 			addToRecentlyAccessed(currentDirectory, 'directory');
 		}
 	}

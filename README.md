@@ -9,7 +9,16 @@ If you're just here to download the latest release, you can do so via the [Conti
 
 For the latest and all previous releases, take a look at the [releases page](https://github.com/Continuum-Editor/Continuum-Editor/releases)
 
-##Build requirements
+## Building
+
+Build scripts are currently written to run on Linux and Mac OS X systems only, but can create builds for any platform.
+
+After cloning the repository:
+
+1. `cd builds`
+2. `sh os_specific_build_script.sh`
+
+###Build requirements
 
 Note that these are now downloaded as necessary by the build scripts.
 

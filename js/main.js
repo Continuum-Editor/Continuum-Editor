@@ -12,6 +12,9 @@ var fs = require('fs');
 var shell = require('shell');
 //var gui = require('nw.gui');
 
+// Node modules
+var glob = require('glob');
+
 // Define variables
 var selectedTabIndex = 0;
 var activeTabs = new Array(); // Array of tab objects
@@ -780,52 +783,53 @@ function setUiTheme(cssFile)
 
 function generateDirectoryTree(currentDirectory, level, previousDirectory)
 {
-	try
-	{		
-		var files = fs.readdirSync(currentDirectory);
-			
+    var rootLevel = (currentDirectory.match(/\//g) || []).length;
+    
+    var globPattern = currentDirectory+'/**/*';
+    
+    glob(globPattern, {mark: true, nosort: true, dot: true}, function(err, files)
+    {
+        if (err!=null)
+        {
+            alert('Error generating directory tree: '+err);
+            return;
+        }
+        
 		for (var i = 0; i < files.length; i++) 
 		{
-			var currentPath = currentDirectory + path.sep + files[i]
+			var currentPath = files[i]
 			
-			var fileLStat = fs.lstatSync(currentPath);
+			var lastChar = currentPath.slice(-1);
 			
-			try
+			var level = (files[i].match(/\//g) || []).length - rootLevel
+			
+			if (lastChar==='/')
 			{
-				if (fileLStat.isDirectory())
-				{
-					var newDirectoryTreeEntry = { path: currentPath + path.sep, type: 'directory', level: level, previousDirectory: previousDirectory, isOpen: false };
-					activeDirectoryTree.push(newDirectoryTreeEntry);
-					
-					generateDirectoryTree(currentPath, level + 1, currentDirectory);
-				}
-				else if (fileLStat.isFile())
-				{
-					var newDirectoryTreeEntry = { path: currentPath, type: 'file', level: level, previousDirectory: currentDirectory, isOpen: false };
-					activeDirectoryTree.push(newDirectoryTreeEntry);
-				}
+			    level -= 2;
+			    
+				var newDirectoryTreeEntry = { path: currentPath, type: 'directory', level: level, previousDirectory: previousDirectory, isOpen: false };
+				activeDirectoryTree.push(newDirectoryTreeEntry);
 			}
-			catch (err)
+			else
 			{
-				console.log(err);
+			    level -= 1;
+			    
+				var newDirectoryTreeEntry = { path: currentPath, type: 'file', level: level, previousDirectory: currentDirectory, isOpen: false };
+				activeDirectoryTree.push(newDirectoryTreeEntry);
 			}
 		}
 		
-		if (level==0)
-		{
-		    activeDirectoryTree.sort(sort_by_type_and_path(false));
-		    
-		    localStorage.activeDirectoryTreeRoot = currentDirectory;
-			
-			saveActiveDirectoryTreeToFile();
-			
-			addToRecentlyAccessed(currentDirectory, 'directory');
-		}
-	}
-	catch (err)
-	{
-		console.log(err);
-	}
+		activeDirectoryTree.sort(sort_by_type_and_path(false));
+    
+	    localStorage.activeDirectoryTreeRoot = currentDirectory;
+		
+		saveActiveDirectoryTreeToFile();
+		
+		addToRecentlyAccessed(currentDirectory, 'directory');
+		
+		ui_updateDirectoryTree();
+    });
+	
 }
 
 function sort_by_type_and_path(reverse){

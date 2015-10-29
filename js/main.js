@@ -103,6 +103,11 @@ $(document).ready(function()
                 callbackData.push({ name: path.basename(activeDirectoryTree[i].path), value: path.basename(activeDirectoryTree[i].path), meta: activeDirectoryTree[i].type });
             }
             
+            for (i = 0; i < activeTabs.length; i++) {
+                callbackData.push({ name: activeTabs[i].path, value: activeTabs[i].path, meta: 'open file' });
+                callbackData.push({ name: path.basename(activeTabs[i].path), value: path.basename(activeTabs[i].path), meta: 'open file' });
+            }
+            
             callback(null, callbackData);
         }
     };

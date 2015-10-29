@@ -984,6 +984,9 @@ function promptAndGotoLineNumber()
     {
         if (lineNumber!==null && lineNumber!==false) setLineNumberAndColumn(lineNumber, 0);
         editor.focus();    
+    }, function()
+    {
+        
     });
 }
 

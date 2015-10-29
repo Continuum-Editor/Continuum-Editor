@@ -284,19 +284,25 @@ directoryListingMenu.append(new MenuItem({ label: 'Create new file here...', cli
     if (directoryTreeEntry.type=='file') creationPath = path.dirname(directoryTreeEntry.path);
     else creationPath = directoryTreeEntry.path;
     
-    var newFilename = prompt('Creating a new file here: '+creationPath+'\n\nName the new file:', 'new_file_'+randNum+'.txt');
-
-    newFilename = path.basename(newFilename);
-
-    if (newFilename===null || newFilename==='null' || newFilename==='') return;
+    smalltalk.prompt('Create new file', 'Creating a new file here: '+creationPath, 'new_file_'+randNum+'.txt').then(function(newFilename)
+    {
+        
+        newFilename = path.basename(newFilename);
     
-    var newPath = creationPath + path.sep + newFilename;
+        if (newFilename===null || newFilename==='null' || newFilename==='') return;
+        
+        var newPath = creationPath + path.sep + newFilename;
+        
+        fs.closeSync(fs.openSync(newPath, 'a'));
+        
+        openFileByName(newPath);
+        
+        refreshDirectoryTree();
     
-    fs.closeSync(fs.openSync(newPath, 'a'));
-    
-    openFileByName(newPath);
-    
-    refreshDirectoryTree();
+    }, function()
+    {
+        
+    });
     
 } }));
 
@@ -311,17 +317,24 @@ directoryListingMenu.append(new MenuItem({ label: 'Create new directory here...'
     if (directoryTreeEntry.type=='file') creationPath = path.dirname(directoryTreeEntry.path);
     else creationPath = directoryTreeEntry.path;
     
-    var newFilename = prompt('Creating a new directory here: '+creationPath+'\n\nName the new directory:', 'new_directory_'+randNum);
+    smalltalk.prompt('Create new directory', 'Creating a new directory here: '+creationPath, 'new_directory_'+randNum).then(function(newFilename)
+    {
+        newFilename = path.basename(newFilename);
 
-    newFilename = path.basename(newFilename);
+        if (newFilename===null || newFilename==='null' || newFilename==='') return;
+        
+        var newPath = creationPath + path.sep + newFilename;
+        
+        fs.mkdirSync(newPath);
+        
+        refreshDirectoryTree();
+        
+    }, function()
+    {
+        
+    });
 
-    if (newFilename===null || newFilename==='null' || newFilename==='') return;
     
-    var newPath = creationPath + path.sep + newFilename;
-    
-    fs.mkdirSync(newPath);
-    
-    refreshDirectoryTree();
     
 } }));
 

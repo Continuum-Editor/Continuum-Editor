@@ -4,8 +4,8 @@
 rm -r continuum-editor-windows-x64
 
 # Download electron (Linux x64)
-wget -nc https://github.com/atom/electron/releases/download/v0.30.2/electron-v0.30.2-win32-x64.zip
-unzip electron-v0.30.2-win32-x64.zip -d continuum-editor-windows-x64
+wget -nc https://github.com/atom/electron/releases/download/v0.34.1/electron-v0.34.1-win32-x64.zip
+unzip electron-v0.34.1-win32-x64.zip -d continuum-editor-windows-x64
 
 # Rename electron executable
 mv continuum-editor-windows-x64/electron.exe continuum-editor-windows-x64/continuum-editor.exe

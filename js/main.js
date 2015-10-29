@@ -28,8 +28,8 @@ var directoryTreeSidebarHidden = false;
 var addonsSidebarHidden = false;
 
 // Setup editor with initial configuration
+var langTools = ace.require("ace/ext/language_tools");
 var editor = ace.edit("editor");
-ace.require("ace/ext/language_tools");
 var UndoManager = ace.require("ace/undomanager").UndoManager;
 var modelist = ace.require("ace/ext/modelist");
 
@@ -87,6 +87,26 @@ $(document).ready(function()
 		enableBasicAutocompletion: true,
 		enableLiveAutocompletion: true
 	});
+	
+	var directoryTreeCompleter = {
+        getCompletions: function(editor, session, pos, prefix, callback) {
+            if (prefix.length === 0) { callback(null, []); return }
+            
+            var callbackData = [];
+            
+            var lengthToRemove = activeDirectoryTreeRoot.length;
+            
+            for (var i = 0; i < activeDirectoryTree.length; i++) {
+                callbackData.push({ name: activeDirectoryTree[i].path, value: activeDirectoryTree[i].path, meta: activeDirectoryTree[i].type });
+                callbackData.push({ name: activeDirectoryTree[i].path.substr(lengthToRemove), value: activeDirectoryTree[i].path.substr(lengthToRemove), meta: activeDirectoryTree[i].type });
+                callbackData.push({ name: activeDirectoryTree[i].path.substr(lengthToRemove+1), value: activeDirectoryTree[i].path.substr(lengthToRemove+1), meta: activeDirectoryTree[i].type });
+                callbackData.push({ name: path.basename(activeDirectoryTree[i].path), value: path.basename(activeDirectoryTree[i].path), meta: activeDirectoryTree[i].type });
+            }
+            
+            callback(null, callbackData);
+        }
+    };
+    langTools.addCompleter(directoryTreeCompleter);
 	
 	// Hide editor by default (until we have one or more open tabs)
 	$('#editor').hide();

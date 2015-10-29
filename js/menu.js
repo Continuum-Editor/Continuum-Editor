@@ -246,7 +246,7 @@ directoryListingMenu.append(new MenuItem({ label: 'Rename...', click: function()
 {  
     var directoryTreeEntry = activeDirectoryTree[directoryTreeEntryIDForContextMenu];
     
-    var newFilename = smalltalk.prompt('Rename file', 'Rename '+path.basename(directoryTreeEntry.path)+' to: ', path.basename(directoryTreeEntry.path)).then(function(newFilename)
+    smalltalk.prompt('Rename file', 'Rename '+path.basename(directoryTreeEntry.path)+' to: ', path.basename(directoryTreeEntry.path)).then(function(newFilename)
     {
         newFilename = path.basename(newFilename);
 

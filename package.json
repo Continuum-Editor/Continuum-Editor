@@ -3,8 +3,9 @@
   "main": "start.js",
   "dependencies":
   {
-    "glob": ">=4.3.5",
-    "isbinaryfile": ">=2.0.3"
+    "glob": "4.3.5",
+    "isbinaryfile": "2.0.3",
+    "smalltalk": "1.5.6"
   },
   "repository": 
   {

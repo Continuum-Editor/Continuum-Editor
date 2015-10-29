@@ -246,26 +246,30 @@ directoryListingMenu.append(new MenuItem({ label: 'Rename...', click: function()
 {  
     var directoryTreeEntry = activeDirectoryTree[directoryTreeEntryIDForContextMenu];
     
-    var newFilename = prompt('Rename '+path.basename(directoryTreeEntry.path)+' to: ', path.basename(directoryTreeEntry.path));
-
-    newFilename = path.basename(newFilename);
-
-    if (newFilename===null || newFilename==='null' || newFilename==='') return;
-    
-    var newPath = path.dirname(directoryTreeEntry.path) + path.sep + newFilename;
-    
-    fs.renameSync(directoryTreeEntry.path, newPath);
-    
-    for (var i = 0; i < activeTabs.length; i++) 
+    var newFilename = smalltalk.prompt('Rename file', 'Rename '+path.basename(directoryTreeEntry.path)+' to: ', path.basename(directoryTreeEntry.path)).then(function(newFilename)
     {
-        if (activeTabs[i].path == directoryTreeEntry.path)
+        newFilename = path.basename(newFilename);
+
+        if (newFilename===null || newFilename==='null' || newFilename==='') return;
+        
+        var newPath = path.dirname(directoryTreeEntry.path) + path.sep + newFilename;
+        
+        fs.renameSync(directoryTreeEntry.path, newPath);
+        
+        for (var i = 0; i < activeTabs.length; i++) 
         {
-            activeTabs[i].path = newPath;
+            if (activeTabs[i].path == directoryTreeEntry.path)
+            {
+                activeTabs[i].path = newPath;
+            }
         }
-    }
-    
-    ui_updateTabs();
-    refreshDirectoryTree();
+        
+        ui_updateTabs();
+        refreshDirectoryTree();
+    }, function()
+    {
+        
+    });
     
 } }));
 

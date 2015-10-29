@@ -12,6 +12,9 @@ var fs = require('fs');
 var shell = require('shell');
 //var gui = require('nw.gui');
 
+// Small talk - alert, prompt and confirm dialogs
+var smalltalk = require('smalltalk');
+
 // Define variables
 var selectedTabIndex = 0;
 var activeTabs = new Array(); // Array of tab objects
@@ -73,6 +76,7 @@ $(document).ready(function()
 	editor.setHighlightSelectedWord(true);
 	editor.setShowPrintMargin(false); // We're coding, not printing!
 	editor.getSession().setMode("ace/mode/php");
+	editor.commands.removeCommands(["gotoline"]); // Remove existing goto line command as we've implemented our own
 
 	editor.setOptions(
 	{
@@ -976,9 +980,11 @@ function setLineNumberAndColumn(lineNumber, column)
 
 function promptAndGotoLineNumber()
 {
-    var lineNumber = prompt('Line number: ');
-    if (lineNumber!==null && lineNumber!==false) setLineNumberAndColumn(lineNumber, 0);
-    editor.focus();
+    var lineNumber = smalltalk.prompt('Go to line number','Line number: ', '0').then(function(lineNumber)
+    {
+        if (lineNumber!==null && lineNumber!==false) setLineNumberAndColumn(lineNumber, 0);
+        editor.focus();    
+    });
 }
 
 function exitContinuum()

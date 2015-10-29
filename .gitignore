@@ -8,3 +8,7 @@ node_modules
 builds/*/
 builds/nwjs-*
 builds/*.zip
+
+# Continuum
+.continuum_*
+

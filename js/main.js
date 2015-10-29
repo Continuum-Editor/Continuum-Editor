@@ -15,6 +15,9 @@ var shell = require('shell');
 // Small talk - alert, prompt and confirm dialogs
 var smalltalk = require('smalltalk');
 
+// Node modules
+var glob = require('glob');
+
 // Define variables
 var selectedTabIndex = 0;
 var activeTabs = new Array(); // Array of tab objects
@@ -114,7 +117,12 @@ $(document).ready(function()
 	try
 	{
 	    activeDirectoryTreeRoot = localStorage.activeDirectoryTreeRoot;
-		activeDirectoryTree = JSON.parse(localStorage.activeDirectoryTree);
+	    
+	    var directoryTreeFile = activeDirectoryTreeRoot+'/.continuum_directoryTree';
+	    
+	    var directoryTreeFileContent = fs.readFileSync(directoryTreeFile);
+	    
+		activeDirectoryTree = JSON.parse(directoryTreeFileContent);
 		
 		ui_updateDirectoryTree();
 	}
@@ -186,8 +194,10 @@ function checkForExternalChanges()
                 }
                 else
                 {
-                    var result = confirm('The file \''+path.basename(activeTabs[i].path)+'\' has been changed by another program. Would you like to reload this file?');
-                    if (result)
+                    var result = dialog.showMessageBox({ type: 'question', message: 'The file \''+path.basename(activeTabs[i].path)+'\' has been changed by another program. Would you like to reload this file?',
+                                        title: 'External file change', buttons: ['Yes', 'No'] });
+                    
+                    if (result===0)
                     {
                         reloadTabContents(i);
                     }
@@ -468,9 +478,15 @@ function closeTab(index)
     
     if (activeTabs[index].unsavedChanges===true)
     {
-        var result = confirm('This file is not saved. Do you wish to save it before closing?\n\nFile: '+path.basename(activeTabs[index].path));
+        var result = dialog.showMessageBox({ type: 'warning', message: 'This file is not saved. Do you wish to save it before closing?\n\nFile: '+path.basename(activeTabs[index].path),
+                                        title: 'Unsaved Changes', buttons: ['Yes', 'No', 'Cancel'] });
         
-        if (result===true)
+        if (result===2)
+        {
+            return;
+        }
+        
+        if (result===0)
         {
             saveTab(index);
         }
@@ -502,6 +518,20 @@ function openDirectory(id)
 function cloneArray(arrayToClone)
 {
     return arrayToClone.slice(0);
+}
+
+function saveActiveDirectoryTreeToFile()
+{
+    var directoryTreeFile = activeDirectoryTreeRoot+'/.continuum_directoryTree';
+        
+    try
+    {
+        fs.writeFileSync(directoryTreeFile, JSON.stringify(activeDirectoryTree, null, 1));
+    }
+    catch (e)
+    {
+        alert('Whoops. Couldn\'t write directory tree file to '.fileToWrite);
+    }
 }
 
 function openDirectoryByPath(path) 
@@ -536,7 +566,7 @@ function openDirectoryByPath(path)
             }
         }
         
-        localStorage.activeDirectoryTree = JSON.stringify(activeDirectoryTree);
+        saveActiveDirectoryTreeToFile();
     }
 	
 	ui_updateDirectoryTree();
@@ -757,50 +787,53 @@ function setUiTheme(cssFile)
 
 function generateDirectoryTree(currentDirectory, level, previousDirectory)
 {
-	try
-	{		
-		var files = fs.readdirSync(currentDirectory);
-			
+    var rootLevel = (currentDirectory.match(/\//g) || []).length;
+    
+    var globPattern = currentDirectory+'/**/*';
+    
+    glob(globPattern, {mark: true, nosort: true, dot: true}, function(err, files)
+    {
+        if (err!=null)
+        {
+            alert('Error generating directory tree: '+err);
+            return;
+        }
+        
 		for (var i = 0; i < files.length; i++) 
 		{
-			var currentPath = currentDirectory + path.sep + files[i]
+			var currentPath = files[i]
 			
-			var fileLStat = fs.lstatSync(currentPath);
+			var lastChar = currentPath.slice(-1);
 			
-			try
+			var level = (files[i].match(/\//g) || []).length - rootLevel
+			
+			if (lastChar==='/')
 			{
-				if (fileLStat.isDirectory())
-				{
-					var newDirectoryTreeEntry = { path: currentPath + path.sep, type: 'directory', level: level, previousDirectory: previousDirectory, isOpen: false };
-					activeDirectoryTree.push(newDirectoryTreeEntry);
-					
-					generateDirectoryTree(currentPath, level + 1, currentDirectory);
-				}
-				else if (fileLStat.isFile())
-				{
-					var newDirectoryTreeEntry = { path: currentPath, type: 'file', level: level, previousDirectory: currentDirectory, isOpen: false };
-					activeDirectoryTree.push(newDirectoryTreeEntry);
-				}
+			    level -= 2;
+			    
+				var newDirectoryTreeEntry = { path: currentPath, type: 'directory', level: level, previousDirectory: previousDirectory, isOpen: false };
+				activeDirectoryTree.push(newDirectoryTreeEntry);
 			}
-			catch (err)
+			else
 			{
-				console.log(err);
+			    level -= 1;
+			    
+				var newDirectoryTreeEntry = { path: currentPath, type: 'file', level: level, previousDirectory: currentDirectory, isOpen: false };
+				activeDirectoryTree.push(newDirectoryTreeEntry);
 			}
 		}
 		
-		if (level==0)
-		{
-		    activeDirectoryTree.sort(sort_by_type_and_path(false));
-		    
-		    localStorage.activeDirectoryTreeRoot = currentDirectory;
-			localStorage.activeDirectoryTree = JSON.stringify(activeDirectoryTree);
-			addToRecentlyAccessed(currentDirectory, 'directory');
-		}
-	}
-	catch (err)
-	{
-		console.log(err);
-	}
+		activeDirectoryTree.sort(sort_by_type_and_path(false));
+    
+	    localStorage.activeDirectoryTreeRoot = currentDirectory;
+		
+		saveActiveDirectoryTreeToFile();
+		
+		addToRecentlyAccessed(currentDirectory, 'directory');
+		
+		ui_updateDirectoryTree();
+    });
+	
 }
 
 function sort_by_type_and_path(reverse){
@@ -990,6 +1023,12 @@ function promptAndGotoLineNumber()
     });
 }
 
+window.onbeforeunload = function(e)
+{
+    exitContinuum();
+    return false;
+}
+
 function exitContinuum()
 {
     exitChecks();
@@ -1013,9 +1052,10 @@ function exitChecks()
     var pluralString = 's';
     if (unsavedTabsCount===1) pluralString = '';
     
-    var result = confirm('You have '+unsavedTabsCount+' unsaved tab'+pluralString+'.\n\nExit anyway?')
+    var result = dialog.showMessageBox({ type: 'warning', message: 'You have '+unsavedTabsCount+' unsaved tab'+pluralString+'.\n\nExit anyway?',
+                                        title: 'Exit Continuum?', buttons: ['Yes', 'No'] });
     
-    if (result) exitFinal();
+    if (result===0) exitFinal();
 }
 
 

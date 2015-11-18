@@ -814,6 +814,11 @@ function generateDirectoryTree(currentDirectory, level, previousDirectory)
 {
     var rootLevel = (currentDirectory.match(/\//g) || []).length;
     
+    if (rootLevel===0) 
+    {
+        rootLevel = (currentDirectory.match(/\\/g) || []).length;
+    }
+    
     var globPattern = currentDirectory+'/**/*';
     
     glob(globPattern, {mark: true, nosort: true, dot: true}, function(err, files)
@@ -830,9 +835,16 @@ function generateDirectoryTree(currentDirectory, level, previousDirectory)
 			
 			var lastChar = currentPath.slice(-1);
 			
-			var level = (files[i].match(/\//g) || []).length - rootLevel
+			var level = (files[i].match(/\//g) || []).length;
 			
-			if (lastChar==='/')
+			if (level===0) 
+            {
+                level = (currentDirectory.match(/\\/g) || []).length;
+            }
+            
+            level = level - rootLevel;
+			
+			if (lastChar==='/' || lastChar==='\\')
 			{
 			    level -= 2;
 			    
